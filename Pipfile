@@ -4,8 +4,15 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+click = "*"
+pyyaml = "*"
+yappt = {editable = true, path = "."}
 
 [dev-packages]
+pylint = "*"
+pydocstyle = "*"
+mypy = "*"
+"autopep8" = "*"
 
 [requires]
 python_version = "3.7"

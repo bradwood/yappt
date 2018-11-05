@@ -1,0 +1,38 @@
+---
+metadata:
+  title: This is the title of my presentation
+  author: Bradley Wood
+  date: 2018-11-05
+
+settings:
+  pagenum: true  # `n / m` in bottom right
+  titlebar: true # `presentation title` at top centre
+  authorfooter: true # `author at bottom left
+  wordwrap: true  # wrap text where needed.
+  incremental: true # turn on incremental rendering of slide elements
+  frontpage: true # autogenerate figlet-based front page from meta data?
+
+intro:
+  settings: # sales as presentation-level settings but allows a per-slide override.
+  content: |  # single block of content
+    This is raw content. This is raw content. This is raw content. This is raw
+    content. This is raw content. This is raw content. This is raw content.
+    This is raw content. This is raw content. This is raw content. This is raw
+    content.
+
+
+Section "About" Blah Blah blah's life:
+  layout: 1-2-2-1  # 1 header, 2 blocks below that, 2 blocks below that, footer. Must sum to number of elements in content.
+  content: # content which is a list of content
+  - |
+    This is the TOP header.
+  - |
+    This is part one of the content (top left).
+  - |
+    This is part two of the content (top right).
+  - |
+    This is part three of the content (bottom left).
+  - |
+    This is part four of the content (bottom right).
+  - |
+    This is BOTTOM footer.
