@@ -7,6 +7,7 @@ import yaml
 
 from .metasettings import Settings, MetaData
 from .exceptions import YAMLParseError, SettingsError
+from .slide import Slide
 
 @click.command()
 @click.argument('filename', type=click.File('r'))
@@ -26,21 +27,19 @@ def main(filename, debug):
 
 
     # --- lint and parse yaml ----
-    # TODO: improve errorhandling on this - replace namedtuples with real classes/dataclasses
-    # TODO: try/except these and throw useful error if they don't parse.
     metadata = MetaData(**pres_dict['metadata'])
     settings = Settings(**pres_dict['settings'])
-
+    slides = []
     parts = deque()
 
     # relies on 3.7's ordered dicts by default.
     for s_name, s_data in \
-        {k: v for k, v in pres_dict.items() if k not in ['meta', 'settings']}.items():
-
-        pass
+        {k: v for k, v in pres_dict.items() if k not in ['metadata', 'settings']}.items():
 
 
-        # slide = Slide(s_name, s_data)
+        slide = Slide(s_name, s_data, settings)
+        slides.append(slide)
+
 
         #         generate all parts from the slide using the slide and front-matter as input.
         #         append the parts in order to the parts list
@@ -79,3 +78,4 @@ def main(filename, debug):
         # print(pres)
         pprint(metadata)
         pprint(settings)
+        pprint(slides)

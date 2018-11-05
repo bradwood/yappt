@@ -7,21 +7,25 @@ metadata:
 settings:
   pagenum: true  # `n / m` in bottom right
   titlebar: true # `presentation title` at top centre
-  authorfooter: true # `author at bottom left
-  wordwrap: true  # wrap text where needed.
-  incremental: true # turn on incremental rendering of slide elements
   frontpage: true # autogenerate figlet-based front page from meta data?
 
 intro:
-  settings: # sales as presentation-level settings but allows a per-slide override.
+  settings: # same as presentation-level settings but allows a per-slide override.
+    incremental: true # turn on incremental rendering of slide elements
   content: |  # single block of content
     This is raw content. This is raw content. This is raw content. This is raw
     content. This is raw content. This is raw content. This is raw content.
     This is raw content. This is raw content. This is raw content. This is raw
     content.
 
-
 Section "About" Blah Blah blah's life:
+  settings: # same as presentation-level settings but allows a per-slide override.
+    pagenum: true  # `n / m` in bottom right
+    titlebar: false # `presentation title` at top centre
+    authorfooter: true # `author at bottom left
+    wordwrap: true  # wrap text where needed.
+    incremental: true # turn on incremental rendering of slide elements
+    frontpage: true # autogenerate figlet-based front page from meta data?
   layout: 1-2-2-1  # 1 header, 2 blocks below that, 2 blocks below that, footer. Must sum to number of elements in content.
   content: # content which is a list of content
   - |
@@ -36,3 +40,32 @@ Section "About" Blah Blah blah's life:
     This is part four of the content (bottom right).
   - |
     This is BOTTOM footer.
+
+# slide 3:
+#   dsfsdfsdfsd sdfsdf
+
+# slide 4:
+#  - blah
+#  - blah
+
+# slide 4:
+#   layout: 1-3
+
+slide 5:
+  content: This is the content for slide 5.
+
+# slide 5:
+#   layout: 13443
+#   content: This is the content for slide 5.
+
+slide 6:
+  layout: 2
+  content:
+  - one
+  - two
+
+slide 6:
+  layout: 1-1
+  content:
+  - one
+  - two

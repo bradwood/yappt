@@ -1,13 +1,18 @@
-"""Classes for Presentation and Slide Settings and Metadata."""
+"""Classes for Presentation and Deck/Slide Settings and Metadata."""
 from .exceptions import SettingsError, MetaDataError
 from datetime import date
 import getpass
 
 class Settings:
 
-    def __init__(self, *_, **kwargs):
+    def __init__(self, *args, **kwargs):
 
         # defaults
+        if args:
+            self.slide_name = args[0]
+        else:
+            self.slide_name = None
+
         self.pagenum: bool = True
         self.titlebar: bool = True
         self.authorfooter: bool = True
@@ -17,11 +22,11 @@ class Settings:
 
         for key, val in kwargs.items():
             if key not in vars(self):
-                e = SettingsError(f'Bad key \'{key}\'.')
+                e = SettingsError(f'Bad key \'{key}\'.', slide=self.slide_name)
                 e.show()
                 quit(e.exit_code)
             elif not isinstance(val, bool):
-                e = SettingsError(f'Bad value \'{val}\' for \'{key}\'.')
+                e = SettingsError(f'Bad value \'{val}\' for \'{key}\'.', slide=self.slide_name)
                 e.show()
                 quit(e.exit_code)
 
@@ -29,7 +34,9 @@ class Settings:
                 setattr(self, key, kwargs[key])
 
     def __repr__(self):
-        kv = [f'{k}={v}' for k,v in vars(self).items()]
+        kv = [f'{k}={v}' for k,v in vars(self).items() if k != 'slide_name']
+        if self.slide_name:
+            return f'Settings(\'{self.slide_name}\', {", ".join(kv)})'
         return f'Settings({", ".join(kv)})'
 
 class MetaData:

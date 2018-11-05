@@ -17,21 +17,28 @@ class YAPPTBaseException(Exception):
         return self.message
 
     def show(self):
-        click.echo('Error: %s' % self.format_message(), err=True)
+        click.echo(f'Error: {self.format_message()}', err=True)
 
 class YAMLParseError(YAPPTBaseException):
 
     exit_code = 2
 
     def show(self):
-        click.echo('YAML error: %s' % self.format_message(), err=True)
+        click.echo(f'YAML error: {self.format_message()}', err=True)
 
 class SettingsError(YAPPTBaseException):
 
     exit_code = 3
 
+    def __init__(self, message, slide=None):
+        super().__init__(message)
+        self.slide = slide
+
     def show(self):
-        click.echo('Settings error: %s' % self.format_message(), err=True)
+        if self.slide:
+            click.echo(f'Settings error in slide: \'{self.slide}\': {self.format_message()}', err=True)
+        else:
+            click.echo(f'Settings error: {self.format_message()}', err=True)
 
 
 class MetaDataError(YAPPTBaseException):
@@ -39,4 +46,12 @@ class MetaDataError(YAPPTBaseException):
     exit_code = 4
 
     def show(self):
-        click.echo('Metadata error: %s' % self.format_message(), err=True)
+        click.echo(f'Metadata error: {self.format_message()}', err=True)
+
+
+class SlideError(YAPPTBaseException):
+
+    exit_code = 5
+
+    def show(self):
+        click.echo(f'Slide error: {self.format_message()}', err=True)
