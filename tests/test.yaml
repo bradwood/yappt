@@ -8,6 +8,7 @@ settings:
   pagenum: true  # `n / m` in bottom right
   titlebar: true # `presentation title` at top centre
   frontpage: true # autogenerate figlet-based front page from meta data?
+  incremental: true # turn on incremental rendering of slide elements
 
 intro:
   settings: # same as presentation-level settings but allows a per-slide override.
@@ -64,8 +65,9 @@ slide 6:
   - one
   - two
 
-slide 6:
-  layout: 1-1
+slide 7:
+  layout: 1-2
   content:
   - one
   - two
+  - three

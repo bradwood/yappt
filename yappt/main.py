@@ -1,20 +1,20 @@
 """Main code."""
-from collections import deque, namedtuple
+from collections import deque
 from pprint import pprint
 
 import click
 import yaml
 
 from .metasettings import Settings, MetaData
-from .exceptions import YAMLParseError, SettingsError
+from .exceptions import YAMLParseError
 from .slide import Slide
+from .widget import generate_widgets
 
 @click.command()
 @click.argument('filename', type=click.File('r'))
 @click.option('--debug', 'debug', default=False, flag_value=True, help='Print debug output.')
 def main(filename, debug):
     """Yet Another PowerPoint Tool."""
-
     # --- load ----
     try:
         pres_dict = yaml.load(filename.read())
@@ -25,42 +25,47 @@ def main(filename, debug):
             yp.show()
             quit(yp.exit_code)
 
-
     # --- lint and parse yaml ----
     metadata = MetaData(**pres_dict['metadata'])
     settings = Settings(**pres_dict['settings'])
     slides = []
-    parts = deque()
+    widgets = deque()
 
-    # relies on 3.7's ordered dicts by default.
+    # load each slide into a slide list for later processing.
+    # this relies on 3.7's ordered dicts by default.
     for s_name, s_data in \
         {k: v for k, v in pres_dict.items() if k not in ['metadata', 'settings']}.items():
+        slides.append(Slide(s_name, s_data, settings, metadata))
 
-
-        slide = Slide(s_name, s_data, settings)
-        slides.append(slide)
-
-
-        #         generate all parts from the slide using the slide and front-matter as input.
-        #         append the parts in order to the parts list
-        # parts.extend(create_parts_from_slide(slide, meta, settings))
+    # generate all widgets from the slide using the slide and front-matter as input.
+    # append the widgets in order to the widgets list
+    for slide_num, slide in enumerate(slides):
+        widgets.extend(generate_widgets(slide, slide_num, len(slides)))
 
 
     # --- run presentation loop ---
-    # part could be a whole slide, or pieces of it (e.g. bullets) we assume the
-    # parsing parses into parts, not slides for easier rendering logic.
+    # widget could be a whole slide, or pieces of it (e.g. bullets) we assume the
+    # parsing parses into widgets, not slides for easier rendering logic.
 
-    current_part = 0
+    current_widget = 0
     # while True:
-    #     pass
-        # print part
+    #    see https://github.com/kneufeld/consolemd
+    #   or https: // github.com/cpascoe95/vmd
+    #   or https://github.com/axiros/terminal_markdown_viewer
+        # if not widget.wait_for_keypress:
+        #     print widget
+        #     current_widget += 1
+        #     continue
+        # else:
+        #     print widget
+        #     show widget
         # wait for input(keyboard, or screen resize, or filechange)
         # if keypressed:
         #     if key in [n, <space > , <enter > , <right > , <down > ]:
-        #         current_part += 1  # check for last
+        #         current_widget += 1  # check for last
         #         continue
         #     if key in [p, , < left > , < up > ]:
-        #         current_part -= 1 # check for first
+        #         current_widget -= 1 # check for first
         #         continue
         #     if key == 'b'
         #         blank screen
@@ -70,12 +75,18 @@ def main(filename, debug):
         #         reload file
         #         continue
         #     if key is a positive integer:
-        #         current_part = first part of slide which is equal to key
+        #         current_widget = first widget of slide which is equal to key
 
     # --- debug ----
 
     if debug:
         # print(pres)
+        print('====DEBUG====')
+        print('----METADATA----')
         pprint(metadata)
+        print('----SETTINGS----')
         pprint(settings)
+        print('----SLIDES----')
         pprint(slides)
+        print('----WIDGETS----')
+        pprint(widgets)
