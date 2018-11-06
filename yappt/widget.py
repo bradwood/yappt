@@ -1,14 +1,15 @@
 """The class definition for Widgets: items to be rendered that make a all or part of a slide."""
-from typing import Optional, List, Tuple
+from typing import Optional, List, Tuple, Any
 from .metasettings import Settings, MetaData
 from .utils import create_active_cells
+from collections import deque
 
 class Widget():
     def __init__(self, *,
                  slide_num: int,
                  total_slides: int,
                  type_: str,
-                 content: Optional[str],
+                 content: Optional[List[str]],
                  settings: Settings,
                  metadata: Optional[MetaData],
                  active_cells: Optional[Tuple],
@@ -17,24 +18,35 @@ class Widget():
         self.slide_num = slide_num
         self.type_ = type_
         self.content = content
+        self.settings = settings
         self.active_cells = active_cells
-        self.footer: list = [None, None, None]  # list for left, centre, right
-        self.header: list = [None, None, None]  # list for left, centre, right
         self.wait_for_key_press = wait_for_key_press
+        self.header = None
+        self.footer = None
+        self.foreground_widgets = [] # a stack of child widgets for this window
 
+        footer: list = [None, None, None]  # list for left, centre, right
+        header: list = [None, None, None]  # list for left, centre, right
         if type_ == 'background':
             assert isinstance(metadata, MetaData)
             if settings.pagenum:  # Print 'n / m' in bottom right
-                self.footer[2] = f'{slide_num} / {total_slides}'
+                footer[2] = f'{slide_num+1} / {total_slides}'
 
             if settings.authorfooter: # Print author name in bottom left
-                self.footer[0] = metadata.author
+                footer[0] = metadata.author
 
             if settings.titlebar:  # Print title of deck in the centre of the header bar
-                self.header[1] = metadata.title
+                header[1] = metadata.title
+
+            self.header = tuple(header)
+            self.footer = tuple(footer)
+        elif type_ == 'foreground':
+            assert isinstance(self.content, list)
+
 
     def __repr__(self):
-        return f'Widget(slide_num={self.slide_num}, type_={self.type_}, active_cells={self.active_cells})'
+        return f'Widget(slide_num={self.slide_num}, type_={self.type_},' + \
+            f' active_cells={self.active_cells}, wait_for_key_press={self.wait_for_key_press})'
 
 
 
@@ -58,7 +70,7 @@ def generate_widgets(slide, slide_num, total_slides)-> List[Widget]:
             content_part = Widget(slide_num=slide_num,
                                   total_slides=total_slides,
                                   type_='foreground',
-                                  content=content,
+                                  content=[content],# content must be a list, even if one 1 item
                                   settings=slide.settings,
                                   metadata=None,  # foregrounds don't need metadata
                                   active_cells=create_active_cells(slide.layout, tuple([num])),
@@ -76,5 +88,5 @@ def generate_widgets(slide, slide_num, total_slides)-> List[Widget]:
                               active_cells=create_active_cells(slide.layout, tuple([i for i in range(len(slide.content))])),
                               wait_for_key_press=True)  # This is the only part so we wait.
         widgets.append(content_part)
-    print(widgets)
+    #print(widgets)
     return widgets

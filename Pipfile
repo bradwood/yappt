@@ -5,8 +5,8 @@ name = "pypi"
 
 [packages]
 click = "*"
-pyyaml = "*"
 yappt = {editable = true, path = "."}
+ruamel-yaml = "*"
 
 [dev-packages]
 pylint = "*"

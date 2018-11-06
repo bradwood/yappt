@@ -16,7 +16,6 @@ class Settings:
         self.pagenum: bool = True
         self.titlebar: bool = True
         self.authorfooter: bool = True
-        self.wordwrap: bool = True
         self.incremental: bool = False
         self.frontpage: bool = False
 

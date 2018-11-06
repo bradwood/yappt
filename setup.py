@@ -7,7 +7,7 @@ setup(
     py_modules=['yappt'],
     install_requires=[
         'click',
-        'pyyaml',
+        'ruamel.yaml',
     ],
     entry_points='''
         [console_scripts]

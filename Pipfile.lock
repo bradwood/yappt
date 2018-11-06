@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9c2e215a9ca9faea70021782569a861ffa96968bc52c3ee46df39bf0e59f37aa"
+            "sha256": "2d0b8ea3412cf86d98cee09e660c464764b08732c01223633ba3a7b27596b7da"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -38,8 +38,34 @@
                 "sha256:e01d3203230e1786cd91ccfdc8f8454c8069c91bee3962ad93b87a4b2860f537",
                 "sha256:e170a9e6fcfd19021dd29845af83bb79236068bf5fd4df3327c1be18182b2531"
             ],
-            "index": "pypi",
             "version": "==3.13"
+        },
+        "ruamel-yaml": {
+            "hashes": [
+                "sha256:072dc57ca784e92ea4b862d9bba96fcd67eef690e9b900bdda98b94101d9574f",
+                "sha256:092ca763a7ec607551a319f0c5bb8ba3a72d41fb717b842bf6712ec9fba7bdc0",
+                "sha256:179514d1224742698b0ba0796e8a708f335a5ee236f045e3721477060af60212",
+                "sha256:2f07aff162737b0de070cf985b9d83ad41b89f6643db8fa24a5dd6c0b15a5a7b",
+                "sha256:325c566a83b01f2c2203ce1f560ed165e6bed9423db845c750a71591d019795e",
+                "sha256:4a2d25b2f41e4de9bacc48047f30004fc81acd13a2fe933b0e4df4e3f7c53324",
+                "sha256:50c60aca46a5cea8b78fe790414618d68919e15f3bc6b30eade8bea2e8346bb4",
+                "sha256:55e549faac1cf8896ac3d22303d1a06d3eac3bec888a3a8ee8261427d5c018a1",
+                "sha256:5c268be4b4c7cd5f29debaadf6eeec0babcd97a38b675771a289f095f491faeb",
+                "sha256:6336809db65c16141af0ce74c5dd543921df7ade7309ca1b1d29cee09a732953",
+                "sha256:6d8cc8ec8f7f5c3bc270834f8682bab2205f3416415cb3129713d429af74a3f0",
+                "sha256:88acd9556c163b50f7bc9d745f9e5c797ae45d7472347c7292d2da03678f49e5",
+                "sha256:8d917bcf5e759c5000d87540c866e443430c6b22340a996a8bc934a4f2e6cfc6",
+                "sha256:90d6da3507df6eaf954053344069947b68657a2ae60858755088df601ae13315",
+                "sha256:93b06f69de4651386d2f1a39fa44173017ac1f736bddde8293e51eb70a8505eb",
+                "sha256:b53ba9d2fe0823b9f6e0159673f74317261e1cc3b8437785681938dd8ea18057",
+                "sha256:bc818b96b08cd1b66bff34725bafe91d20a009acfda22c690d85ecdc061c4d8f",
+                "sha256:c76a325efc566c8a7c92fb369fb20f4190c6e59d2b5fff77d016aa2d4dd875eb",
+                "sha256:e9b03d591f6591aa4094628d4e41e1bea90c1fdee42dfcc18734a74c4c47bec8",
+                "sha256:ed867438b72f0e9de6d57c557c1b28d5f7dce35836107695135d53b1a46825fe",
+                "sha256:fc73c2e2c46e59d78d9e8be8a7e7252f8ff0e18ec7b7886b7a0f7797598f431a"
+            ],
+            "index": "pypi",
+            "version": "==0.15.76"
         },
         "yappt": {
             "editable": true,
