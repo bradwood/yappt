@@ -80,15 +80,11 @@ def main(filename, debug):
             ### IF we have a background, draw it and the first foreground together.
             if widget.type_ == 'background':
                 LOGGER.debug(f'BG render: W{current_widget}')
-                #backgound_widgets.append(widget)  # push onto stack.
                 screen.render(widget)
                 # every background *MUST* be followed by a foreground so this should work.
                 backgound_widgets[-1].foreground_widgets.append(widgets[current_widget+1])
-                # if current_widget < len(widgets):
-                #     current_widget += 1
                 continue
-            else: # it's a foreground widget so..
-                # then render it.
+            else: # it's a foreground widget so just draw it.
                 LOGGER.debug(f'FG render: W{current_widget}')
                 screen.render(widget)
                 screen.print()
@@ -97,35 +93,23 @@ def main(filename, debug):
             keypressed = screen.wait_for_keyboard_entry()
             if keypressed in ['KEY_RIGHT', 'KEY_DOWN',' ', 'n']:
                 # append the next widget onto the appropriate stack
-                try:
+                # but only if we're not at the end of the deck.
+                if current_widget + 1 <= len(widgets) - 1:
                     if widgets[current_widget + 1].type_ == 'background':
                         backgound_widgets.append(widgets[current_widget + 1])
                     else:
                         backgound_widgets[-1].foreground_widgets.append(widgets[current_widget + 1])
-                # if current_widget < len(widgets) - 1:
-                #     current_widget += 1
-                except: # we hit the end of the deck, so do nothing.
-                    continue
+                continue
 
             if keypressed in ['KEY_LEFT', 'KEY_UP']:
                 # move backward... a little more complicated...
+                # handle the edge case first.
+                if current_widget <= 2:  # 1 background, and 1 foreground
+                    continue  # we're at the beginning of the deck
 
-
-
-
-                # first handle the end cases
-                if current_widget <= 0:
-                    current_widget = 0
-                    continue  # we are at the first slide
-                if current_widget == len(widgets) - 1:
-                    continue  # we are at the last slide
-                # how handle the middle case....
                 # if the length of the latest background widget's children stack
-                # is one, then the we need to go back to last background slide and redraw
-                # from there
-                LOGGER.debug(f'BACK pressed.')
-                LOGGER.debug(f'BG Stack {backgound_widgets}.')
-                LOGGER.debug(f'Current FG stack {backgound_widgets[-1].foreground_widgets}')
+                # is one, then the we need to go back to previous background
+                # widget and redraw from there
                 if len(backgound_widgets[-1].foreground_widgets) == 1:
                     backgound_widgets[-1].foreground_widgets = deque() # empty it first
                     backgound_widgets.pop()  # get rid of the latest background
@@ -133,7 +117,6 @@ def main(filename, debug):
                     screen.render(backgound_widgets[-1])
                     for w in backgound_widgets[-1].foreground_widgets:
                         screen.render(w)
-                        current_widget -= 1
                 else:  # we just need to redraw from the current background widget
                     # up to but _excluding_ the current foreground widget.
                     backgound_widgets[-1].foreground_widgets.pop()
@@ -141,7 +124,6 @@ def main(filename, debug):
                     screen.render(backgound_widgets[-1])
                     for w in backgound_widgets[-1].foreground_widgets:
                         screen.render(w)
-                        current_widget -= 1
                 screen.print()
                 continue
             # if key == 'b'
