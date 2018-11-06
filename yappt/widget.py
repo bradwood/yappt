@@ -23,7 +23,7 @@ class Widget():
         self.wait_for_key_press = wait_for_key_press
         self.header = None
         self.footer = None
-        self.foreground_widgets = [] # a stack of child widgets for this window
+        self.foreground_widgets: list = [] # a stack of child widgets for this window
 
         footer: list = [None, None, None]  # list for left, centre, right
         header: list = [None, None, None]  # list for left, centre, right

@@ -6,7 +6,7 @@ metadata:
 
 settings:
   pagenum: true  # `n / m` in bottom right
-  titlebar: true # `presentation title` at top centre
+  titlebar: false # `presentation title` at top centre
   frontpage: true # autogenerate figlet-based front page from meta data?
   incremental: true # turn on incremental rendering of slide elements
 
@@ -35,7 +35,7 @@ intro:
 
 Section "About" Blah Blah blah's life:
   settings: # same as presentation-level settings but allows a per-slide override.
-    pagenum: true  # `n / m` in bottom right
+    pagenum: false  # `n / m` in bottom right
     titlebar: true # `presentation title` at top centre
     authorfooter: true # `author at bottom left
     incremental: true # turn on incremental rendering of slide elements

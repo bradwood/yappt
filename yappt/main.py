@@ -2,6 +2,7 @@
 from collections import deque
 from pprint import pprint
 import logging
+import curses
 
 import click
 from ruamel.yaml import YAML
@@ -96,8 +97,9 @@ def main(filename, debug):
                 screen.print()
 
             ### Now check for keys...
-            keypressed = screen.wait_for_keyboard_entry()
-            if keypressed in ['KEY_RIGHT', 'KEY_DOWN',' ', 'n']:
+            key = screen.wait_for_keyboard_entry()
+
+            if key in [ord(' '), curses.KEY_ENTER, 10, curses.KEY_DOWN, curses.KEY_RIGHT, ord('n'), ord('N')]:
                 # append the next widget onto the appropriate stack
                 # but only if we're not at the end of the deck.
                 if current_widget + 1 <= len(widgets) - 1:
@@ -107,7 +109,7 @@ def main(filename, debug):
                         backgound_widgets[-1].foreground_widgets.append(widgets[current_widget + 1])
                 continue
 
-            if keypressed in ['KEY_LEFT', 'KEY_UP']:
+            if key in [curses.KEY_UP, curses.KEY_LEFT, ord('p'), ord('P')]:
                 # move backward... a little more complicated...
                 # handle the edge case first.
                 if current_widget <= 2:  # 1 background, and 1 foreground
@@ -135,10 +137,17 @@ def main(filename, debug):
                         screen.render(w)
                 screen.print()
                 continue
-            # if key == 'b'
-            #     blank screen
-            if keypressed.lower() == 'q':
+
+            if key == ord('q') or key == ord('Q'):
                 break
+
+            if key == curses.KEY_RESIZE:
+                # window got resized, so re-draw
+                screen.calibrate()
+                screen.render(backgound_widgets[-1])
+                for w in backgound_widgets[-1].foreground_widgets:
+                    screen.render(w)
+                screen.print()
             # if key == 'r'
             #     reload file
             #     continue
