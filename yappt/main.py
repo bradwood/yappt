@@ -60,10 +60,16 @@ def main(filename, debug):
         widgets.extend(generate_widgets(slide, slide_num, len(slides)))
     LOGGER.debug("Created widget list")
 
-
     # --- run presentation loop ---
-    # widget could be a whole slide, or pieces of it (e.g. bullets) we assume the
-    # parsing parses into widgets, not slides for easier rendering logic.
+    # Due to the need to redraw decrementally when moving back through the dec
+    # this section is a bit complicated. It relies on a 2-stack arrangment.
+    # The background_widget's stack only holds a stack of these widgets that are
+    # responsible for drawing the header/footer/ etc of every _slide_.
+    # Then, *within* each background widget is another stack holding the foreground
+    # widgets (slide sections) that are rendered on top of that background slide.
+    #
+    # We push and pop as we go back and forth. and then reply on count_widgets_in_stack()
+    # to maintain our reference to the widgets deque which holds all the data.
 
     backgound_widgets = deque()
     backgound_widgets.append(widgets[0])
@@ -111,8 +117,11 @@ def main(filename, debug):
                 # is one, then the we need to go back to previous background
                 # widget and redraw from there
                 if len(backgound_widgets[-1].foreground_widgets) == 1:
-                    backgound_widgets[-1].foreground_widgets = deque() # empty it first
-                    backgound_widgets.pop()  # get rid of the latest background
+                    # empty this background's widget's list of rendered
+                    # foregrounds first, as this is by reference.
+                    backgound_widgets[-1].foreground_widgets = deque()
+                    # now get rid of the latest background
+                    backgound_widgets.pop()
                     screen.clear()
                     screen.render(backgound_widgets[-1])
                     for w in backgound_widgets[-1].foreground_widgets:
