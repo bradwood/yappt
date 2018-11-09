@@ -5,18 +5,12 @@ import logging
 import curses
 
 import click
-from ruamel.yaml import YAML
-from ruamel.yaml.scanner import ScannerError
 
-from .metasettings import Settings, MetaData
-from .exceptions import YAMLParseError
+from .presentation import process_yaml
 from .slide import Slide
 from .widget import generate_widgets
 from .screen import Screen
 from .utils import count_widgets_in_stack
-
-yaml = YAML()
-
 
 logformat = "[%(asctime)s] %(levelname)s:%(name)s:%(message)s"
 logging.basicConfig(level=logging.DEBUG, filename='yappt.log',
@@ -24,37 +18,14 @@ logging.basicConfig(level=logging.DEBUG, filename='yappt.log',
 
 LOGGER = logging.getLogger(__name__)
 
-
 @click.command()
 @click.argument('filename', type=click.File('r'))
 @click.option('--debug', 'debug', default=False, flag_value=True, help='Print debug output.')
 def main(filename, debug):
     """Yet Another PowerPoint Tool."""
     # --- load ----
-    try:
-        pres_dict = yaml.load(filename.read())
-        LOGGER.debug("Loaded YAML")
-    except ScannerError as exc:
-        yp = YAMLParseError(f'Could not load presentation: {filename.name}.')
-        yp.show()
-        print(exc)
-        quit(yp.exit_code)
-
-    # --- lint and parse yaml ----
-    metadata = MetaData(**pres_dict['metadata'])
-    LOGGER.debug("Loaded metadata")
-    settings = Settings(**pres_dict['settings'])
-    LOGGER.debug("Loaded settings")
-    slides = []
+    metadata, settings, slides = process_yaml(filename)
     widgets = deque()
-
-    # load each slide into a slide list for later processing.
-    # this relies on 3.7's ordered dicts by default.
-    for s_name, s_data in \
-        {k: v for k, v in pres_dict.items() if k not in ['metadata', 'settings']}.items():
-        slides.append(Slide(s_name, s_data, settings, metadata))
-    LOGGER.debug("Created slide list")
-
     # generate all widgets from the slide using the slide and front-matter as input.
     # append the widgets in order to the widgets list
     for slide_num, slide in enumerate(slides):
@@ -82,14 +53,13 @@ def main(filename, debug):
         while True:
             current_widget = count_widgets_in_stack(backgound_widgets) - 1
             widget = widgets[current_widget]
-            LOGGER.debug(f'current widget = {current_widget}')
 
             ### IF we have a background, draw it and the first foreground together.
             if widget.type_ == 'background':
                 LOGGER.debug(f'BG render: W{current_widget}')
                 screen.render(widget)
                 # every background *MUST* be followed by a foreground so this should work.
-                backgound_widgets[-1].foreground_widgets.append(widgets[current_widget+1])
+                backgound_widgets[-1].foreground_widgets.append(widgets[current_widget + 1])
                 continue
             else: # it's a foreground widget so just draw it.
                 LOGGER.debug(f'FG render: W{current_widget}')

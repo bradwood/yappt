@@ -17,7 +17,6 @@ class Settings:
         self.titlebar: bool = True
         self.authorfooter: bool = True
         self.incremental: bool = False
-        self.frontpage: bool = False
 
         for key, val in kwargs.items():
             if key not in vars(self):

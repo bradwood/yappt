@@ -1,13 +1,13 @@
 ---
 metadata:
   title: This is the title of my presentation
-  author: 'Bradley Wood 🍺 '
+  author: 'Bradley Wood <brad@bradleywood.com>'
   date: 2018-11-05
+
 
 settings:
   pagenum: true  # `n / m` in bottom right
   titlebar: false # `presentation title` at top centre
-  frontpage: true # autogenerate figlet-based front page from meta data?
   incremental: true # turn on incremental rendering of slide elements
 
 intro:
@@ -39,8 +39,7 @@ Section "About" Blah Blah blah's life:
     titlebar: true # `presentation title` at top centre
     authorfooter: true # `author at bottom left
     incremental: true # turn on incremental rendering of slide elements
-    frontpage: true # autogenerate figlet-based front page from meta data?
-  layout: 1-2-2-1  # 1 header, 2 blocks below that, 2 blocks below that, footer. Must sum to number of elements in content.
+  layout: 1-1-1-1-1-1  # 1 header, 2 blocks below that, 2 blocks below that, footer. Must sum to number of elements in content.
   content: # content which is a list of content
   - >
     This is the TOP header.

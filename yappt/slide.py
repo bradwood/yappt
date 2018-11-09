@@ -69,7 +69,7 @@ class Slide:
         # merge slide-specific settings onto the deck_settings_dict with slide overriding
         try:
             new_settings = {**deck_settings_dict, **data['settings']}
-        except KeyError:
+        except (KeyError, TypeError):
             # no seettings passed in data so just use the deck settings.
             new_settings = deck_settings_dict
 

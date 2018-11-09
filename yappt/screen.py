@@ -58,11 +58,12 @@ class Screen:
                 assert len(sub_windows) == len(widget.content)
                 for sub_win, content  in zip(sub_windows, widget.content):
                     # sub_win.box()
-                    sub_win.addstr(self.margin,  # y
-                                self.margin,  # x
-                                content,  # str
-                                #att
-                                )
+                    if content:
+                        sub_win.addstr(self.margin,  # y
+                                    self.margin,  # x
+                                    content,  # str
+                                    #att
+                                    )
 
                     sub_win.noutrefresh()
                 #print("rendered foreground")
