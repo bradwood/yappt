@@ -1,15 +1,17 @@
 """Class for the Slide Object."""
-from typing import Dict, Any
-from .exceptions import SlideError
+from typing import Dict, Any, Tuple
+from .exceptions import SlideError, LayoutError, ContentError
 from .metasettings import MetaData, Settings
-from .utils import explode_layout_string
+from .layout import Layout
+from .content import Content
+
 
 class Slide:
     def __init__(self,
                  name: str,
                  data: Dict[str, Any],
-                 deck_settings: Settings,
-                 metadata: MetaData,
+                 deck_settings: Settings, # deck-level settings
+                 metadata: MetaData, # deck-level metadata
                  ):
 
         self.name = name
@@ -20,7 +22,19 @@ class Slide:
             se.show()
             quit(se.exit_code)
 
+        # Now check each sub-element of the slide...
+        # A slide has:
+        # - a name -- the top-lost yaml element
+        # - settings (these are the same structure as the deck-level
+        #   but apply only to this slide and override as needed.
+        #   if empty, the deck-level setting carries through.
+        # - a layout (see below)
+        # - metadata -- which is passed as is from the deck-level as is
+        # - content -- which holds the following under it:
+        #    - format: formatting data for the entire body.
+        #    - body: which holds the body content of the slide.
 
+        ### LAYOUT
         # Layout processing is done as follows:
         # - a '-'-separated string of integers is passed.
         # - Each integer reprents a row
@@ -29,41 +43,36 @@ class Slide:
 
         # process layout
         try:
-            layout = str(data.get('layout','1')) # if no layout in slide, assume "1"
-            # print(layout)
-            # here we explode the string into a tuple of tuples like so:
-            # '1-2-3-2-1' -> ((1),(1,1),(1,1,1),(1,1),(1)) where 1 is actually `True`
-            self.layout = explode_layout_string(layout)
-        except (ValueError, AttributeError):
-            se = SlideError(f'Slide \'{name}\' has bad layout \'{layout}\'.')
+            self.layout = Layout(str(data.get('layout','1'))) # if no layout in slide, assume "1"
+        except (LayoutError) as le:
+            se = SlideError(f'Error parsing slide {name}.')
             se.show()
-            quit(se.exit_code)
+            le.show()
+            quit(le.exit_code)
 
         # check content
         try:
-            if isinstance(data['content'], list):
-                # print('content is a list')
-                self.content = data['content']  # make it a list
-            else:
-                # print('content is not a list')
-                self.content = [data['content']]  # make it a list
-        except KeyError:
+            self.content = Content(data['content'])
+        except (KeyError):
+            raise
             se = SlideError(f'Slide \'{name}\' has no \'content\' element under it.')
             se.show()
             quit(se.exit_code)
+        except (ContentError) as ce:
+            se = SlideError(f'Slide \'{name}\' has a \'content\' error.')
+            se.show()
+            ce.show()
+            quit(ce.exit_code)
 
         # check content array length is compatible with the layout specified
-        layout_sum = 0
-        for rows in self.layout:
-            layout_sum += len(rows)
 
-        if len(self.content) != layout_sum or layout_sum > 6:
-            # print(self.content)
-            se = SlideError(f'Slide \'{name}\' has incompatible/bad layout: {layout}.')
-            se.show()
-            quit(se.exit_code)
+        if len(self.content.body) != self.layout.cell_count:
+            ler = LayoutError(f'Slide \'{name}\' has incompatible/bad layout: {self.layout.layout_str}.\n' +
+                             'There must be the same number of layout digits as body sections.')
+            ler.show()
+            quit(ler.exit_code)
 
-        # strip any name valuse from the passed deck_settings and turn it into a dict.
+        # strip any name value from the passed deck_settings and turn it into a dict.
         deck_settings_dict = {k: v for k, v in vars(deck_settings).items() if k != 'slide_name'}
 
         # merge slide-specific settings onto the deck_settings_dict with slide overriding

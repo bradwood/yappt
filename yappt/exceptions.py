@@ -55,3 +55,18 @@ class SlideError(YAPPTBaseException):
 
     def show(self):
         click.echo(f'Slide error: {self.format_message()}', err=True)
+
+class LayoutError(YAPPTBaseException):
+
+    exit_code = 6
+
+    def show(self):
+        click.echo(f'Layout error: {self.format_message()}', err=True)
+
+
+class ContentError(YAPPTBaseException):
+
+    exit_code = 7
+
+    def show(self):
+        click.echo(f'Content error: {self.format_message()}', err=True)

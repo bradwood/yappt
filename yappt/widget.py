@@ -1,26 +1,28 @@
 """The class definition for Widgets: items to be rendered that make a all or part of a slide."""
-from typing import Optional, List, Tuple, Any
-from .metasettings import Settings, MetaData
-from .utils import create_active_cells
 from collections import deque
+from typing import Any, List, Optional, Tuple
+
+from .metasettings import MetaData, Settings
+
 
 class Widget():
     def __init__(self, *,
                  slide_num: int,
                  total_slides: int,
                  type_: str,
-                 content: Optional[List[str]],
+                 body: Optional[List[str]],
                  settings: Settings,
                  metadata: Optional[MetaData],
                  active_cells: Optional[Tuple],
-                 wait_for_key_press: bool):
+                 #wait_for_key_press: bool
+                 ):
 
         self.slide_num = slide_num
         self.type_ = type_
-        self.content = content
+        self.body = body
         self.settings = settings
         self.active_cells = active_cells
-        self.wait_for_key_press = wait_for_key_press
+        #self.wait_for_key_press = wait_for_key_press
         self.header = None
         self.footer = None
         self.foreground_widgets: list = [] # a stack of child widgets for this window
@@ -29,6 +31,8 @@ class Widget():
         header: list = [None, None, None]  # list for left, centre, right
         if type_ == 'background':
             assert isinstance(metadata, MetaData)
+            assert body is None
+
             if settings.pagenum:  # Print 'n / m' in bottom right
                 footer[2] = f'{slide_num+1} / {total_slides}'
 
@@ -41,13 +45,13 @@ class Widget():
             self.header = tuple(header)
             self.footer = tuple(footer)
         elif type_ == 'foreground':
-            assert isinstance(self.content, list)
+            assert isinstance(self.body, list)
 
 
     def __repr__(self):
         return f'Widget(slide_num={self.slide_num}, type_={self.type_},' + \
-            f' active_cells={self.active_cells}, wait_for_key_press={self.wait_for_key_press})'
-
+            f' active_cells={self.active_cells})'
+        #f' active_cells={self.active_cells}, wait_for_key_press={self.wait_for_key_press})'
 
 
 def generate_widgets(slide, slide_num, total_slides)-> List[Widget]:
@@ -57,36 +61,39 @@ def generate_widgets(slide, slide_num, total_slides)-> List[Widget]:
     background = Widget(slide_num=slide_num,
                         total_slides=total_slides,
                         type_='background',
-                        content=None,  # backgrounds have no content
+                        body=None,  # backgrounds have no body
                         settings=slide.settings,
                         metadata=slide.metadata,
                         active_cells=None,  # backgrounds have no active cell.
-                        wait_for_key_press=False)  # backgrounds never wait for key press.
+                        # wait_for_key_press=False
+                        )  # backgrounds never wait for key press.
 
     widgets.append(background)
     # the slide will be rendered in bits, so create a widget for each bit.
     if slide.settings.incremental:
-        for num, content in enumerate(slide.content):
-            content_part = Widget(slide_num=slide_num,
-                                  total_slides=total_slides,
-                                  type_='foreground',
-                                  content=[content],# content must be a list, even if one 1 item
-                                  settings=slide.settings,
-                                  metadata=None,  # foregrounds don't need metadata
-                                  active_cells=create_active_cells(slide.layout, tuple([num])),
-                                  wait_for_key_press=True)  # Incremental so we wait.
-            widgets.append(content_part)
+        for num, body in enumerate(slide.content.body):
+            body_part = Widget(slide_num=slide_num,
+                               total_slides=total_slides,
+                               type_='foreground',
+                               body=[body],  # must be a list, even if one 1 item
+                               settings=slide.settings,
+                               metadata=None,  # foregrounds don't need metadata
+                               active_cells=slide.layout.active_cells(tuple([num])),
+                               #wait_for_key_press=True
+                               )  # Incremental so we wait.
+            widgets.append(body_part)
 
-    else:  # no incremental flag, so we merge all the content parts into one widget.
-        content_part = Widget(slide_num=slide_num,
-                              total_slides=total_slides,
-                              type_='foreground',
-                              content=slide.content,
-                              settings=slide.settings,
-                              metadata=None,  # foregrounds don't need metadata
-                              # activate all the cells as this is not incremental.
-                              active_cells=create_active_cells(slide.layout, tuple([i for i in range(len(slide.content))])),
-                              wait_for_key_press=True)  # This is the only part so we wait.
-        widgets.append(content_part)
+    else:  # no incremental flag, so we merge all the body parts into one widget.
+        body_part = Widget(slide_num=slide_num,
+                           total_slides=total_slides,
+                           type_='foreground',
+                           body=slide.content.body,
+                           settings=slide.settings,
+                           metadata=None,  # foregrounds don't need metadata
+                           # activate all the cells as this is not incremental.
+                           active_cells=slide.layout.active_cells(tuple([i for i in range(len(slide.body))])),
+                           #wait_for_key_press=True
+                           )  # This is the only part so we wait.
+        widgets.append(body_part)
     #print(widgets)
     return widgets

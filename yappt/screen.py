@@ -2,13 +2,32 @@
 
 import curses
 from .widget import Widget
-from .utils import render_header_footer, create_windows_from_cells
+from .utils import render_header_footer
 import logging
 logformat = "[%(asctime)s] %(levelname)s:%(name)s:%(message)s"
 logging.basicConfig(level=logging.DEBUG, filename='yappt.log',
                     format=logformat)  # datefmt="%Y-%m-%d %H:%M:%S"
 
 LOGGER = logging.getLogger(__name__)
+
+
+def create_windows_from_cells(active_cells, parent_win, margin):
+    """Return a list of sub-windows with the appropriate dimensions and locations."""
+    sub_windows = []
+    num_rows = len(active_cells)
+    parent_height, parent_width = parent_win.getmaxyx()
+    row_height = parent_height // num_rows
+    for row_counter, row in enumerate(active_cells):
+        for cell_counter, cell in enumerate(row):
+            cell_width = parent_width // len(row)
+            if cell:
+                cell_win = curses.newwin(row_height,  # height
+                                         cell_width,  # width
+                                         margin + row_height*row_counter,  # begin_y
+                                         margin + cell_width*cell_counter)  # begin_x
+                sub_windows.append(cell_win)
+    return sub_windows
+
 
 class Screen:
     """Context manager for writing to the screen"""
@@ -38,7 +57,7 @@ class Screen:
         try:
             if widget.type_ == 'background':
                 # This is written to the main, fullsize window
-                assert widget.content is None
+                assert widget.body is None
                 assert widget.active_cells is None
                 assert isinstance(widget.header, tuple)
                 assert isinstance(widget.footer, tuple)
@@ -49,14 +68,14 @@ class Screen:
                 #print("rendered background")
 
             if widget.type_ == 'foreground':
-                assert isinstance(widget.content, list)
+                assert isinstance(widget.body, list)
                 assert isinstance(widget.active_cells, tuple)
 
                 # This is written to the inner, margined window
                 # generate a list of sub-windows to write each piece of content into.
                 sub_windows = create_windows_from_cells(widget.active_cells, self.window, self.margin)
-                assert len(sub_windows) == len(widget.content)
-                for sub_win, content  in zip(sub_windows, widget.content):
+                assert len(sub_windows) == len(widget.body)
+                for sub_win, content  in zip(sub_windows, widget.body):
                     # sub_win.box()
                     if content:
                         sub_win.addstr(self.margin,  # y

@@ -13,25 +13,24 @@ settings:
 intro:
   settings: # same as presentation-level settings but allows a per-slide override.
     incremental: true # turn on incremental rendering of slide elements
-  content: >  # single block of content
-
-    This is raw content. This is raw content.This is raw content.This is raw
-    content.This is raw content.This is raw content.This is raw content.This is
-    raw content.This is raw content.This is raw content.This is raw content.This
-    is raw content.
-
-
-    This is raw content. This is raw content.This is raw content.This is raw
-    content.This is raw content.This is raw content.This is raw content.This is
-    raw content.This is raw content.This is raw content.This is raw content.This
-    is raw content.
+  content:
+    body: >  # single block of content
+      This is raw content. This is raw content.This is raw content.This is raw
+      content.This is raw content.This is raw content.This is raw content.This is
+      raw content.This is raw content.This is raw content.This is raw content.This
+      is raw content.
 
 
-    This is raw content. This is raw content.This is raw content.This is raw
-    content.This is raw content.This is raw content.This is raw content.This is
-    raw content.This is raw content.This is raw content.This is raw content.This
-    is raw content.
+      This is raw content. This is raw content.This is raw content.This is raw
+      content.This is raw content.This is raw content.This is raw content.This is
+      raw content.This is raw content.This is raw content.This is raw content.This
+      is raw content.
 
+
+      This is raw content. This is raw content.This is raw content.This is raw
+      content.This is raw content.This is raw content.This is raw content.This is
+      raw content.This is raw content.This is raw content.This is raw content.This
+      is raw content.
 
 Section "About" Blah Blah blah's life:
   settings: # same as presentation-level settings but allows a per-slide override.
@@ -40,19 +39,28 @@ Section "About" Blah Blah blah's life:
     authorfooter: true # `author at bottom left
     incremental: true # turn on incremental rendering of slide elements
   layout: 1-1-1-1-1-1  # 1 header, 2 blocks below that, 2 blocks below that, footer. Must sum to number of elements in content.
-  content: # content which is a list of content
-  - >
-    This is the TOP header.
-  - >
-    This is part one of the content (top left).
-  - >
-    This is part two of the content (top right).
-  - >
-    This is part three of the content (bottom left).
-  - >
-    This is part four of the content (bottom right).
-  - >
-    This is BOTTOM footer.
+  content: # format, while optional, must occure under the content body
+    format:
+      justify: left, centre, right, block, full
+      color: <colorcode>
+      #style: bold, italic, underline, reversed
+      wordwrap: true
+      #margin: 3 # implies 3 for l, r, t, b
+      margin: {l: 1, r: 2, t: 3, b: 4}
+      figlet: <fontname>
+    body:
+     - >
+        This is the TOP header.
+     - >
+        This is part one of the content (top left).
+     - >
+        This is part two of the content (top right).
+     - >
+        This is part three of the content (bottom left).
+     - >
+        This is part four of the content (bottom right).
+     - >
+        This is BOTTOM footer.
 
 # slide 3:
 #   dsfsdfsdfsd sdfsdf
@@ -64,23 +72,23 @@ Section "About" Blah Blah blah's life:
 # slide 4:
 #   layout: 1-3
 
-slide 5:
-  content: >
-    This is the content for slide 5.
-
 # slide 5:
-#   layout: 13443
-#   content: This is the content for slide 5.
+#   content: >
+#     This is the content for slide 5.
 
-slide 6:
-  layout: 2
-  content:
-  - one of two
-  - two of two
+# # slide 5:
+# #   layout: 13443
+# #   content: This is the content for slide 5.
 
-slide 7:
-  layout: 1-2
-  content:
-  - one of three
-  - two of three
-  - three of three
+# slide 6:
+#   layout: 2
+#   content:
+#   - one of two
+#   - two of two
+
+# slide 7:
+#   layout: 1-2
+#   content:
+#   - one of three
+#   - two of three
+#   - three of three

@@ -82,7 +82,7 @@ def main(filename, debug):
             if key in [curses.KEY_UP, curses.KEY_LEFT, ord('p'), ord('P')]:
                 # move backward... a little more complicated...
                 # handle the edge case first.
-                if current_widget < 2:  # 1 background, and 1 foreground
+                if current_widget < 2:
                     continue  # we're at the beginning of the deck
 
                 # if the length of the latest background widget's children stack
