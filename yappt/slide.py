@@ -55,14 +55,15 @@ class Slide:
                                _key='content',
                                _exception=ContentError,
                                _elem=name,
-                               _sub_keys=['body'],
+                               _sub_keys=['body',], # mandatory key
+                               _keys_from=['body','format'] # all allowable keys
                                )
 
         # check content array length is compatible with the layout specified
 
         if len(self.content.body) != self.layout.cell_count:
             ler = LayoutError(f'Slide \'{name}\' has incompatible/bad layout: {self.layout.layout_str}.\n' +
-                             'There must be the same number of layout digits as body sections.')
+                             'There must be the same number of layout cells as body sections.')
             ler.show()
             quit(ler.exit_code)
 
@@ -76,7 +77,12 @@ class Slide:
             # no seettings passed in data so just use the deck settings.
             new_settings = deck_settings_dict
 
-        self.settings = Settings(name, **new_settings)
+        self.settings = Settings({'settings': new_settings},  # package it in a dict so similar to deck-settings
+                                 _key='settings',
+                                 _exception=SlideError,
+                                 _elem=f'{name} slide\'s settings',  # name of the slide
+                                 _keys_from=['pagenum', 'titlebar', 'authorfooter', 'incremental']
+                                 )
 
         self.metadata = metadata
 

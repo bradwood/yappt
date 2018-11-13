@@ -14,6 +14,7 @@ intro:
   settings: # same as presentation-level settings but allows a per-slide override.
     incremental: true # turn on incremental rendering of slide elements
   content:
+    format:
     body: >  # single block of content
       This is raw content. This is raw content.This is raw content.This is raw
       content.This is raw content.This is raw content.This is raw content.This is
@@ -34,11 +35,11 @@ intro:
 
 Section "About" Blah Blah blah's life:
   settings: # same as presentation-level settings but allows a per-slide override.
-    pagenum: false  # `n / m` in bottom right
+    pagenum: true  # `n / m` in bottom right
     titlebar: true # `presentation title` at top centre
     authorfooter: true # `author at bottom left
     incremental: true # turn on incremental rendering of slide elements
-  layout: 1-1-1-1-1-1  # 1 header, 2 blocks below that, 2 blocks below that, footer. Must sum to number of elements in content.
+  layout: 1-2-3  # 1 header, 2 blocks below that, 2 blocks below that, footer. Must sum to number of elements in content.
   content:  # format, while optional, must occure under the content body
     format:
       justify: left, centre, right, block, full
@@ -62,9 +63,9 @@ Section "About" Blah Blah blah's life:
      - >
         This is BOTTOM footer.
 
-slide 3:
-  content:
-    body: sdfsdf
+# slide 3:
+#   content:
+#     body: sdfsdf
 
 # slide 4:
 #  - blah

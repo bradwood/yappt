@@ -29,21 +29,21 @@ def process_yaml(filename) -> Tuple[MetaData, Settings, List[Slide]]:
         print(exc)
         quit(yp.exit_code)
 
-    try:
-        metadata = MetaData(**pres_dict['metadata'])
-    except (KeyError, TypeError):
-        mde = MetaDataError("Error getting metadata from YAML file.")
-        mde.show()
-        quit(mde.exit_code)
+    metadata = MetaData(pres_dict,
+                        _key='metadata',
+                        _exception=MetaDataError,
+                        _elem='YAML file',
+                        _keys_from=['title','author','date']
+                        )
+
     LOGGER.debug("Loaded metadata")
 
-    try:
-        settings = Settings(**pres_dict['settings'])
-    except (KeyError, TypeError):
-        se = SettingsError("Error getting settings from YAML file.")
-        se.show()
-        quit(se.exit_code)
-    LOGGER.debug("Loaded metadata")
+    settings = Settings(pres_dict,
+                        _key='settings',
+                        _exception=SettingsError,
+                        _elem='YAML file',
+                        _keys_from=['pagenum','titlebar','authorfooter','incremental'],
+                        )
 
     LOGGER.debug("Loaded settings")
 
@@ -53,6 +53,6 @@ def process_yaml(filename) -> Tuple[MetaData, Settings, List[Slide]]:
     for s_name, s_data in \
             {k: v for k, v in pres_dict.items() if k not in ['metadata', 'settings']}.items():
         slides.append(Slide(s_name, s_data, settings, metadata))
-    LOGGER.debug("Created slide list")
 
+    LOGGER.debug("Created slide list")
     return metadata, settings, slides

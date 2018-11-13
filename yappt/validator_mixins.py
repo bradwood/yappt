@@ -22,7 +22,7 @@ class ValIsStrMixIn(KeyExistsMixIn):
                          _elem=_elem,
                          **kwargs)
         if not isinstance(payload[_key], str):
-            excp = _exception(f'\'{_key}\' is not a string in \'{_elem}\'.')
+            excp = _exception(f'\'{_key}\' is not a string in {_elem}.')
             excp.show()
             quit(excp.exit_code)
 
@@ -38,14 +38,14 @@ class ValIsDictMixIn(KeyExistsMixIn):
                          _elem=_elem,
                           **kwargs)
         if not isinstance(payload[_key], dict):
-            excp = _exception(f'\'{_key}\' does not have a subtree in \'{_elem}\'.')
+            excp = _exception(f'\'{_key}\' does not have a subtree in {_elem}.')
             excp.show()
             quit(excp.exit_code)
 
 
-class ValIsDictWithSubKeysMixIn(ValIsDictMixIn):
+class ValIsDictHasSubKeysMixIn(ValIsDictMixIn):
     def __init__(self, payload, *args, _key, _exception, _elem, _sub_keys, **kwargs):
-        """Raise an error if payload[_key] is not a dict."""
+        """Raise an error if payload[_key] does not have _sub_keys in it."""
         # call superclass validation first
         super().__init__(payload,
                          *args,
@@ -55,15 +55,14 @@ class ValIsDictWithSubKeysMixIn(ValIsDictMixIn):
                          **kwargs)
         for sk in _sub_keys:
             if sk not in payload[_key]:
-                excp = _exception(f'\'{_key}\' does not have item \'{sk}\' in \'{_elem}\'.')
+                excp = _exception(f'\'{_key}\' does not have item \'{sk}\' in {_elem}.')
                 excp.show()
                 quit(excp.exit_code)
 
 
-
-class ValIsListMixIn(KeyExistsMixIn):
-    def __init__(self, payload, *args, _key, _exception, _elem, **kwargs):
-        """Raise an error if payload[_key] is not a dict."""
+class ValIsDictSubKeysFromMixIn(ValIsDictMixIn):
+    def __init__(self, payload, *args, _key, _exception, _elem, _keys_from, **kwargs):
+        """Raise an error if payload[_key] has sub keys other than _keys_from in it."""
         # call superclass validation first
         super().__init__(payload,
                          *args,
@@ -71,8 +70,8 @@ class ValIsListMixIn(KeyExistsMixIn):
                          _exception=_exception,
                          _elem=_elem,
                          **kwargs)
-        if not isinstance(payload[_key], list):
-            excp = _exception(f'\'{_key}\' does not have a list under it in \'{_elem}\'.')
-            excp.show()
-            quit(excp.exit_code)
-
+        for sk in payload[_key]:
+            if sk not in _keys_from:
+                excp = _exception(f'\'{sk}\' is not a valid item in {_elem}.')
+                excp.show()
+                quit(excp.exit_code)

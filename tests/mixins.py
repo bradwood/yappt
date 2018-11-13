@@ -1,9 +1,9 @@
-from yappt.validator_mixins import KeyExistsMixIn, ValIsStrMixIn, ValIsDictMixIn, ValIsDictWithSubKeysMixIn
+from yappt.validator_mixins import KeyExistsMixIn, ValIsStrMixIn, ValIsDictMixIn, ValIsDictHasSubKeysMixIn
 from ruamel.yaml import YAML
 from yappt.exceptions import LayoutError, SlideError, ContentError
 
 
-class Foo(ValIsDictWithSubKeysMixIn):
+class Foo(ValIsDictHasSubKeysMixIn):
     def __init__(self, payload, *args, **kwargs):
         super().__init__(payload, *args, **kwargs)
         print(payload)

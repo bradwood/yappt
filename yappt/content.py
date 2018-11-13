@@ -1,10 +1,10 @@
 """Class for managing the content part of a slide."""
 
-from .validator_mixins import ValIsDictWithSubKeysMixIn
+from .validator_mixins import ValIsDictHasSubKeysMixIn, ValIsDictSubKeysFromMixIn
 from .exceptions import ContentError
 
 
-class Content(ValIsDictWithSubKeysMixIn):
+class Content(ValIsDictHasSubKeysMixIn, ValIsDictSubKeysFromMixIn):
     def __init__(self, payload, *args, **kwargs):
         super().__init__(payload, *args, **kwargs) # run mixin validations
         content = payload['content']
