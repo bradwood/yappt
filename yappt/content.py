@@ -1,7 +1,7 @@
 """Class for managing the content part of a slide."""
 from .format import Format
 from .validator_mixins import ValIsDictHasSubKeysMixIn, ValIsDictSubKeysFromMixIn
-from .exceptions import ContentError, FormatError
+from .exceptions import FormatError
 
 
 class Content(ValIsDictHasSubKeysMixIn, ValIsDictSubKeysFromMixIn):

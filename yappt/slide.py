@@ -63,7 +63,7 @@ class Slide:
 
         if len(self.content.body) != self.layout.cell_count:
             ler = LayoutError(f'Slide \'{name}\' has incompatible/bad layout: {self.layout.layout_str}.\n' +
-                             'There must be the same number of layout cells as body sections.')
+                              'There must be the same number of layout cells as body sections.')
             ler.show()
             quit(ler.exit_code)
 

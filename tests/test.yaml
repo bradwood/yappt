@@ -7,7 +7,7 @@ metadata:
 
 settings:
   pagenum: true  # `n / m` in bottom right
-  titlebar: false # `presentation title` at top centre
+  titlebar: true # `presentation title` at top centre
   incremental: true # turn on incremental rendering of slide elements
 
 intro:
@@ -34,21 +34,21 @@ intro:
       raw content.This is raw content.This is raw content.This is raw content.This
       is raw content.
 
-Section "About" Blah Blah blah's life:
+Blah Blah blah:
   settings: # same as presentation-level settings but allows a per-slide override.
     pagenum: true  # `n / m` in bottom right
     titlebar: true # `presentation title` at top centre
     authorfooter: true # `author at bottom left
     incremental: true # turn on incremental rendering of slide elements
-  layout: 1-2-3  # 1 header, 2 blocks below that, 2 blocks below that, footer. Must sum to number of elements in content.
+  layout: 1-2-2-1  # 1 header, 2 blocks below that, 2 blocks below that, footer. Must sum to number of elements in content.
   content:  # format, while optional, must occure under the content body
     format:
       justify: centre
       color: white
       #style: bold, italic, underline, reversed
       wordwrap: true
-      margin: 1-1-1-1 # L, R, T, B
-      # type: code| figlet | text
+      margin: 1-1-1 # L, R, T, B
+      type: text  # code| figlet | text
     body:
      - >
         This is raw content. This is raw content.This is raw content.This is raw
