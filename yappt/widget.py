@@ -91,9 +91,8 @@ def generate_widgets(slide, slide_num, total_slides)-> List[Widget]:
                            settings=slide.settings,
                            metadata=None,  # foregrounds don't need metadata
                            # activate all the cells as this is not incremental.
-                           active_cells=slide.layout.active_cells(tuple([i for i in range(len(slide.body))])),
+                           active_cells=slide.layout.active_cells(tuple([i for i in range(len(slide.content.body))])),
                            #wait_for_key_press=True
                            )  # This is the only part so we wait.
         widgets.append(body_part)
-    #print(widgets)
     return widgets

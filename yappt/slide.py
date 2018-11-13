@@ -55,8 +55,8 @@ class Slide:
                                _key='content',
                                _exception=ContentError,
                                _elem=name,
-                               _sub_keys=['body',], # mandatory key
-                               _keys_from=['body','format'] # all allowable keys
+                               _sub_keys=['body'], # mandatory key
+                               _keys_from=['body', 'format'] # all allowable keys
                                )
 
         # check content array length is compatible with the layout specified
@@ -88,4 +88,3 @@ class Slide:
 
     def __repr__(self):
         return f'Slide(\'{self.name}\' layout={self.layout}, settings={self.settings})'
-

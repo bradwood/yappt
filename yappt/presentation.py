@@ -33,7 +33,7 @@ def process_yaml(filename) -> Tuple[MetaData, Settings, List[Slide]]:
                         _key='metadata',
                         _exception=MetaDataError,
                         _elem='YAML file',
-                        _keys_from=['title','author','date']
+                        _keys_from=['title', 'author', 'date']
                         )
 
     LOGGER.debug("Loaded metadata")
@@ -42,7 +42,7 @@ def process_yaml(filename) -> Tuple[MetaData, Settings, List[Slide]]:
                         _key='settings',
                         _exception=SettingsError,
                         _elem='YAML file',
-                        _keys_from=['pagenum','titlebar','authorfooter','incremental'],
+                        _keys_from=['pagenum', 'titlebar', 'authorfooter', 'incremental'],
                         )
 
     LOGGER.debug("Loaded settings")

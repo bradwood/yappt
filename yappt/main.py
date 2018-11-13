@@ -33,7 +33,7 @@ def main(filename, debug):
     LOGGER.debug("Created widget list")
 
     # --- run presentation loop ---
-    # Due to the need to redraw decrementally when moving back through the dec
+    # Due to the need to redraw decrementally when moving back through the deck
     # this section is a bit complicated. It relies on a 2-stack arrangment.
     # The background_widget's stack only holds a stack of these widgets that are
     # responsible for drawing the header/footer/ etc of every _slide_.

@@ -1,7 +1,7 @@
 """Class for managing the content part of a slide."""
-
+from .format import Format
 from .validator_mixins import ValIsDictHasSubKeysMixIn, ValIsDictSubKeysFromMixIn
-from .exceptions import ContentError
+from .exceptions import ContentError, FormatError
 
 
 class Content(ValIsDictHasSubKeysMixIn, ValIsDictSubKeysFromMixIn):
@@ -15,3 +15,10 @@ class Content(ValIsDictHasSubKeysMixIn, ValIsDictSubKeysFromMixIn):
             self.body = content['body']
         else:
             self.body = [content['body']]  # make it a list with 1 item
+
+        self.format = Format(content,
+                             _key='format',
+                             _exception=FormatError,
+                             _elem=f"slide {kwargs['_elem']}, format section",
+                             _keys_from=['justify', 'color', 'wordwrap', 'margin', 'type']
+                             )

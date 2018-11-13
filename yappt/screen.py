@@ -31,6 +31,7 @@ def create_windows_from_cells(active_cells, parent_win, margin):
 
 class Screen:
     """Context manager for writing to the screen"""
+
     def __init__(self, *, margin: int):
         self.stdscr = curses.initscr()
         self.margin = margin

@@ -70,3 +70,11 @@ class ContentError(YAPPTBaseException):
 
     def show(self):
         click.echo(f'Content error: {self.format_message()}', err=True)
+
+
+class FormatError(YAPPTBaseException):
+
+    exit_code = 8
+
+    def show(self):
+        click.echo(f'Format error: {self.format_message()}', err=True)

@@ -15,6 +15,7 @@ intro:
     incremental: true # turn on incremental rendering of slide elements
   content:
     format:
+      justify: left
     body: >  # single block of content
       This is raw content. This is raw content.This is raw content.This is raw
       content.This is raw content.This is raw content.This is raw content.This is
@@ -42,16 +43,18 @@ Section "About" Blah Blah blah's life:
   layout: 1-2-3  # 1 header, 2 blocks below that, 2 blocks below that, footer. Must sum to number of elements in content.
   content:  # format, while optional, must occure under the content body
     format:
-      justify: left, centre, right, block, full
-      color: <colorcode>
+      justify: centre
+      color: white
       #style: bold, italic, underline, reversed
       wordwrap: true
-      #margin: 3 # implies 3 for l, r, t, b
-      margin: {l: 1, r: 2, t: 3, b: 4}
-      figlet: <fontname>
+      margin: 1-1-1-1 # L, R, T, B
+      # type: code| figlet | text
     body:
      - >
-        This is the TOP header.
+        This is raw content. This is raw content.This is raw content.This is raw
+        content.This is raw content.This is raw content.This is raw content.This is
+        raw content.This is raw content.This is raw content.This is raw content.This
+        is raw content.
      - >
         This is part one of the content (top left).
      - >
