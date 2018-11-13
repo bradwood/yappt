@@ -3,7 +3,6 @@ from .exceptions import LayoutError
 from typing import Tuple
 
 
-
 class Layout:
     """This class holds layout details for a slide."""
     def __init__(self, layout_str: str):

@@ -39,7 +39,7 @@ Section "About" Blah Blah blah's life:
     authorfooter: true # `author at bottom left
     incremental: true # turn on incremental rendering of slide elements
   layout: 1-1-1-1-1-1  # 1 header, 2 blocks below that, 2 blocks below that, footer. Must sum to number of elements in content.
-  content: # format, while optional, must occure under the content body
+  content:  # format, while optional, must occure under the content body
     format:
       justify: left, centre, right, block, full
       color: <colorcode>
@@ -62,8 +62,9 @@ Section "About" Blah Blah blah's life:
      - >
         This is BOTTOM footer.
 
-# slide 3:
-#   dsfsdfsdfsd sdfsdf
+slide 3:
+  content:
+    body: sdfsdf
 
 # slide 4:
 #  - blah

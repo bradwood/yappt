@@ -43,26 +43,20 @@ class Slide:
 
         # process layout
         try:
-            self.layout = Layout(str(data.get('layout','1'))) # if no layout in slide, assume "1"
+            # if no layout in slide, assume "1"
+            self.layout = Layout(str(data.get('layout','1')))
         except (LayoutError) as le:
             se = SlideError(f'Error parsing slide {name}.')
             se.show()
             le.show()
             quit(le.exit_code)
 
-        # check content
-        try:
-            self.content = Content(data['content'])
-        except (KeyError):
-            raise
-            se = SlideError(f'Slide \'{name}\' has no \'content\' element under it.')
-            se.show()
-            quit(se.exit_code)
-        except (ContentError) as ce:
-            se = SlideError(f'Slide \'{name}\' has a \'content\' error.')
-            se.show()
-            ce.show()
-            quit(ce.exit_code)
+        self.content = Content(data,
+                               _key='content',
+                               _exception=ContentError,
+                               _elem=name,
+                               _sub_keys=['body'],
+                               )
 
         # check content array length is compatible with the layout specified
 

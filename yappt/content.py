@@ -1,17 +1,17 @@
 """Class for managing the content part of a slide."""
 
+from .validator_mixins import ValIsDictWithSubKeysMixIn
 from .exceptions import ContentError
 
 
-class Content:
-    def __init__(self, content_data):
-        try:
-            self.body = content_data['body']
-        except (KeyError, TypeError):
-            cerr = ContentError('No \'body\' element in slide content.')
-            raise cerr
+class Content(ValIsDictWithSubKeysMixIn):
+    def __init__(self, payload, *args, **kwargs):
+        super().__init__(payload, *args, **kwargs) # run mixin validations
+        content = payload['content']
 
-        if isinstance(content_data['body'], list):
-            self.body = content_data['body']
+        self.body = content['body']
+
+        if isinstance(content['body'], list):
+            self.body = content['body']
         else:
-            self.body = [content_data['body']]  # make it a list with 1 item
+            self.body = [content['body']]  # make it a list with 1 item
