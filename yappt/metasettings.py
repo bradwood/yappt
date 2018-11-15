@@ -15,7 +15,8 @@ class Settings(ValIsDictCheckSubKeyTypesMixIn):
         self.titlebar: bool = True
         self.authorfooter: bool = True
         self.incremental: bool = False
-        self.margin: int = 1
+        self.v_margin: int = 1
+        self.h_margin: int = 1
 
         for key in settings:
             setattr(self, key, settings[key])

@@ -81,8 +81,8 @@ class Slide:
                                  _key='settings',
                                  _exception=SlideError,
                                  _elem=f'{name} slide\'s settings',  # name of the slide
-                                 _keys_from=['pagenum', 'titlebar', 'authorfooter', 'incremental', 'margin'],
-                                 _type_list=[bool, bool, bool, bool, int],
+                                 _keys_from=['pagenum', 'titlebar', 'authorfooter', 'incremental', 'v_margin', 'h_margin'],
+                                 _type_list=[bool, bool, bool, bool, int, int],
                                  )
 
         self.metadata = metadata

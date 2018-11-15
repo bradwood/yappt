@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.DEBUG, filename='yappt.log',
 LOGGER = logging.getLogger(__name__)
 
 
-def create_windows_from_cells(active_cells, parent_win, margin):
+def create_windows_from_cells(active_cells, parent_win, v_margin, h_margin):
     """Return a list of sub-windows with the appropriate dimensions and locations."""
     sub_windows = []
     num_rows = len(active_cells)
@@ -23,8 +23,8 @@ def create_windows_from_cells(active_cells, parent_win, margin):
             if cell:
                 cell_win = curses.newwin(row_height,  # height
                                          cell_width,  # width
-                                         margin + (row_height) * row_counter,  # begin_y
-                                         margin + (cell_width) * cell_counter)  # begin_x
+                                         v_margin + (row_height) * row_counter,  # begin_y
+                                         h_margin + (cell_width) * cell_counter)  # begin_x
                 sub_windows.append(cell_win)
     return sub_windows
 
@@ -32,9 +32,10 @@ def create_windows_from_cells(active_cells, parent_win, margin):
 class Screen:
     """Context manager for writing to the screen"""
 
-    def __init__(self, *, margin: int):
+    def __init__(self, *, v_margin: int, h_margin:int):
         self.stdscr = curses.initscr()
-        self.margin = margin
+        self.v_margin = v_margin
+        self.h_margin = h_margin
         # this defines self.window amongst other things.
         self.calibrate()
 
@@ -75,7 +76,7 @@ class Screen:
 
                 # This is written to the inner, margined window
                 # generate a list of sub-windows to write each piece of content into.
-                sub_windows = create_windows_from_cells(widget.active_cells, self.window, self.margin)
+                sub_windows = create_windows_from_cells(widget.active_cells, self.window, self.v_margin, self.h_margin)
                 assert len(sub_windows) == len(widget.body)
                 for sub_win, content  in zip(sub_windows, widget.body):
                     # sub_win.box()
@@ -107,8 +108,8 @@ class Screen:
 
     def calibrate(self):
         self.scr_height, self.scr_width = self.stdscr.getmaxyx()
-        self.window = curses.newwin(self.scr_height - 2 * self.margin,  # height
-                                    self.scr_width - 2*self.margin,  # width
-                                    self.margin,  # begin_y
-                                    self.margin)  # begin_x
+        self.window = curses.newwin(self.scr_height - 2 * self.v_margin,  # height
+                                    self.scr_width - 2*self.h_margin,  # width
+                                    self.v_margin,  # begin_y
+                                    self.h_margin)  # begin_x
         self.win_height, self.win_width = self.window.getmaxyx()

@@ -44,8 +44,8 @@ def process_yaml(filename) -> Tuple[MetaData, Settings, List[Slide]]:
                         _key='settings',
                         _exception=SettingsError,
                         _elem='YAML file',
-                        _keys_from=['pagenum', 'titlebar', 'authorfooter', 'incremental', 'margin'],
-                        _type_list=[bool, bool, bool, bool, int],
+                        _keys_from=['pagenum', 'titlebar', 'authorfooter', 'incremental', 'h_margin', 'v_margin'],
+                        _type_list=[bool, bool, bool, bool, int, int],
                         )
 
     LOGGER.debug("Loaded settings")
