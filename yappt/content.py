@@ -23,3 +23,4 @@ class Content(ValIsDictHasSubKeysMixIn, ValIsDictSubKeysFromMixIn):
                              _keys_from=['justify', 'color', 'wordwrap', 'margin', 'type'],
                              _type_list=[str, int, bool, str, str]
                              )
+

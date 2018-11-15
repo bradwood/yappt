@@ -18,10 +18,14 @@ def main(stdscr):
             x = (x + 5) % maxx
             if x == 0:
                 y += 1
-    except curses.ERR:
+    except curses.error:
         pass
     stdscr.getch()
 
+    test = 'brad\nbrad\nbrad\nbrad\nbrad\nbrad\nbrad\n'
+    stdscr.addstr(0,0,test)
+
+
+    stdscr.getch()
 
 curses.wrapper(main)
-print(curses.can_change_color())

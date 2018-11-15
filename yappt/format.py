@@ -16,7 +16,7 @@ class Format(ValIsDictCheckSubKeyTypesMixIn):
         }
         # defaults
         self.justify: str = 'left'
-        self.color: str = -1
+        self.color: str = 0
         self.wordwrap: bool = True
         self.margin: str = '1-1-1-1'
         self.type: str = 'text'

@@ -8,8 +8,8 @@ settings:
   pagenum: true  # `n / m` in bottom right
   titlebar: true # `presentation title` at top centre
   incremental: true # turn on incremental rendering of slide elements
-  v_margin: 15 # veretical margin (top and bottom).
-  h_margin: 1 # horizontal margin (left and right)
+  v_margin: 0 # veretical margin (top and bottom).
+  h_margin: 0 # horizontal margin (left and right)
 
 intro:
   settings: # same as presentation-level settings but allows a per-slide override.
@@ -17,7 +17,8 @@ intro:
   content:
     format:
       justify: left
-    body: >  # single block of content
+      color: 197
+    body: |  # single block of content
       This is raw content. This is raw content.This is raw content.This is raw
       content.This is raw content.This is raw content.This is raw content.This is
       raw content.This is raw content.This is raw content.This is raw content.This
@@ -45,24 +46,58 @@ Blah Blah blah:
   content:  # format, while optional, must occure under the content body
     format:
       justify: centre
-      color: -1
+      color: 124
       #style: bold, italic, underline, reversed
       wordwrap: true
       margin: 1-1-1-1 # L, R, T, B
       type: text  # code| figlet | text
     body:
      - >
-        This is raw content. This is raw content.This is raw content.This is raw
+        This is part one of the content (top left)is part one of the content
+        (top left)is part one of the content (top left)is part one of the
+        content (top left)is part one of the content (top left)is part one of
+        the content (top left)is part one of the content (top left)is part one
+        of the content (top left)is part one of the content (top left).
         is raw content.
      - >
-        This is part one of the content (top left).
+        This is part one of the content (top left)is part one of the content
+        (top left)is part one of the content (top left)is part one of the
+        content (top left)is part one of the content (top left)is part one of
+        the content (top left)is part one of the content (top left)is part one
+        of the content (top left)is part one of the content (top left).
      - >
+        This is part one of the content (top left)is part one of the content
+        (top left)is part one of the content (top left)is part one of the
+        content (top left)is part one of the content (top left)is part one of
+        the content (top left)is part one of the content (top left)is part one
+        of the content (top left)is part one of the content (top left).
         This is part two of the content (top right).
      - >
+        This is part one of the content (top left)is part one of the content
+        (top left)is part one of the content (top left)is part one of the
+        content (top left)is part one of the content (top left)is part one of
+        the content (top left)is part one of the content (top left)is part one
+        of the content (top left)is part one of the content (top left).
         This is part three of the content (bottom left).
      - >
+        This is part one of the content (top left)is part one of the content
+        (top left)is part one of the content (top left)is part one of the
+        content (top left)is part one of the content (top left)is part one of
+        the content (top left)is part one of the content (top left)is part one
+        of the content (top left)is part one of the content (top left).
+        This is part four of the content (bottom right).
+        This is part one of the content (top left)is part one of the content
+        (top left)is part one of the content (top left)is part one of the
+        content (top left)is part one of the content (top left)is part one of
+        the content (top left)is part one of the content (top left)is part one
+        of the content (top left)is part one of the content (top left).
         This is part four of the content (bottom right).
      - >
+        This is part one of the content (top left)is part one of the content
+        (top left)is part one of the content (top left)is part one of the
+        content (top left)is part one of the content (top left)is part one of
+        the content (top left)is part one of the content (top left)is part one
+        of the content (top left)is part one of the content (top left).
         This is BOTTOM footer.
 
 # slide 3:

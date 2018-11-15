@@ -30,10 +30,11 @@ def create_windows_from_cells(active_cells, parent_win, v_margin, h_margin):
 
 
 class Screen:
-    """Context manager for writing to the screen"""
+    """Context manager for writing to the screen."""
 
     def __init__(self, *, v_margin: int, h_margin:int):
         self.stdscr = curses.initscr()
+
         self.v_margin = v_margin
         self.h_margin = h_margin
         # this defines self.window amongst other things.
@@ -46,6 +47,10 @@ class Screen:
         self.stdscr.clear()
         try:
             curses.start_color()
+            curses.use_default_colors()
+
+            for i in range(0, curses.COLORS):
+                curses.init_pair(i + 1, i, -1)
         except:
             pass
         return self
@@ -84,11 +89,13 @@ class Screen:
                         sub_win.addstr(0,  # y
                                        0,  # x
                                        content,  # str
-                                       #att
+                                       widget.gen_color_pair(),#att
                                        )
 
                     sub_win.noutrefresh()
-                #print("rendered foreground")
+
+                assert widget.format_
+                LOGGER.debug(f'color = {widget.format_.color}')
 
             self.stdscr.noutrefresh()  # mark for refresh.
         except curses.error:

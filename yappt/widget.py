@@ -1,9 +1,11 @@
 """The class definition for Widgets: items to be rendered that make a all or part of a slide."""
+import curses
 from collections import deque
 from typing import Any, List, Optional, Tuple
 
 from .metasettings import MetaData, Settings
 from .format import Format
+
 
 
 class Widget():
@@ -50,6 +52,14 @@ class Widget():
         elif type_ == 'foreground':
             assert isinstance(self.body, list)
 
+    def typeset(self, height:int, width:int) -> str:
+        """Generate an n-curses-friendly string to render."""
+        pass
+
+    def gen_color_pair(self):
+        """Generates a curses-compatible color-pair to be passed into addstr()."""
+
+        return curses.color_pair(self.format_.color)
 
     def __repr__(self):
         return f'Widget(slide_num={self.slide_num}, type_={self.type_},' + \
