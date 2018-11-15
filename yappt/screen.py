@@ -23,8 +23,8 @@ def create_windows_from_cells(active_cells, parent_win, margin):
             if cell:
                 cell_win = curses.newwin(row_height,  # height
                                          cell_width,  # width
-                                         margin + row_height*row_counter,  # begin_y
-                                         margin + cell_width*cell_counter)  # begin_x
+                                         margin + (row_height) * row_counter,  # begin_y
+                                         margin + (cell_width) * cell_counter)  # begin_x
                 sub_windows.append(cell_win)
     return sub_windows
 
@@ -80,11 +80,11 @@ class Screen:
                 for sub_win, content  in zip(sub_windows, widget.body):
                     # sub_win.box()
                     if content:
-                        sub_win.addstr(self.margin,  # y
-                                    self.margin,  # x
-                                    content,  # str
-                                    #att
-                                    )
+                        sub_win.addstr(0,  # y
+                                       0,  # x
+                                       content,  # str
+                                       #att
+                                       )
 
                     sub_win.noutrefresh()
                 #print("rendered foreground")

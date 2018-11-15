@@ -49,7 +49,7 @@ def main(filename, debug):
     #   or https: // github.com/cpascoe95/vmd
     #   or https://github.com/axiros/terminal_markdown_viewer
 
-    with Screen(margin=1) as screen:  #TODO generalise margin setting
+    with Screen(margin=settings.margin) as screen:  #TODO make margin into 4 settings
         while True:
             current_widget = count_widgets_in_stack(backgound_widgets) - 1
             widget = widgets[current_widget]

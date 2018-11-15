@@ -3,6 +3,7 @@ from collections import deque
 from typing import Any, List, Optional, Tuple
 
 from .metasettings import MetaData, Settings
+from .format import Format
 
 
 class Widget():
@@ -14,6 +15,7 @@ class Widget():
                  settings: Settings,
                  metadata: Optional[MetaData],
                  active_cells: Optional[Tuple],
+                 format_: Optional[Format],
                  #wait_for_key_press: bool
                  ):
 
@@ -22,6 +24,7 @@ class Widget():
         self.body = body
         self.settings = settings
         self.active_cells = active_cells
+        self.format_ = format_
         self.header = None
         self.footer = None
         self.foreground_widgets: list = [] # a stack of child widgets for this window
@@ -31,6 +34,7 @@ class Widget():
         if type_ == 'background':
             assert isinstance(metadata, MetaData)
             assert body is None
+            assert format_ is None
 
             if settings.pagenum:  # Print 'n / m' in bottom right
                 footer[2] = f'{slide_num+1} / {total_slides}'
@@ -64,7 +68,7 @@ def generate_widgets(slide, slide_num, total_slides)-> List[Widget]:
                         settings=slide.settings,
                         metadata=slide.metadata,
                         active_cells=None,  # backgrounds have no active cell.
-                        # wait_for_key_press=False
+                        format_=None,  # backgrounds have no format.
                         )  # backgrounds never wait for key press.
 
     widgets.append(background)
@@ -78,7 +82,7 @@ def generate_widgets(slide, slide_num, total_slides)-> List[Widget]:
                                settings=slide.settings,
                                metadata=None,  # foregrounds don't need metadata
                                active_cells=slide.layout.active_cells(tuple([num])),
-                               #wait_for_key_press=True
+                               format_=slide.content.format_,
                                )  # Incremental so we wait.
             widgets.append(body_part)
 
@@ -91,7 +95,7 @@ def generate_widgets(slide, slide_num, total_slides)-> List[Widget]:
                            metadata=None,  # foregrounds don't need metadata
                            # activate all the cells as this is not incremental.
                            active_cells=slide.layout.active_cells(tuple([i for i in range(len(slide.content.body))])),
-                           #wait_for_key_press=True
+                           format_=slide.content.format_,
                            )  # This is the only part so we wait.
         widgets.append(body_part)
     return widgets

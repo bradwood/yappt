@@ -8,7 +8,7 @@ settings:
   pagenum: true  # `n / m` in bottom right
   titlebar: true # `presentation title` at top centre
   incremental: true # turn on incremental rendering of slide elements
-  margin: 1 # defines the screen margin size in character size - applies to all sides.
+  margin: 10 # defines the screen margin size in character size - applies to all sides.
 
 intro:
   settings: # same as presentation-level settings but allows a per-slide override.
@@ -52,8 +52,6 @@ Blah Blah blah:
     body:
      - >
         This is raw content. This is raw content.This is raw content.This is raw
-        content.This is raw content.This is raw content.This is raw content.This is
-        raw content.This is raw content.This is raw content.This is raw content.This
         is raw content.
      - >
         This is part one of the content (top left).

@@ -16,7 +16,7 @@ class Content(ValIsDictHasSubKeysMixIn, ValIsDictSubKeysFromMixIn):
         else:
             self.body = [content['body']]  # make it a list with 1 item
 
-        self.format = Format(content,
+        self.format_ = Format(content,
                              _key='format',
                              _exception=FormatError,
                              _elem=f"slide {kwargs['_elem']}, format section",
