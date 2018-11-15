@@ -11,6 +11,7 @@ from .slide import Slide
 from .widget import generate_widgets
 from .screen import Screen
 from .utils import count_widgets_in_stack
+from .color_swatch import print_color_swatch
 
 logformat = "[%(asctime)s] %(levelname)s:%(name)s:%(message)s"
 logging.basicConfig(level=logging.DEBUG, filename='yappt.log',
@@ -18,11 +19,25 @@ logging.basicConfig(level=logging.DEBUG, filename='yappt.log',
 
 LOGGER = logging.getLogger(__name__)
 
+def print_help_msg(command):
+    with click.Context(command) as ctx:
+        click.echo(command.get_help(ctx))
+
 @click.command()
-@click.argument('filename', type=click.File('r'))
-@click.option('--debug', 'debug', default=False, flag_value=True, help='Print debug output.')
-def main(filename, debug):
-    """Yet Another PowerPoint Tool."""
+@click.option('--colors', '-c', 'colors', default=False, flag_value=True, help='Print color palette and exit.')
+@click.option('--debug', '-d', 'debug', default=False, flag_value=True, help='Print debug output.')
+@click.option('--show', '-s', 'filename', type=click.File('r'))
+def main(filename, debug, colors):
+    """Yet Another PowerPoint Tool / YAPPT Ain't PowerPoint."""
+
+    if not filename and not colors:
+        print_help_msg(main)
+        quit(0)
+
+    if colors:
+        print_color_swatch()
+        quit(0)
+
     # --- load ----
     metadata, settings, slides = process_yaml(filename)
     widgets = deque()
