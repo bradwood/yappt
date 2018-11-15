@@ -1,6 +1,7 @@
 """Create Presentation objects from YAML input"""
 from typing import List, Tuple
 import logging
+from datetime import date
 
 from ruamel.yaml import YAML
 from ruamel.yaml.parser import ParserError
@@ -33,7 +34,8 @@ def process_yaml(filename) -> Tuple[MetaData, Settings, List[Slide]]:
                         _key='metadata',
                         _exception=MetaDataError,
                         _elem='YAML file',
-                        _keys_from=['title', 'author', 'date']
+                        _keys_from=['title', 'author', 'date'],
+                        _type_list=[str, str, date],
                         )
 
     LOGGER.debug("Loaded metadata")
@@ -42,7 +44,8 @@ def process_yaml(filename) -> Tuple[MetaData, Settings, List[Slide]]:
                         _key='settings',
                         _exception=SettingsError,
                         _elem='YAML file',
-                        _keys_from=['pagenum', 'titlebar', 'authorfooter', 'incremental'],
+                        _keys_from=['pagenum', 'titlebar', 'authorfooter', 'incremental', 'margin'],
+                        _type_list=[bool, bool, bool, bool, int],
                         )
 
     LOGGER.debug("Loaded settings")

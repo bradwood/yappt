@@ -43,6 +43,7 @@ class ValIsDictMixIn(KeyExistsMixIn):
             quit(excp.exit_code)
 
 
+
 class ValIsDictHasSubKeysMixIn(ValIsDictMixIn):
     def __init__(self, payload, *args, _key, _exception, _elem, _sub_keys, **kwargs):
         """Raise an error if payload[_key] does not have _sub_keys in it."""
@@ -73,5 +74,26 @@ class ValIsDictSubKeysFromMixIn(ValIsDictMixIn):
         for sk in payload[_key]:
             if sk not in _keys_from:
                 excp = _exception(f'\'{sk}\' is not a valid item in {_elem}.')
+                excp.show()
+                quit(excp.exit_code)
+
+class ValIsDictCheckSubKeyTypesMixIn(ValIsDictSubKeysFromMixIn):
+    def __init__(self, payload, *args, _key, _exception, _elem, _keys_from, _type_list, **kwargs):
+        """Raise an error if payload[_key] has sub keys which don't comply with types in _type_list ."""
+        # call superclass validation first
+        super().__init__(payload,
+                         *args,
+                         _key=_key,
+                         _exception=_exception,
+                         _keys_from=_keys_from,
+                         _elem=_elem,
+                         **kwargs)
+        if len(_keys_from) != len(_type_list):
+            raise ValueError(f'_keys_from length differs from _type_list length')
+
+        for subkey in payload[_key]:
+            req_type = _type_list[_keys_from.index(subkey)]
+            if not isinstance(payload[_key][subkey], req_type):
+                excp = _exception(f'\'{subkey}: {payload[_key][subkey]}\' is not of a valid type in {_elem}. Expected {req_type.__name__}.')
                 excp.show()
                 quit(excp.exit_code)

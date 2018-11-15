@@ -7,6 +7,7 @@ def main(stdscr):
     for i in range(0, curses.COLORS):
         curses.init_pair(i + 1, i, -1)
     stdscr.addstr(0, 0, '{0} colors available'.format(curses.COLORS))
+    stdscr.getch()
     maxy, maxx = stdscr.getmaxyx()
     maxx = maxx - maxx % 5
     x = 0
@@ -23,4 +24,4 @@ def main(stdscr):
 
 
 curses.wrapper(main)
-print(curses.COLORS)
+print(curses.can_change_color())

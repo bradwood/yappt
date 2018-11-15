@@ -4,11 +4,11 @@ metadata:
   author: 'Bradley Wood <brad@bradleywood.com>'
   date: 2018-11-05
 
-
 settings:
   pagenum: true  # `n / m` in bottom right
   titlebar: true # `presentation title` at top centre
   incremental: true # turn on incremental rendering of slide elements
+  margin: 1 # defines the screen margin size in character size - applies to all sides.
 
 intro:
   settings: # same as presentation-level settings but allows a per-slide override.
@@ -44,10 +44,10 @@ Blah Blah blah:
   content:  # format, while optional, must occure under the content body
     format:
       justify: centre
-      color: white
+      color: -1
       #style: bold, italic, underline, reversed
       wordwrap: true
-      margin: 1-1-1 # L, R, T, B
+      margin: 1-1-1-1 # L, R, T, B
       type: text  # code| figlet | text
     body:
      - >

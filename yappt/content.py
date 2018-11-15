@@ -20,5 +20,6 @@ class Content(ValIsDictHasSubKeysMixIn, ValIsDictSubKeysFromMixIn):
                              _key='format',
                              _exception=FormatError,
                              _elem=f"slide {kwargs['_elem']}, format section",
-                             _keys_from=['justify', 'color', 'wordwrap', 'margin', 'type']
+                             _keys_from=['justify', 'color', 'wordwrap', 'margin', 'type'],
+                             _type_list=[str, int, bool, str, str]
                              )

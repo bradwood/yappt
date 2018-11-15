@@ -35,6 +35,7 @@ class Screen:
     def __init__(self, *, margin: int):
         self.stdscr = curses.initscr()
         self.margin = margin
+        # this defines self.window amongst other things.
         self.calibrate()
 
     def __enter__(self):

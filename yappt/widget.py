@@ -22,7 +22,6 @@ class Widget():
         self.body = body
         self.settings = settings
         self.active_cells = active_cells
-        #self.wait_for_key_press = wait_for_key_press
         self.header = None
         self.footer = None
         self.foreground_widgets: list = [] # a stack of child widgets for this window
