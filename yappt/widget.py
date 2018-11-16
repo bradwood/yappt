@@ -67,7 +67,7 @@ class Widget():
         #f' active_cells={self.active_cells}, wait_for_key_press={self.wait_for_key_press})'
 
 
-def generate_widgets(slide, slide_num, total_slides)-> List[Widget]:
+def generate_widgets_from_slide(slide, slide_num, total_slides)-> List[Widget]:
     """Generate a list of renderable widgets for the passed slide."""
     widgets = []
     # create the background widget for this slide first

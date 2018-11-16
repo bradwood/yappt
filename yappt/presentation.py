@@ -2,6 +2,7 @@
 from typing import List, Tuple
 import logging
 from datetime import date
+from collections import deque
 
 from ruamel.yaml import YAML
 from ruamel.yaml.parser import ParserError
@@ -10,6 +11,8 @@ from ruamel.yaml.scanner import ScannerError
 from .exceptions import YAMLParseError, MetaDataError, SettingsError
 from .metasettings import MetaData, Settings
 from .slide import Slide
+from .widget import generate_widgets_from_slide
+from .utils import count_widgets_in_stack
 
 yaml = YAML()
 
@@ -22,8 +25,10 @@ LOGGER = logging.getLogger(__name__)
 def process_yaml(filename) -> Tuple[MetaData, Settings, List[Slide]]:
     """Generate settings, metadata and Slides from input."""
     try:
+        filename.seek(0) # incase we are reloading the file.
         pres_dict = yaml.load(filename.read())
         LOGGER.debug("Loaded YAML")
+        LOGGER.debug(pres_dict)
     except (ScannerError, ParserError) as exc:
         yp = YAMLParseError(f'Could not load presentation: {filename.name}.')
         yp.show()
@@ -59,3 +64,29 @@ def process_yaml(filename) -> Tuple[MetaData, Settings, List[Slide]]:
 
     LOGGER.debug("Created slide list")
     return metadata, settings, slides
+
+
+def generate_all_widgets(slides):
+    """Generate a deque of widgets from a list of slides"""
+    widgets = deque()
+    for slide_num, slide in enumerate(slides):
+        widgets.extend(generate_widgets_from_slide(slide, slide_num, len(slides)))
+    LOGGER.debug("Created widget list")
+    return widgets
+
+def draw_widget(cur_widget_idx, widgets, background_widgets, screen):
+     ### IF we have a background, draw it and the first foreground together.
+    widget = widgets[cur_widget_idx]
+
+    if widget.type_ == 'background':
+        # draw the background
+        screen.render(widget)
+        # every background *MUST* be followed by a foreground so this should work.
+        # append the foreground which follows onto this background.
+        background_widgets[-1].foreground_widgets.append(widgets[cur_widget_idx + 1])
+        # now we've done that, we increment current widget by one.
+        cur_widget_idx += 1
+        # assign the current widget on this basis.
+        widget = widgets[cur_widget_idx]
+    # else:  # it's a foreground widget so just draw it.
+    screen.render(widget)

@@ -1,32 +1,26 @@
 ---
 metadata:
-  title: This is the title of my presentation
-  author: 'Bradley Wood <brad@bradleywood.com>'
+  title: Python 101
+  author: 'Bradley Q Wood <brad@bradleywood.com>'
   date: 2018-11-05
 
 settings:
   pagenum: true  # `n / m` in bottom right
   titlebar: true # `presentation title` at top centre
   incremental: true # turn on incremental rendering of slide elements
-  v_margin: 0 # veretical margin (top and bottom).
-  h_margin: 0 # horizontal margin (left and right)
+  v_margin: 2 # veretical margin (top and bottom).
+  h_margin: 1 # horizontal margin (left and right)
 
 intro:
   settings: # same as presentation-level settings but allows a per-slide override.
-    incremental: true # turn on incremental rendering of slide elements
   content:
     format:
       justify: left
-      color: 197
+      color: 200
     body: |  # single block of content
       This is raw content. This is raw content.This is raw content.This is raw
       content.This is raw content.This is raw content.This is raw content.This is
-      raw content.This is raw content.This is raw content.This is raw content.This
-      is raw content.
-
-
-      This is raw content. This is raw content.This is raw content.This is raw
-      content.This is raw content.This is raw content.This is raw content.This is
+      raw cThis is raw content.This is raw content.This is raw content.This is
       raw content.This is raw content.This is raw content.This is raw content.This
       is raw content.
 
@@ -41,7 +35,6 @@ Blah Blah blah:
     pagenum: true  # `n / m` in bottom right
     titlebar: true # `presentation title` at top centre
     authorfooter: true # `author at bottom left
-    incremental: true # turn on incremental rendering of slide elements
   layout: 1-2-2-1  # 1 header, 2 blocks below that, 2 blocks below that, footer. Must sum to number of elements in content.
   content:  # format, while optional, must occure under the content body
     format:
@@ -53,21 +46,13 @@ Blah Blah blah:
       type: text  # code| figlet | text
     body:
      - >
-        This is part one of the content (top left)is part one of the content
-        (top left)is part one of the content (top left)is part one of the
-        content (top left)is part one of the content (top left)is part one of
-        the content (top left)is part one of the content (top left)is part one
-        of the content (top left)is part one of the content (top left).
-        is raw content.
+        This is bradThis is bradThis is bradThis is brad
      - >
         This is part one of the content (top left)is part one of the content
-        (top left)is part one of the content (top left)is part one of the
-        content (top left)is part one of the content (top left)is part one of
-        the content (top left)is part one of the content (top left)is part one
-        of the content (top left)is part one of the content (top left).
+        (xxx left)is part one of the content (top left)is part one of the
      - >
         This is part one of the content (top left)is part one of the content
-        (top left)is part one of the content (top left)is part one of the
+        (top left)is xxx one of the content (top left)is part one of the
         content (top left)is part one of the content (top left)is part one of
         the content (top left)is part one of the content (top left)is part one
         of the content (top left)is part one of the content (top left).
@@ -83,13 +68,6 @@ Blah Blah blah:
         This is part one of the content (top left)is part one of the content
         (top left)is part one of the content (top left)is part one of the
         content (top left)is part one of the content (top left)is part one of
-        the content (top left)is part one of the content (top left)is part one
-        of the content (top left)is part one of the content (top left).
-        This is part four of the content (bottom right).
-        This is part one of the content (top left)is part one of the content
-        (top left)is part one of the content (top left)is part one of the
-        content (top left)is part one of the content (top left)is part one of
-        the content (top left)is part one of the content (top left)is part one
         of the content (top left)is part one of the content (top left).
         This is part four of the content (bottom right).
      - >

@@ -6,9 +6,7 @@ import curses
 
 import click
 
-from .presentation import process_yaml
-from .slide import Slide
-from .widget import generate_widgets
+from .presentation import process_yaml, generate_all_widgets, draw_widget
 from .screen import Screen
 from .utils import count_widgets_in_stack
 from .color_swatch import print_color_swatch
@@ -26,7 +24,7 @@ def print_help_msg(command):
 @click.command()
 @click.option('--colors', '-c', 'colors', default=False, flag_value=True, help='Print color palette and exit.')
 @click.option('--debug', '-d', 'debug', default=False, flag_value=True, help='Print debug output.')
-@click.option('--show', '-s', 'filename', type=click.File('r'))
+@click.option('--show', '-s', 'filename', type=click.File('r'), help='Display a presentation.')
 def main(filename, debug, colors):
     """Yet Another PowerPoint Tool / YAPPT Ain't PowerPoint."""
 
@@ -40,12 +38,10 @@ def main(filename, debug, colors):
 
     # --- load ----
     metadata, settings, slides = process_yaml(filename)
-    widgets = deque()
-    # generate all widgets from the slide using the slide and front-matter as input.
-    # append the widgets in order to the widgets list
-    for slide_num, slide in enumerate(slides):
-        widgets.extend(generate_widgets(slide, slide_num, len(slides)))
-    LOGGER.debug("Created widget list")
+
+    # generate all widgets from the slides
+
+    widgets = generate_all_widgets(slides)
 
     # --- run presentation loop ---
     # Due to the need to redraw decrementally when moving back through the deck
@@ -56,88 +52,117 @@ def main(filename, debug, colors):
     # widgets (slide sections) that are rendered on top of that background slide.
     #
     # We push and pop as we go back and forth. and then reply on count_widgets_in_stack()
-    # to maintain our reference to the widgets deque which holds all the data.
+    # to maintain our reference to the current widget in the deque.
 
-    backgound_widgets = deque()
-    backgound_widgets.append(widgets[0])
-    #    see https://github.com/kneufeld/consolemd
-    #   or https: // github.com/cpascoe95/vmd
-    #   or https://github.com/axiros/terminal_markdown_viewer
+    background_widgets = deque()
+    background_widgets.append(widgets[0])
 
-    with Screen(v_margin=settings.v_margin, h_margin=settings.h_margin) as screen:  #TODO make margin into 4 settings
+    with Screen(v_margin=settings.v_margin, h_margin=settings.h_margin) as screen:
         while True:
-            current_widget = count_widgets_in_stack(backgound_widgets) - 1
-            widget = widgets[current_widget]
-
-            ### IF we have a background, draw it and the first foreground together.
-            if widget.type_ == 'background':
-                LOGGER.debug(f'BG render: W{current_widget}')
-                screen.render(widget)
-                # every background *MUST* be followed by a foreground so this should work.
-                backgound_widgets[-1].foreground_widgets.append(widgets[current_widget + 1])
-                continue
-            else: # it's a foreground widget so just draw it.
-                LOGGER.debug(f'FG render: W{current_widget}')
-                screen.render(widget)
-                screen.print()
+            # get the current index but counting the total on the stack
+            cur_widget_idx = count_widgets_in_stack(background_widgets) - 1
+            # draw the current widget to the buffer
+            draw_widget(cur_widget_idx, widgets, background_widgets, screen)
+            #update the screen
+            screen.print()
+            # reset the widget indes as the draw above might pushed to stack
+            cur_widget_idx = count_widgets_in_stack(background_widgets) - 1
 
             ### Now check for keys...
             key = screen.wait_for_keyboard_entry()
 
             if key in [ord(' '), curses.KEY_ENTER, 10, curses.KEY_DOWN, curses.KEY_RIGHT, ord('n'), ord('N')]:
+                ### NEXT SLIDE/WIDGET
+                LOGGER.debug("Forward pressed. Moving forward 1 slide/widget...")
                 # append the next widget onto the appropriate stack
                 # but only if we're not at the end of the deck.
-                if current_widget + 1 <= len(widgets) - 1:
-                    if widgets[current_widget + 1].type_ == 'background':
-                        backgound_widgets.append(widgets[current_widget + 1])
+                if cur_widget_idx + 1 <= len(widgets) - 1:
+                    if widgets[cur_widget_idx + 1].type_ == 'background':
+                        background_widgets.append(widgets[cur_widget_idx + 1])
                     else:
-                        backgound_widgets[-1].foreground_widgets.append(widgets[current_widget + 1])
+                        background_widgets[-1].foreground_widgets.append(widgets[cur_widget_idx + 1])
                 continue
 
             if key in [curses.KEY_UP, curses.KEY_LEFT, ord('p'), ord('P')]:
+                ### PREVIOUS SLIDE/WIDGET
+                LOGGER.debug("Back pressed. Moving back 1 slide/widget...")
                 # move backward... a little more complicated...
                 # handle the edge case first.
-                if current_widget < 2:
+                if cur_widget_idx < 2:
                     continue  # we're at the beginning of the deck
 
                 # if the length of the latest background widget's children stack
                 # is one, then the we need to go back to previous background
                 # widget and redraw from there
-                if len(backgound_widgets[-1].foreground_widgets) == 1:
+                if len(background_widgets[-1].foreground_widgets) == 1:
                     # empty this background's widget's list of rendered
                     # foregrounds first, as this is by reference.
-                    backgound_widgets[-1].foreground_widgets = deque()
+                    background_widgets[-1].foreground_widgets = deque()
                     # now get rid of the latest background
-                    backgound_widgets.pop()
+                    background_widgets.pop()
                     screen.clear()
-                    screen.render(backgound_widgets[-1])
-                    for w in backgound_widgets[-1].foreground_widgets:
+                    screen.render(background_widgets[-1])
+                    for w in background_widgets[-1].foreground_widgets:
                         screen.render(w)
                 else:  # we just need to redraw from the current background widget
                     # up to but _excluding_ the current foreground widget.
-                    backgound_widgets[-1].foreground_widgets.pop()
+                    background_widgets[-1].foreground_widgets.pop()
                     screen.clear()
-                    screen.render(backgound_widgets[-1])
-                    for w in backgound_widgets[-1].foreground_widgets:
+                    screen.render(background_widgets[-1])
+                    for w in background_widgets[-1].foreground_widgets:
                         screen.render(w)
                 screen.print()
                 continue
 
             if key == ord('q') or key == ord('Q'):
-                break
+                ### QUIT
+                LOGGER.debug("Q pressed. Quitting...")
+                quit(0)
+
+
+            if key == ord('r') or key == ord('R'):
+                ### RELOAD YAML FILE
+                LOGGER.debug("R pressed. Reloading file...")
+                # save off the previous silde num to we can count to it.
+                prev_slide_num = widgets[cur_widget_idx].slide_num
+                # reload the file.
+                metadata, settings, slides = process_yaml(filename)
+                # generate the widgets from the slides
+                widgets = generate_all_widgets(slides)
+                # reset the stack
+                background_widgets = deque()
+                # and load the first widget
+                background_widgets.append(widgets[0])
+
+                # reset the current widget to the newly loaded widget list
+                cur_widget_idx = count_widgets_in_stack(background_widgets) - 1
+                # now, we keep drawing to the screen until
+                # we get to the previous slide we were on.
+                while widgets[cur_widget_idx].slide_num < prev_slide_num:
+                    # rescount the current widget index at the top of the loop
+                    cur_widget_idx = count_widgets_in_stack(background_widgets) - 1
+                    # draw the widget, noting that this might draw more than 1 widget.
+                    draw_widget(cur_widget_idx, widgets, background_widgets, screen)
+                    # get the correct widget index after the draw
+                    cur_widget_idx = count_widgets_in_stack(background_widgets) - 1
+                    if cur_widget_idx + 1 <= len(widgets) - 1:
+                        if widgets[cur_widget_idx + 1].type_ == 'background':
+                            background_widgets.append(widgets[cur_widget_idx + 1])
+                        # else:
+                        #     background_widgets[-1].foreground_widgets.append(widgets[cur_widget_idx + 1])
+                 # then we write the screen
+                screen.print()
+                continue
 
             if key == curses.KEY_RESIZE:
+                # REDRAW
                 # window got resized, so re-draw
+                LOGGER.debug("Terminal size changed. Refreshing screen...")
                 screen.calibrate()
-                screen.render(backgound_widgets[-1])
-                for w in backgound_widgets[-1].foreground_widgets:
+                screen.render(background_widgets[-1])
+                for w in background_widgets[-1].foreground_widgets:
                     screen.render(w)
                 screen.print()
-            # if key == 'r'
-            #     reload file
-            #     continue
-            # if key is a positive integer:
-            #     current_widget = first widget of slide which is equal to key
 
     # --- debug ----
 
