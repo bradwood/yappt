@@ -53,10 +53,6 @@ class Widget():
             assert isinstance(self.body, list)
             assert self.format_ is not None
 
-    def typeset(self, height:int, width:int) -> str:
-        """Generate an n-curses-friendly string to render."""
-        pass
-
     def gen_color_pair(self):
         """Generates a curses-compatible color-pair to be passed into addstr()."""
 

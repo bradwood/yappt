@@ -2,7 +2,7 @@
 
 import curses
 from .widget import Widget
-from .utils import render_header_footer
+from .renderers import render_header_footer, render_content
 import logging
 logformat = "[%(asctime)s] %(levelname)s:%(name)s:%(message)s"
 logging.basicConfig(level=logging.DEBUG, filename='yappt.log',
@@ -86,15 +86,24 @@ class Screen:
                 sub_windows = create_windows_from_cells(widget, self.window, self.v_margin, self.h_margin)
                 assert len(sub_windows) == len(widget.body)
                 for sub_win, content  in zip(sub_windows, widget.body):
-                    # sub_win.box()
+                    sub_win_height, sub_win_width = sub_win.getmaxyx()
                     if content:
-                        sub_win.addstr(0,  # y
-                                       0,  # x
-                                       content,  # str
-                                       widget.gen_color_pair(),#att
-                                       )
+                        #LOGGER.debug(f'CONTENT = {content}')
 
-                    sub_win.noutrefresh()
+                        # LOGGER.debug(f'content_gen = {content_gen}')
+                        for line_num, line in zip(range(sub_win_height), render_content(content,
+                                                                                        format_=widget.format_,
+                                                                                        height=sub_win_height,
+                                                                                        width=sub_win_width,
+                                                                                        )
+                                                                                        ):
+                            LOGGER.debug(f'{line_num} {line}')
+                            sub_win.addstr(line_num, # y
+                                           0, # x
+                                           line,
+                                           widget.gen_color_pair(),  # att
+                                           )
+                            sub_win.noutrefresh()
 
                 assert widget.format_
                 LOGGER.debug(f'color = {widget.format_.color}')
@@ -118,7 +127,7 @@ class Screen:
     def calibrate(self):
         self.scr_height, self.scr_width = self.stdscr.getmaxyx()
         self.window = curses.newwin(self.scr_height - 2 * self.v_margin,  # height
-                                    self.scr_width - 2*self.h_margin,  # width
-                                    self.v_margin,  # begin_y
+                                    self.scr_width - 2 * self.h_margin,  # width
+                                    1 + self.v_margin ,  # begin_y
                                     self.h_margin)  # begin_x
         self.win_height, self.win_width = self.window.getmaxyx()
