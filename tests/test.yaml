@@ -1,6 +1,6 @@
 ---
 metadata:
-  title: Python 101
+  title: Title of pres
   author: 'Bradley Q Wood <brad@bradleywood.com>'
   date: 2018-11-05
 
@@ -9,7 +9,7 @@ settings:
   titlebar: true # `presentation title` at top centre
   incremental: true # turn on incremental rendering of slide elements
   v_margin: 2 # veretical margin (top and bottom).
-  h_margin: 1 # horizontal margin (left and right)
+  h_margin: 15 # horizontal margin (left and right)
 
 intro:
   settings: # same as presentation-level settings but allows a per-slide override.
@@ -35,7 +35,7 @@ Blah Blah blah:
     pagenum: true  # `n / m` in bottom right
     titlebar: true # `presentation title` at top centre
     authorfooter: true # `author at bottom left
-  layout: 1-2-2-1  # 1 header, 2 blocks below that, 2 blocks below that, footer. Must sum to number of elements in content.
+  layout: 1-1-1-1-1-1  # 1 header, 2 blocks below that, 2 blocks below that, footer. Must sum to number of elements in content.
   content:  # format, while optional, must occure under the content body
     format:
       justify: centre
@@ -53,9 +53,6 @@ Blah Blah blah:
      - >
         This is part one of the content (top left)is part one of the content
         (top left)is xxx one of the content (top left)is part one of the
-        content (top left)is part one of the content (top left)is part one of
-        the content (top left)is part one of the content (top left)is part one
-        of the content (top left)is part one of the content (top left).
         This is part two of the content (top right).
      - >
         This is part one of the content (top left)is part one of the content

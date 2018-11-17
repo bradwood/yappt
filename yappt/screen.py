@@ -11,8 +11,9 @@ logging.basicConfig(level=logging.DEBUG, filename='yappt.log',
 LOGGER = logging.getLogger(__name__)
 
 
-def create_windows_from_cells(active_cells, parent_win, v_margin, h_margin):
+def create_windows_from_cells(widget, parent_win, v_margin, h_margin):
     """Return a list of sub-windows with the appropriate dimensions and locations."""
+    active_cells = widget.active_cells
     sub_windows = []
     num_rows = len(active_cells)
     parent_height, parent_width = parent_win.getmaxyx()
@@ -81,7 +82,7 @@ class Screen:
 
                 # This is written to the inner, margined window
                 # generate a list of sub-windows to write each piece of content into.
-                sub_windows = create_windows_from_cells(widget.active_cells, self.window, self.v_margin, self.h_margin)
+                sub_windows = create_windows_from_cells(widget, self.window, self.v_margin, self.h_margin)
                 assert len(sub_windows) == len(widget.body)
                 for sub_win, content  in zip(sub_windows, widget.body):
                     # sub_win.box()

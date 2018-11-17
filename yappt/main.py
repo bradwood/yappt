@@ -127,6 +127,10 @@ def main(filename, debug, colors):
                 prev_slide_num = widgets[cur_widget_idx].slide_num
                 # reload the file.
                 metadata, settings, slides = process_yaml(filename)
+                # re-initialise the screen
+                screen.h_margin = settings.h_margin
+                screen.v_margin = settings.v_margin
+                screen.calibrate()
                 # generate the widgets from the slides
                 widgets = generate_all_widgets(slides)
                 # reset the stack
@@ -148,8 +152,6 @@ def main(filename, debug, colors):
                     if cur_widget_idx + 1 <= len(widgets) - 1:
                         if widgets[cur_widget_idx + 1].type_ == 'background':
                             background_widgets.append(widgets[cur_widget_idx + 1])
-                        # else:
-                        #     background_widgets[-1].foreground_widgets.append(widgets[cur_widget_idx + 1])
                  # then we write the screen
                 screen.print()
                 continue
