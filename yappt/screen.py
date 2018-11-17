@@ -22,10 +22,11 @@ def create_windows_from_cells(widget, parent_win, v_margin, h_margin):
         for cell_counter, cell in enumerate(row):
             cell_width = parent_width // len(row)
             if cell:
-                cell_win = curses.newwin(row_height,  # height
-                                         cell_width,  # width
-                                         v_margin + (row_height) * row_counter,  # begin_y
-                                         h_margin + (cell_width) * cell_counter)  # begin_x
+                cell_win = curses.newwin(row_height - widget.format_.t_margin - widget.format_.b_margin,  # height
+                                         cell_width - widget.format_.l_margin - widget.format_.r_margin,  # width
+                                         v_margin + row_height * row_counter + widget.format_.t_margin,  # begin_y
+                                         h_margin + cell_width * cell_counter + widget.format_.l_margin,  # begin_x
+                                         )
                 sub_windows.append(cell_win)
     return sub_windows
 

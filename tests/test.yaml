@@ -8,8 +8,8 @@ settings:
   pagenum: true  # `n / m` in bottom right
   titlebar: true # `presentation title` at top centre
   incremental: true # turn on incremental rendering of slide elements
-  v_margin: 2 # veretical margin (top and bottom).
-  h_margin: 15 # horizontal margin (left and right)
+  v_margin: 1 # veretical margin (top and bottom).
+  h_margin: 1 # horizontal margin (left and right)
 
 intro:
   settings: # same as presentation-level settings but allows a per-slide override.
@@ -17,7 +17,8 @@ intro:
     format:
       justify: left
       color: 200
-    body: |  # single block of content
+      margin: 10-10-6-10
+    body: >  # single block of content
       This is raw content. This is raw content.This is raw content.This is raw
       content.This is raw content.This is raw content.This is raw content.This is
       raw cThis is raw content.This is raw content.This is raw content.This is
@@ -35,7 +36,7 @@ Blah Blah blah:
     pagenum: true  # `n / m` in bottom right
     titlebar: true # `presentation title` at top centre
     authorfooter: true # `author at bottom left
-  layout: 1-1-1-1-1-1  # 1 header, 2 blocks below that, 2 blocks below that, footer. Must sum to number of elements in content.
+  layout: 1-2-2-1  # 1 header, 2 blocks below that, 2 blocks below that, footer. Must sum to number of elements in content.
   content:  # format, while optional, must occure under the content body
     format:
       justify: centre

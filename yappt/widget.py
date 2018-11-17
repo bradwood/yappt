@@ -51,6 +51,7 @@ class Widget():
             self.footer = tuple(footer)
         elif type_ == 'foreground':
             assert isinstance(self.body, list)
+            assert self.format_ is not None
 
     def typeset(self, height:int, width:int) -> str:
         """Generate an n-curses-friendly string to render."""

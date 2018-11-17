@@ -36,8 +36,9 @@ class Format(ValIsDictCheckSubKeyTypesMixIn):
         try:
             margin_pack = format_.get('margin')
             if not margin_pack:
-                margin_pack = '1-1-1-1'
-            self.l_margin, self.r_margin, self.t_margin, self.b_margin = margin_pack.split('-')
+                margin_pack = '0-0-0-0'
+
+            self.l_margin, self.r_margin, self.t_margin, self.b_margin = [int(i) for i in margin_pack.split('-')]
 
         except (ValueError, AttributeError):
             fe = FormatError(f'{kwargs["_elem"]}. Could not parse margin parameter, expected \'x-y-z-w\'-style string.')
