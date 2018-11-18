@@ -15,16 +15,26 @@ intro:
   settings: # same as presentation-level settings but allows a per-slide override.
   content:
     format:
-      justify: left
+      justify: right
       color: 200
       margin: 10-10-6-6
-      wordwrap: true
+      wordwrap: false
     body: |  # single block of content
-      BRAD ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat mi.
-      Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam elementum
-      tempor mi, vitae ultrices lorem aliquam et. Cras rutrum arcu eu tellus ornare
-      semper. Phasellus at nibh imperdiet, auctor est nec, tincidunt arcu. Fusce eget
-      urna nec nunc commodo consectetur nec nec nisi. Aenean fermentum ante magna, ac
+      BRAD ipsum dolor sit amet,
+      consectetur adipiscing elit.
+      Mauris nec erat mi.
+      Proin rhoncus nisl turpis,
+      quis volutpat arcu facilisis
+      a. Etiam elementum
+      tempor mi, vitae ultrices lorem
+      aliquam et. Cras rutrum arcu eu
+      tellus ornare
+      semper. Phasellus at nibh imperdiet,
+      auctor est nec, tincidunt arcu.
+      Fusce eget
+      urna nec nunc commodo consectetur
+      nec nec nisi. Aenean fermentum
+      ante magna, ac
       dictum odio dictum vel.
 
       DAVE ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat mi.
@@ -39,14 +49,14 @@ Blah Blah blah:
     pagenum: true  # `n / m` in bottom right
     titlebar: true # `presentation title` at top centre
     authorfooter: true # `author at bottom left
-  layout: 1-2-2-1  # 1 header, 2 blocks below that, 2 blocks below that, footer. Must sum to number of elements in content.
+  layout: 1-1-1-1-1-1  # 1 header, 2 blocks below that, 2 blocks below that, footer. Must sum to number of elements in content.
   content:  # format, while optional, must occure under the content body
     format:
-      justify: centre
+      justify: right
       color: 124
       #style: bold, italic, underline, reversed
       wordwrap: true
-      margin: 1-1-1-0 # L, R, T, B
+      margin: 1-1-0-1 # L, R, T, B
       type: text  # code| figlet | text
     body:
      - >

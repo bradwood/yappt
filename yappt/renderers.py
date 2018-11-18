@@ -4,6 +4,13 @@ import re
 import logging
 LOGGER = logging.getLogger(__name__)
 
+# define a  string sub-class to map our justification methods.
+class MyString(str):
+    def __init__(self, *args,**kwargs):
+        self.left = str.ljust
+        self.right = str.rjust
+        self.centre = str.center
+
 
 class DocWrapper(textwrap.TextWrapper):
     """Wrap text in a document, processing each paragraph individually."""
@@ -70,8 +77,12 @@ def render_content(content, *, format_, height, width):
             # content = wrapper.fill(content.replace('\n',' '))
             content = wrapper.wrap(content)
             LOGGER.debug(f'WRAPPEDCONTENT={content}')
+        else:
+            content = content.split('\n')
 
 
     for line in content:
         assert isinstance(line, str)
-        yield line
+        my_line = MyString(line)
+        yield my_line.__dict__[format_.justify](my_line, width - 1)
+

@@ -11,7 +11,7 @@ class Format(ValIsDictCheckSubKeyTypesMixIn):
 
         # set an entry here for any option which is list-constrained.
         valid_opts = {
-            'justify': ['left', 'centre', 'right'],
+            'justify': ['left', 'centre', 'center', 'right'],
             'type': ['text', 'code', 'figlet'],
         }
         # defaults
