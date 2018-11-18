@@ -3,23 +3,31 @@
 from .validator_mixins import ValIsDictCheckSubKeyTypesMixIn
 from .exceptions import FormatError
 
+DEFAULT_FORMAT = {
+    'justify': 'left',
+    'color': 0,
+    'wordwrap': False,
+    'margin': '1-1-1-1',
+    'type': 'text',
+}
 
 class Format(ValIsDictCheckSubKeyTypesMixIn):
     def __init__(self, payload, *args, **kwargs):
         super().__init__(payload, *args, **kwargs)  # run mixin validations
         format_ = payload['format']
 
-        # set an entry here for any option which is list-constrained.
+        #  list-constrained items
         valid_opts = {
             'justify': ['left', 'centre', 'center', 'right'],
             'type': ['text', 'code', 'figlet'],
         }
-        # defaults
-        self.justify: str = 'left'
-        self.color: str = 0
-        self.wordwrap: bool = False
-        self.margin: str = '1-1-1-1'
-        self.type: str = 'text'
+        # set defaults
+        self.__dict__.update(DEFAULT_FORMAT)
+        # self.justify: str = 'left'
+        # self.color: int = 0
+        # self.wordwrap: bool = False
+        # self.margin: str = '1-1-1-1'
+        # self.type: str = 'text'
 
         # check format values are valid for list-constrained options.
         for key, val in format_.items():

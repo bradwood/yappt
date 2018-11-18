@@ -1,65 +1,61 @@
 ---
 metadata:
-  title: Title of pres
-  author: 'Bradley Q Wood <brad@bradleywood.com>'
+  title: '🍺 BEER 🍺'
+  author: '️️️️😎 Bradley Q Wood <brad@bradleywood.com> 😎'
   date: 2018-11-05
 
-settings:
-  pagenum: true  # `n / m` in bottom right
-  titlebar: true # `presentation title` at top centre
-  incremental: true # turn on incremental rendering of slide elements
-  v_margin: 1 # veretical margin (top and bottom).
-  h_margin: 1 # horizontal margin (left and right)
+settings: {pagenum: true, titlebar: true, incremental: true, v_margin: 1, h_margin: 0}
 
-intro:
-  settings: # same as presentation-level settings but allows a per-slide override.
+slide1:
+  settings: {pagenum: true, titlebar: true, incremental: true, v_margin: 1, h_margin: 0}
   content:
-    format:
-      justify: right
-      color: 200
-      margin: 10-10-6-6
-      wordwrap: false
+    format: {justify: right, color: 209, margin: 10-10-6-6, wordwrap: false }
     body: |  # single block of content
-      BRAD ipsum dolor sit amet,
-      consectetur adipiscing elit.
-      Mauris nec erat mi.
-      Proin rhoncus nisl turpis,
-      quis volutpat arcu facilisis
-      a. Etiam elementum
-      tempor mi, vitae ultrices lorem
-      aliquam et. Cras rutrum arcu eu
-      tellus ornare
-      semper. Phasellus at nibh imperdiet,
-      auctor est nec, tincidunt arcu.
-      Fusce eget
-      urna nec nunc commodo consectetur
-      nec nec nisi. Aenean fermentum
-      ante magna, ac
-      dictum odio dictum vel.
+      BRAD ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat
+      mi. Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam
+      elementum tempor mi, vitae 😎 ultrices lorem aliquam et. Cras rutrum arcu eu
+      tellus ornare semper. Phasellus at nibh imperdiet, auctor est nec,
+      tincidunt arcu. Fusce eget urna nec nunc commodo consectetur nec nec nisi.
+      Aenean fermentum ante magna, ac dictum odio dictum vel.
 
-      DAVE ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat mi.
-      Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam elementum
-      tempor mi, vitae ultrices lorem aliquam et. Cras rutrum arcu eu tellus ornare
-      semper. Phasellus at nibh imperdiet, auctor est nec, tincidunt arcu. Fusce eget
-      urna nec nunc commodo consectetur nec nec nisi. Aenean fermentum ante magna, ac
-      dictum odio dictum vel.
-
-Blah Blah blah:
-  settings: # same as presentation-level settings but allows a per-slide override.
-    pagenum: true  # `n / m` in bottom right
-    titlebar: true # `presentation title` at top centre
-    authorfooter: true # `author at bottom left
-  layout: 1-1-1-1-1-1  # 1 header, 2 blocks below that, 2 blocks below that, footer. Must sum to number of elements in content.
-  content:  # format, while optional, must occure under the content body
-    format:
-      justify: right
-      color: 124
-      #style: bold, italic, underline, reversed
-      wordwrap: true
-      margin: 1-1-0-1 # L, R, T, B
-      type: text  # code| figlet | text
+slide2:
+  content:
+    format: {justify: right, color: 200, margin: 10-10-6-6, wordwrap: false }
     body:
-     - >
+      format: {justify: right, color: 200, margin: 10-10-6-6, wordwrap: false }
+      cell: |  # single block of content
+        BRAD ipsum dolor sit amet,
+        consectetur adipiscing elit.
+        Mauris nec erat mi.
+        Proin rhoncus nisl turpis,
+        quis volutpat arcu facilisis
+        a. Etiam elementum
+        tempor mi, vitae ultrices lorem
+        aliquam et. Cras rutrum arcu eu
+        tellus ornare
+        semper. Phasellus at nibh imperdiet,
+        auctor est nec, tincidunt arcu.
+        Fusce eget
+        urna nec nunc commodo consectetur
+        nec nec nisi. Aenean fermentum
+        ante magna, ac
+        dictum odio dictum vel.
+
+        DAVE ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat mi.
+        Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam elementum
+        tempor mi, vitae ultrices lorem aliquam et. Cras rutrum arcu eu tellus ornare
+        semper. Phasellus at nibh imperdiet, auctor est nec, tincidunt arcu. Fusce eget
+        urna nec nunc commodo consectetur nec nec nisi. Aenean fermentum ante magna, ac
+        dictum odio dictum vel.
+
+slide3:
+  settings: {pagenum: true, titlebar: true, incremental: true}
+  layout: 1-2-3
+  content:  # format, while optional, must occure under the content body
+    format: {justify: center, color: 124, margin: 1-1-0-1, wordwrap: true, type: text }
+    body:
+     - format:  {justify: left, color: 100, margin: 4-4-0-1, wordwrap: true }
+       cell: >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat mi.
         Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam elementum
         tempor mi, vitae ultrices lorem aliquam et. Cras rutrum arcu eu tellus ornare
@@ -85,7 +81,8 @@ Blah Blah blah:
         semper. Phasellus at nibh imperdiet, auctor est nec, tincidunt arcu. Fusce eget
         urna nec nunc commodo consectetur nec nec nisi. Aenean fermentum ante magna, ac
         dictum odio dictum END.
-     - >
+     - format:  {justify: left, color: 101, wordwrap: true }
+       cell: >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat mi.
         Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam elementum
         tempor mi, vitae ultrices lorem aliquam et. Cras rutrum arcu eu tellus ornare
@@ -97,7 +94,8 @@ Blah Blah blah:
         semper. Phasellus at nibh imperdiet, auctor est nec, tincidunt arcu. Fusce eget
         urna nec nunc commodo consectetur nec nec nisi. Aenean fermentum ante magna, ac
         dictum odio dictum END.
-     - >
+     - format:  {justify: right, color: 200, wordwrap: true }
+       cell: >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat mi.
         Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam elementum
         tempor mi, vitae ultrices lorem aliquam et. Cras rutrum arcu eu tellus ornare
@@ -109,7 +107,8 @@ Blah Blah blah:
         semper. Phasellus at nibh imperdiet, auctor est nec, tincidunt arcu. Fusce eget
         urna nec nunc commodo consectetur nec nec nisi. Aenean fermentum ante magna, ac
         dictum odio dictum END.
-     - >
+     - format:  {justify: left, color: 200, wordwrap: true }
+       cell: >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat mi.
         Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam elementum
         tempor mi, vitae ultrices lorem aliquam et. Cras rutrum arcu eu tellus ornare
@@ -121,7 +120,8 @@ Blah Blah blah:
         semper. Phasellus at nibh imperdiet, auctor est nec, tincidunt arcu. Fusce eget
         urna nec nunc commodo consectetur nec nec nisi. Aenean fermentum ante magna, ac
         dictum odio dictum END.
-     - >
+     - format:  {justify: centre, color: 200, wordwrap: true }
+       cell: >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat mi.
         Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam elementum
         tempor mi, vitae ultrices lorem aliquam et. Cras rutrum arcu eu tellus ornare
@@ -133,7 +133,8 @@ Blah Blah blah:
         semper. Phasellus at nibh imperdiet, auctor est nec, tincidunt arcu. Fusce eget
         urna nec nunc commodo consectetur nec nec nisi. Aenean fermentum ante magna, ac
         dictum odio dictum END.
-     - >
+     - format:  {justify: right, color: 234, wordwrap: true }
+       cell: >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat mi.
         Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam elementum
         tempor mi, vitae ultrices lorem aliquam et. Cras rutrum arcu eu tellus ornare

@@ -109,12 +109,12 @@ class Screen:
                             sub_win.addstr(line_num, # y
                                            0, # x
                                            line,
-                                           widget.gen_color_pair(),  # att
+                                           widget.gen_color_pair(), #TODO create body class...
                                            )
                             sub_win.noutrefresh()
 
                 assert widget.format_
-                LOGGER.debug(f'color = {widget.format_.color}')
+                LOGGER.debug(f'color = {widget.format_.color}') # type: ignore
 
             self.stdscr.noutrefresh()  # mark for refresh.
         except curses.error:

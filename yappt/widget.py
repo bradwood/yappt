@@ -55,7 +55,6 @@ class Widget():
 
     def gen_color_pair(self):
         """Generates a curses-compatible color-pair to be passed into addstr()."""
-
         return curses.color_pair(self.format_.color)
 
     def __repr__(self):
