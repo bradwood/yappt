@@ -16,17 +16,24 @@ def create_windows_from_cells(widget, parent_win, v_margin, h_margin):
     active_cells = widget.active_cells
     sub_windows = []
     num_rows = len(active_cells)
+    #v_ and h_ margin already applied at this point, so it's not the whole sreen
     parent_height, parent_width = parent_win.getmaxyx()
     row_height = parent_height // num_rows
     for row_counter, row in enumerate(active_cells):
         for cell_counter, cell in enumerate(row):
             cell_width = parent_width // len(row)
             if cell:
-                cell_win = curses.newwin(row_height - widget.format_.t_margin - widget.format_.b_margin,  # height
-                                         cell_width - widget.format_.l_margin - widget.format_.r_margin,  # width
-                                         v_margin + row_height * row_counter + widget.format_.t_margin,  # begin_y
-                                         h_margin + cell_width * cell_counter + widget.format_.l_margin,  # begin_x
-                                         )
+                h = row_height - widget.format_.t_margin - widget.format_.b_margin
+                w = cell_width - widget.format_.l_margin - widget.format_.r_margin
+                y = v_margin + row_height * row_counter + widget.format_.t_margin
+                x = h_margin + cell_width * cell_counter + widget.format_.l_margin
+                LOGGER.debug(f'subwin: h={h}, w={w}, y={y}, x={x}')
+                # if it's the last row then use up all remaining space on the screen.
+                # this uses up any fractional remainers that might have added to extra
+                # lines in previous rows.
+                if row_counter == len(active_cells) - 1:
+                    h = (parent_height - row_height * (len(active_cells)-1)) - widget.format_.t_margin - widget.format_.b_margin
+                cell_win = curses.newwin(h, w, y, x)
                 sub_windows.append(cell_win)
     return sub_windows
 
@@ -47,6 +54,7 @@ class Screen:
         curses.cbreak()
         self.stdscr.keypad(True)
         self.stdscr.clear()
+        curses.curs_set(0)
         try:
             curses.start_color()
             curses.use_default_colors()

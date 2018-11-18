@@ -32,8 +32,6 @@ class DocWrapper(textwrap.TextWrapper):
         return wrapped_lines
 
 
-
-
 def render_header_footer(win, row_num: int, headfoot: tuple):
     """Prints a left, centre and right aligned item to an ncurses window at the row passed."""
     _, winwidth = win.getmaxyx()
@@ -68,7 +66,7 @@ def render_content(content, *, format_, height, width):
     if format_.type == 'text':
         if format_.wordwrap:
             LOGGER.debug('WORDWRAP=true')
-            wrapper = DocWrapper(width=width)
+            wrapper = DocWrapper(width=width - 1)
             # content = wrapper.fill(content.replace('\n',' '))
             content = wrapper.wrap(content)
             LOGGER.debug(f'WRAPPEDCONTENT={content}')

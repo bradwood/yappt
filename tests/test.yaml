@@ -8,8 +8,8 @@ settings:
   pagenum: true  # `n / m` in bottom right
   titlebar: true # `presentation title` at top centre
   incremental: true # turn on incremental rendering of slide elements
-  v_margin: 4 # veretical margin (top and bottom).
-  h_margin: 0 # horizontal margin (left and right)
+  v_margin: 1 # veretical margin (top and bottom).
+  h_margin: 1 # horizontal margin (left and right)
 
 intro:
   settings: # same as presentation-level settings but allows a per-slide override.
@@ -17,7 +17,7 @@ intro:
     format:
       justify: left
       color: 200
-      margin: 10-10-6-10
+      margin: 10-10-6-6
       wordwrap: true
     body: |  # single block of content
       BRAD ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat mi.
@@ -46,7 +46,7 @@ Blah Blah blah:
       color: 124
       #style: bold, italic, underline, reversed
       wordwrap: true
-      margin: 0-0-0-0 # L, R, T, B
+      margin: 1-1-1-0 # L, R, T, B
       type: text  # code| figlet | text
     body:
      - >
@@ -74,7 +74,7 @@ Blah Blah blah:
         tempor mi, vitae ultrices lorem aliquam et. Cras rutrum arcu eu tellus ornare
         semper. Phasellus at nibh imperdiet, auctor est nec, tincidunt arcu. Fusce eget
         urna nec nunc commodo consectetur nec nec nisi. Aenean fermentum ante magna, ac
-        dictum odio dictum vel.
+        dictum odio dictum END.
      - >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat mi.
         Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam elementum
@@ -86,7 +86,7 @@ Blah Blah blah:
         tempor mi, vitae ultrices lorem aliquam et. Cras rutrum arcu eu tellus ornare
         semper. Phasellus at nibh imperdiet, auctor est nec, tincidunt arcu. Fusce eget
         urna nec nunc commodo consectetur nec nec nisi. Aenean fermentum ante magna, ac
-        dictum odio dictum vel.
+        dictum odio dictum END.
      - >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat mi.
         Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam elementum
@@ -98,7 +98,7 @@ Blah Blah blah:
         tempor mi, vitae ultrices lorem aliquam et. Cras rutrum arcu eu tellus ornare
         semper. Phasellus at nibh imperdiet, auctor est nec, tincidunt arcu. Fusce eget
         urna nec nunc commodo consectetur nec nec nisi. Aenean fermentum ante magna, ac
-        dictum odio dictum vel.
+        dictum odio dictum END.
      - >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat mi.
         Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam elementum
@@ -110,7 +110,7 @@ Blah Blah blah:
         tempor mi, vitae ultrices lorem aliquam et. Cras rutrum arcu eu tellus ornare
         semper. Phasellus at nibh imperdiet, auctor est nec, tincidunt arcu. Fusce eget
         urna nec nunc commodo consectetur nec nec nisi. Aenean fermentum ante magna, ac
-        dictum odio dictum vel.
+        dictum odio dictum END.
      - >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat mi.
         Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam elementum
@@ -122,7 +122,7 @@ Blah Blah blah:
         tempor mi, vitae ultrices lorem aliquam et. Cras rutrum arcu eu tellus ornare
         semper. Phasellus at nibh imperdiet, auctor est nec, tincidunt arcu. Fusce eget
         urna nec nunc commodo consectetur nec nec nisi. Aenean fermentum ante magna, ac
-        dictum odio dictum vel.
+        dictum odio dictum END.
      - >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat mi.
         Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam elementum
@@ -149,7 +149,7 @@ Blah Blah blah:
         tempor mi, vitae ultrices lorem aliquam et. Cras rutrum arcu eu tellus ornare
         semper. Phasellus at nibh imperdiet, auctor est nec, tincidunt arcu. Fusce eget
         urna nec nunc commodo consectetur nec nec nisi. Aenean fermentum ante magna, ac
-        dictum odio dictum vel.
+        dictum odio dictum END.
 
 
 # slide 3:
