@@ -141,9 +141,9 @@ def main(filename, debug, colors):
                 # reset the current widget to the newly loaded widget list
                 cur_widget_idx = count_widgets_in_stack(background_widgets) - 1
                 # now, we keep drawing to the screen until
-                # we get to the previous slide we were on.
+                # we get to the slide we were on before the reload.
                 while widgets[cur_widget_idx].slide_num < prev_slide_num:
-                    # rescount the current widget index at the top of the loop
+                    # recount the current widget index at the top of the loop
                     cur_widget_idx = count_widgets_in_stack(background_widgets) - 1
                     # draw the widget, noting that this might draw more than 1 widget.
                     draw_widget(cur_widget_idx, widgets, background_widgets, screen)

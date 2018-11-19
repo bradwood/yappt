@@ -75,44 +75,44 @@ def render_content(content, *, format_, height, width):
     # - apply justification
 
     LOGGER.debug(f'render_content: content={content}')
-    # get a format object if one exists at the cell level.
-    if not isinstance(content, str) and content.get('format'):
-        # instantiate a Format object to do the type checking.
-        _ = Format(content,
-                   _key='format',
-                   _elem='body',
-                   _exception=FormatError,
-                   _keys_from=['justify', 'color', 'wordwrap', 'margin', 'type'],
-                   _type_list=[str, int, bool, str, str]
-                   )
+    # # get a format object if one exists at the cell level.
+    # if not isinstance(content, str) and content.get('format'):
+    #     # instantiate a Format object to do the type checking.
+    #     _ = Format(content,
+    #                _key='format',
+    #                _elem='body',
+    #                _exception=FormatError,
+    #                _keys_from=['justify', 'color', 'wordwrap', 'margin', 'type'],
+    #                _type_list=[str, int, bool, str, str]
+    #                )
 
-        # now create a new format input that applies the cell's format on top of slide format.
+    #     # now create a new format input that applies the cell's format on top of slide format.
 
-        # get all the stuff in the slide format that is not a derived field
-        bare_format_dict = {k: v for k, v in vars(format_).items() if k not in ('l_margin', 'r_margin', 't_margin', 'b_margin')}
-        # get all the stuff in the slide format that is not a default.
-        non_default_slide_format = {k: v for k, v in bare_format_dict.items() if v != DEFAULT_FORMAT[k]}
-        LOGGER.debug(f'non_default_slide_format={non_default_slide_format}')
+    #     # get all the stuff in the slide format that is not a derived field
+    #     bare_format_dict = {k: v for k, v in vars(format_).items() if k not in ('l_margin', 'r_margin', 't_margin', 'b_margin')}
+    #     # get all the stuff in the slide format that is not a default.
+    #     non_default_slide_format = {k: v for k, v in bare_format_dict.items() if v != DEFAULT_FORMAT[k]}
+    #     LOGGER.debug(f'non_default_slide_format={non_default_slide_format}')
 
-        # get all the stuff in the cell format that overrides the slide format.
-        overriding_cell_format = {k: v for k, v in content['format'].items() if v != vars(format_)[k]}
-        LOGGER.debug(f'non_default_cell_format={overriding_cell_format}')
+    #     # get all the stuff in the cell format that overrides the slide format.
+    #     overriding_cell_format = {k: v for k, v in content['format'].items() if v != vars(format_)[k]}
+    #     LOGGER.debug(f'non_default_cell_format={overriding_cell_format}')
 
-        # merge the 2 formats, with the cell formats overriding.
-        merged_format = {**non_default_slide_format, **overriding_cell_format}
+    #     # merge the 2 formats, with the cell formats overriding.
+    #     merged_format = {**non_default_slide_format, **overriding_cell_format}
 
-        # overlay this new format over the default list to create the new format.
-        new_format = {'format': {**DEFAULT_FORMAT, **merged_format}}
-        LOGGER.debug(f'newformat = {new_format}')
-        # finaly, create a new format object to be used in the remainder of the function.
+    #     # overlay this new format over the default list to create the new format.
+    #     new_format = {'format': {**DEFAULT_FORMAT, **merged_format}}
+    #     LOGGER.debug(f'newformat = {new_format}')
+    #     # finaly, create a new format object to be used in the remainder of the function.
 
-        format_ = Format(new_format,
-                         _key='format',
-                         _elem='body',
-                         _exception=FormatError,
-                         _keys_from=['justify', 'color', 'wordwrap', 'margin', 'type'],
-                         _type_list=[str, int, bool, str, str]
-                         )
+    #     format_ = Format(new_format,
+    #                      _key='format',
+    #                      _elem='body',
+    #                      _exception=FormatError,
+    #                      _keys_from=['justify', 'color', 'wordwrap', 'margin', 'type'],
+    #                      _type_list=[str, int, bool, str, str]
+    #                      )
     try:
         cell = content if isinstance(content, str) else content['cell']
     except KeyError:

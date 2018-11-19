@@ -1,11 +1,10 @@
 """The class definition for Widgets: items to be rendered that make a all or part of a slide."""
 import curses
-from collections import deque
-from typing import Any, List, Optional, Tuple
+from typing import List, Optional, Tuple
 
 from .metasettings import MetaData, Settings
 from .format import Format
-
+from .content import Body
 
 
 class Widget():
@@ -23,10 +22,10 @@ class Widget():
 
         self.slide_num = slide_num
         self.type_ = type_
-        self.body = body
+        self.body = None
         self.settings = settings
         self.active_cells = active_cells
-        self.format_ = format_
+        #self.format_ = format_
         self.header = None
         self.footer = None
         self.foreground_widgets: list = [] # a stack of child widgets for this window
@@ -36,7 +35,7 @@ class Widget():
         if type_ == 'background':
             assert isinstance(metadata, MetaData)
             assert body is None
-            assert format_ is None
+            #assert format_ is None
 
             if settings.pagenum:  # Print 'n / m' in bottom right
                 footer[2] = f'{slide_num+1} / {total_slides}'
@@ -50,12 +49,14 @@ class Widget():
             self.header = tuple(header)
             self.footer = tuple(footer)
         elif type_ == 'foreground':
-            assert isinstance(self.body, list)
-            assert self.format_ is not None
+            self.body = Body(body, format_)
 
-    def gen_color_pair(self):
-        """Generates a curses-compatible color-pair to be passed into addstr()."""
-        return curses.color_pair(self.format_.color)
+            #assert isinstance(self.body, Body)
+            #assert self.format_ is not None
+
+    # def gen_color_pair(self):
+    #     """Generates a curses-compatible color-pair to be passed into addstr()."""
+    #     return curses.color_pair(self.format_.color)
 
     def __repr__(self):
         return f'Widget(slide_num={self.slide_num}, type_={self.type_},' + \
@@ -84,7 +85,7 @@ def generate_widgets_from_slide(slide, slide_num, total_slides)-> List[Widget]:
             body_part = Widget(slide_num=slide_num,
                                total_slides=total_slides,
                                type_='foreground',
-                               body=[body],  # must be a list, even if one 1 item
+                               body=body,  # must be a list, even if one 1 item
                                settings=slide.settings,
                                metadata=None,  # foregrounds don't need metadata
                                active_cells=slide.layout.active_cells(tuple([num])),
