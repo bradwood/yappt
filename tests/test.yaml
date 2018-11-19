@@ -12,7 +12,7 @@ slide1:
     body: |  # single block of content
       BRAD ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat
       mi. Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam
-      elementum tempor mi, vitae 😎 ultrices lorem aliquam et. Cras rutrum arcu eu
+      elementum tempor mi, visdfdsfsdfsdXXXXtrices lorem aliquam et. Cras rutrum arcu eu
       tellus ornare semper. Phasellus at nibh imperdiet, auctor est nec,
       tincidunt arcu. Fusce eget urna nec nunc commodo consectetur nec nec nisi.
       Aenean fermentum ante magna, ac dictum odio dictum vel.
@@ -32,7 +32,7 @@ slide1a:
         tincidunt arcu. Fusce eget urna nec nunc commodo consectetur nec nec nisi.
         Aenean fermentum ante magna, ac dictum odio dictum vel.
 
-    - format: {justify: right, color: 200, margin: 5-5-6-1, wordwrap: false }
+    - format: {justify: right, color: 200, margin: 1-1-1-1, wordwrap: false }
       cell: |
         BRAD ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat
         mi. Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam

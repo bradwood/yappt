@@ -135,24 +135,16 @@ def main(filename, debug, colors):
                 widgets = generate_all_widgets(slides)
                 # reset the stack
                 background_widgets = deque()
-                # and load the first widget
-                background_widgets.append(widgets[0])
 
-                # reset the current widget to the newly loaded widget list
-                cur_widget_idx = count_widgets_in_stack(background_widgets) - 1
-                # now, we keep drawing to the screen until
-                # we get to the slide we were on before the reload.
-                while widgets[cur_widget_idx].slide_num < prev_slide_num:
-                    # recount the current widget index at the top of the loop
-                    cur_widget_idx = count_widgets_in_stack(background_widgets) - 1
-                    # draw the widget, noting that this might draw more than 1 widget.
-                    draw_widget(cur_widget_idx, widgets, background_widgets, screen)
-                    # get the correct widget index after the draw
-                    cur_widget_idx = count_widgets_in_stack(background_widgets) - 1
-                    if cur_widget_idx + 1 <= len(widgets) - 1:
-                        if widgets[cur_widget_idx + 1].type_ == 'background':
-                            background_widgets.append(widgets[cur_widget_idx + 1])
-                 # then we write the screen
+                for widget in widgets:
+                    if widget.type_ == 'background':
+                        background_widgets.append(widget)
+                    else:
+                        background_widgets[-1].foreground_widgets.append(widget)
+                    if background_widgets[-1].slide_num == prev_slide_num:
+                        cur_widget_idx = count_widgets_in_stack(background_widgets) - 1
+                        break
+
                 screen.print()
                 continue
 
