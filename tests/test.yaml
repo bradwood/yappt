@@ -115,7 +115,7 @@ Sample Code:
           ● `async`
           ● event loops
           ● etc
-          ● etc
+          ● http://www.google.com/
 
 
 
@@ -350,7 +350,10 @@ slide4:
 
 slidexx3:
   content:
-    format:  {justify: center, color: 218, wordwrap: false, margin: 1-1-1-1, type: figlet, figfont: stop}
+    format:  {justify: center, color: 218, wordwrap: false, margin: 1-1-1-1, type: figlet, figfont: cyberlarge}
     body: |
-      brad
+
+
+      thanks
+
 

@@ -8,6 +8,7 @@ click = "*"
 yappt = {editable = true, path = "."}
 ruamel-yaml = "*"
 pyfiglet = "*"
+reparser = "*"
 
 [dev-packages]
 pylint = "*"

@@ -9,6 +9,7 @@ setup(
         'click',
         'ruamel.yaml',
         'pyfiglet',
+        'reparser',
     ],
     entry_points='''
         [console_scripts]

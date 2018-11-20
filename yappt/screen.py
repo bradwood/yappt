@@ -105,22 +105,22 @@ class Screen:
                 for sub_win, (body, form) in zip(sub_windows, widget.body):
                     sub_win_height, sub_win_width = sub_win.getmaxyx()
                     if body:
-                        #LOGGER.debug(f'CONTENT = {content}')
-
-                        # LOGGER.debug(f'content_gen = {content_gen}')
-                        for line_num, line in zip(range(sub_win_height), render_content(body,
-                                                                                        format_=form,
-                                                                                        height=sub_win_height,
-                                                                                        width=sub_win_width,
-                                                                                        )
-                                                  ):
+                        line_num = 0
+                        for line, parsed_line in render_content(body,
+                                                                format_=form,
+                                                                height=sub_win_height,
+                                                                width=sub_win_width,
+                                                                ):
                             LOGGER.debug(f'{line_num} {line}')
+
+
                             sub_win.addstr(line_num, # y
                                            0, # x
                                            line,
                                            curses.color_pair(form.color)
                                            )
                             sub_win.noutrefresh()
+                            line_num += 1
 
 
             self.stdscr.noutrefresh()  # mark for refresh.
