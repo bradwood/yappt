@@ -8,8 +8,7 @@ import click
 
 from .presentation import process_yaml, generate_all_widgets, draw_widget
 from .screen import Screen
-from .utils import count_widgets_in_stack
-from .color_swatch import print_color_swatch
+from .utils import count_widgets_in_stack, print_color_swatch, print_figfonts
 
 logformat = "[%(asctime)s] %(levelname)s:%(name)s:%(message)s"
 logging.basicConfig(level=logging.DEBUG, filename='yappt.log',
@@ -25,16 +24,22 @@ def print_help_msg(command):
 @click.option('--colors', '-c', 'colors', default=False, flag_value=True, help='Print color palette and exit.')
 @click.option('--debug', '-d', 'debug', default=False, flag_value=True, help='Print debug output.')
 @click.option('--show', '-s', 'filename', type=click.File('r'), help='Display a presentation.')
-def main(filename, debug, colors):
+@click.option('--figfonts', '-f', 'figfonts', default=False, flag_value=True, help='Print out figlet fonts.')
+def main(filename, debug, colors, figfonts):
     """Yet Another PowerPoint Tool / YAPPT Ain't PowerPoint."""
-
-    if not filename and not colors:
-        print_help_msg(main)
-        quit(0)
 
     if colors:
         print_color_swatch()
         quit(0)
+
+    if figfonts:
+        print_figfonts()
+        quit(0)
+
+    if not filename:
+        print_help_msg(main)
+        quit(0)
+
 
     # --- load ----
     metadata, settings, slides = process_yaml(filename)
@@ -141,8 +146,8 @@ def main(filename, debug, colors):
                         background_widgets.append(widget)
                     else:
                         background_widgets[-1].foreground_widgets.append(widget)
+
                     if background_widgets[-1].slide_num == prev_slide_num:
-                        cur_widget_idx = count_widgets_in_stack(background_widgets) - 1
                         break
 
                 screen.print()

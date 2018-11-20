@@ -2,7 +2,9 @@
 import textwrap
 import re
 import logging
-from .format import Format, DEFAULT_FORMAT
+
+from pyfiglet import Figlet
+
 from .exceptions import FormatError
 
 LOGGER = logging.getLogger(__name__)
@@ -75,44 +77,6 @@ def render_content(content, *, format_, height, width):
     # - apply justification
 
     LOGGER.debug(f'render_content: content={content}')
-    # # get a format object if one exists at the cell level.
-    # if not isinstance(content, str) and content.get('format'):
-    #     # instantiate a Format object to do the type checking.
-    #     _ = Format(content,
-    #                _key='format',
-    #                _elem='body',
-    #                _exception=FormatError,
-    #                _keys_from=['justify', 'color', 'wordwrap', 'margin', 'type'],
-    #                _type_list=[str, int, bool, str, str]
-    #                )
-
-    #     # now create a new format input that applies the cell's format on top of slide format.
-
-    #     # get all the stuff in the slide format that is not a derived field
-    #     bare_format_dict = {k: v for k, v in vars(format_).items() if k not in ('l_margin', 'r_margin', 't_margin', 'b_margin')}
-    #     # get all the stuff in the slide format that is not a default.
-    #     non_default_slide_format = {k: v for k, v in bare_format_dict.items() if v != DEFAULT_FORMAT[k]}
-    #     LOGGER.debug(f'non_default_slide_format={non_default_slide_format}')
-
-    #     # get all the stuff in the cell format that overrides the slide format.
-    #     overriding_cell_format = {k: v for k, v in content['format'].items() if v != vars(format_)[k]}
-    #     LOGGER.debug(f'non_default_cell_format={overriding_cell_format}')
-
-    #     # merge the 2 formats, with the cell formats overriding.
-    #     merged_format = {**non_default_slide_format, **overriding_cell_format}
-
-    #     # overlay this new format over the default list to create the new format.
-    #     new_format = {'format': {**DEFAULT_FORMAT, **merged_format}}
-    #     LOGGER.debug(f'newformat = {new_format}')
-    #     # finaly, create a new format object to be used in the remainder of the function.
-
-    #     format_ = Format(new_format,
-    #                      _key='format',
-    #                      _elem='body',
-    #                      _exception=FormatError,
-    #                      _keys_from=['justify', 'color', 'wordwrap', 'margin', 'type'],
-    #                      _type_list=[str, int, bool, str, str]
-    #                      )
     try:
         cell = content if isinstance(content, str) else content['cell']
     except KeyError:
@@ -131,8 +95,20 @@ def render_content(content, *, format_, height, width):
             cell = cell.split('\n')
 
 
+    if format_.type == 'code':
+        cell = cell.split('\n')
+        cell = [f'{str(num).zfill(2)}│ {data}' for num, data in enumerate(cell)]
+        del cell[-1]
+
+    if format_.type == 'figlet':
+        f = Figlet(width=width, justify=format_.justify, font=format_.figfont)
+        cell = f.renderText(cell)
+        cell = cell.split('\n')
+
     for line in cell:
         assert isinstance(line, str)
-        my_line = MyString(line)
-        yield my_line.__dict__[format_.justify](my_line, width - 1)
-
+        if format_.type != 'figlet':
+            my_line = MyString(line)
+            yield my_line.__dict__[format_.justify](my_line, width - 1)
+        else:
+            yield line

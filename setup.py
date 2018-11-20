@@ -8,6 +8,7 @@ setup(
     install_requires=[
         'click',
         'ruamel.yaml',
+        'pyfiglet',
     ],
     entry_points='''
         [console_scripts]

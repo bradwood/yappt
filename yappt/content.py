@@ -25,8 +25,8 @@ class Content(ValIsDictHasSubKeysMixIn, ValIsDictSubKeysFromMixIn):
                              _key='format',
                              _exception=FormatError,
                              _elem=f"slide {kwargs['_elem']}, format section",
-                             _keys_from=['justify', 'color', 'wordwrap', 'margin', 'type'],
-                             _type_list=[str, int, bool, str, str]
+                             _keys_from=['justify', 'color', 'wordwrap', 'margin', 'type', 'figfont'],
+                             _type_list=[str, int, bool, str, str, str]
                              )
 
 class Body:
@@ -43,7 +43,6 @@ class Body:
         elif isinstance(body_payload, list):
             # list of stuff
             for item in body_payload:
-                LOGGER.debug(item)
                 try:
                     self.formats.append(create_cell_format(item, parent_format))
                 except (AttributeError, TypeError):
@@ -56,16 +55,14 @@ class Body:
 
         elif isinstance(body_payload, dict):
 
-            if body_payload.get('format'):
-                assert body_payload.get('cell') is not None  # TODO, throw better error message
+            try:
                 self.formats.append(create_cell_format(body_payload, parent_format))
-            else:
+            except (AttributeError, TypeError):
                 self.formats.append(parent_format)
 
-            if body_payload.get('cell'):
-                assert body_payload.get('format') is not None  # TODO, throw better error message
+            try:
                 self.cells.append(body_payload['cell'])
-            else:
+            except (AttributeError, TypeError):
                 self.cells.append(body_payload)
 
     def __iter__(self):
@@ -88,8 +85,8 @@ def create_cell_format(body_payload, parent_format):
                    _key='format',
                    _elem='body',
                    _exception=FormatError,
-                   _keys_from=['justify', 'color', 'wordwrap', 'margin', 'type'],
-                   _type_list=[str, int, bool, str, str]
+                   _keys_from=['justify', 'color', 'wordwrap', 'margin', 'type', 'figfont'],
+                   _type_list=[str, int, bool, str, str, str]
                    )
         # now create a new format input that applies the cell's format on top of slide format.
 
@@ -115,8 +112,8 @@ def create_cell_format(body_payload, parent_format):
                     _key='format',
                     _elem='body',
                     _exception=FormatError,
-                    _keys_from=['justify', 'color', 'wordwrap', 'margin', 'type'],
-                    _type_list=[str, int, bool, str, str]
+                    _keys_from=['justify', 'color', 'wordwrap', 'margin', 'type', 'figfont'],
+                    _type_list=[str, int, bool, str, str, str]
                     )
 
     return parent_format

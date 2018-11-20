@@ -13,7 +13,9 @@ class Settings(ValIsDictCheckSubKeyTypesMixIn):
         # defaults
         self.pagenum: bool = True
         self.titlebar: bool = True
+        self.slidetitle: bool = True
         self.authorfooter: bool = True
+        self.date: bool = True
         self.incremental: bool = False
         self.v_margin: int = 1
         self.h_margin: int = 1

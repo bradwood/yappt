@@ -1,6 +1,7 @@
 """The class definition for Widgets: items to be rendered that make a all or part of a slide."""
 import curses
 from typing import List, Optional, Tuple
+from datetime import date
 
 from .metasettings import MetaData, Settings
 from .format import Format
@@ -10,6 +11,7 @@ from .content import Body
 class Widget():
     def __init__(self, *,
                  slide_num: int,
+                 slide_name: str,
                  total_slides: int,
                  type_: str,
                  body: Optional[List[str]],
@@ -21,6 +23,8 @@ class Widget():
                  ):
 
         self.slide_num = slide_num
+        self.slide_name = slide_name
+        self.pres_date = None
         self.type_ = type_
         self.body = None
         self.settings = settings
@@ -46,6 +50,13 @@ class Widget():
             if settings.titlebar:  # Print title of deck in the centre of the header bar
                 header[1] = metadata.title
 
+            if settings.slidetitle: # Print slide nuame top left of the slide.
+                header[0] = self.slide_name
+
+            if settings.date:
+                self.pres_date = metadata.date.strftime('%d %B %Y')
+                header[2] = self.pres_date
+
             self.header = tuple(header)
             self.footer = tuple(footer)
         elif type_ == 'foreground':
@@ -69,6 +80,7 @@ def generate_widgets_from_slide(slide, slide_num, total_slides)-> List[Widget]:
     widgets = []
     # create the background widget for this slide first
     background = Widget(slide_num=slide_num,
+                        slide_name=slide.name,
                         total_slides=total_slides,
                         type_='background',
                         body=None,  # backgrounds have no body
@@ -83,6 +95,7 @@ def generate_widgets_from_slide(slide, slide_num, total_slides)-> List[Widget]:
     if slide.settings.incremental:
         for num, body in enumerate(slide.content.body):
             body_part = Widget(slide_num=slide_num,
+                               slide_name=slide.name,
                                total_slides=total_slides,
                                type_='foreground',
                                body=body,  # must be a list, even if one 1 item
@@ -95,6 +108,7 @@ def generate_widgets_from_slide(slide, slide_num, total_slides)-> List[Widget]:
 
     else:  # no incremental flag, so we merge all the body parts into one widget.
         body_part = Widget(slide_num=slide_num,
+                           slide_name=slide.name,
                            total_slides=total_slides,
                            type_='foreground',
                            body=slide.content.body,

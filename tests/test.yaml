@@ -1,75 +1,123 @@
 ---
 metadata:
-  title: '🍺 BEER 🍺'
-  author: '️️️️😎 Bradley Q Wood <brad@bradleywood.com> 😎'
+  title: Python Tutorial Example Pack
+  author: '️️️️😎  bradwood 😎'
   date: 2018-11-05
 settings: {pagenum: true, titlebar: true, incremental: true, v_margin: 1, h_margin: 0}
 
 slide1:
-  settings: {pagenum: true, titlebar: true, incremental: true, v_margin: 1, h_margin: 0}
-  content:
-    format: {justify: right, color: 209, margin: 10-10-6-6, wordwrap: false }
-    body: |  # single block of content
-      BRAD ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat
-      mi. Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam
-      elementum tempor mi, visdfdsfsdfsdXXXXtrices lorem aliquam et. Cras rutrum arcu eu
-      tellus ornare semper. Phasellus at nibh imperdiet, auctor est nec,
-      tincidunt arcu. Fusce eget urna nec nunc commodo consectetur nec nec nisi.
-      Aenean fermentum ante magna, ac dictum odio dictum vel.
-
-slide1a:
-  settings: {pagenum: true, titlebar: true, incremental: false, v_margin: 1, h_margin: 0}
+  settings: {pagenum: false, titlebar: false, slidetitle: false, date: false, authorfooter: false, incremental: true, v_margin: 1, h_margin: 0}
   layout: 1-1
   content:
-    format: {justify: right, color: 234, margin: 10-10-6-1, wordwrap: false }
+    format: {justify: right, color: 209, margin: 10-10-1-1, wordwrap: false }
     body:
-    - format: {justify: left, color: 200, margin: 1-1-6-1, wordwrap: false }
-      cell: |
-        BRAD ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat
-        mi. Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam
-        elementum tempor mi, vitae 😎 ultrices lorem aliquam et. Cras rutrum arcu eu
-        tellus ornare semper. Phasellus at nibh imperdiet, auctor est nec,
-        tincidunt arcu. Fusce eget urna nec nunc commodo consectetur nec nec nisi.
-        Aenean fermentum ante magna, ac dictum odio dictum vel.
-
-    - format: {justify: right, color: 200, margin: 1-1-1-1, wordwrap: false }
-      cell: |
-        BRAD ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat
-        mi. Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam
-        elementum tempor mi, vitae 😎 ultrices lorem aliquam et. Cras rutrum arcu eu
-        tellus ornare semper. Phasellus at nibh imperdiet, auctor est nec,
-        tincidunt arcu. Fusce eget urna nec nunc commodo consectetur nec nec nisi.
-        Aenean fermentum ante magna, ac dictum odio dictum vel.
-
-slide2:
-  content:
-    format: {justify: right, color: 200, margin: 10-10-6-6, wordwrap: false }
-    body:
-      format: {justify: right, color: 200, margin: 10-10-6-6, wordwrap: false }
+    - format:  {justify: center, color: 209, type: figlet, figfont: roman}
+      cell: Python 101
+    - format: {justify: centre, color: 209, margin: 10-10-1-1, wordwrap: false }
       cell: |  # single block of content
-        BRAD ipsum dolor sit amet,
-        consectetur adipiscing elit.
-        Mauris nec erat mi.
-        Proin rhoncus nisl turpis,
-        quis volutpat arcu facilisis
-        a. Etiam elementum
-        tempor mi, vitae ultrices lorem
-        aliquam et. Cras rutrum arcu eu
-        tellus ornare
-        semper. Phasellus at nibh imperdiet,
-        auctor est nec, tincidunt arcu.
-        Fusce eget
-        urna nec nunc commodo consectetur
-        nec nec nisi. Aenean fermentum
-        ante magna, ac
-        dictum odio dictum vel.
+        Interesting things to learn about Python in 20 easy steps.
 
-        DAVE ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat mi.
-        Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam elementum
-        tempor mi, vitae ultrices lorem aliquam et. Cras rutrum arcu eu tellus ornare
-        semper. Phasellus at nibh imperdiet, auctor est nec, tincidunt arcu. Fusce eget
-        urna nec nunc commodo consectetur nec nec nisi. Aenean fermentum ante magna, ac
-        dictum odio dictum vel.
+Table of Contents:
+  settings: {pagenum: true, titlebar: true, date: false, incremental: true, v_margin: 1, h_margin: 0}
+  layout: 2-2-2
+  content:
+    format: {justify: left, color: 228, margin: 10-10-3-1, wordwrap: false }
+    body:
+    - |
+      The Type System
+       ● blah
+       ● blah
+       ● blah
+    - |
+      Control Flow
+       ● `for`
+       ● `while`
+       ● `try`
+       ● `with`
+       ● etc
+    - |
+      Classes & Objects
+       ● inheritance
+       ● ABCs
+       ● etc
+    - |
+      Context Managers
+       ● `with` keyword
+       ● etc
+    - |
+      Iterators & Generators
+       ● iterator protocol
+       ● itertools
+       ● comprehensions
+       ● generators & `yield`
+    - |
+      Coroutines
+       ● `async`
+       ● event loops
+       ● etc
+       ● etc
+
+
+
+Sample Code:
+  layout: 2-2-2
+  content:
+    format: {color: 200, margin: 10-10-1-1, type: code }
+    body:
+    - format: {type: code}
+      cell: |  # single block of content
+        if format_.type == 'text':
+            if format_.wordwrap:
+                LOGGER.debug('WORDWRAP=true')
+                wrapper = DocWrapper(width=width - 1)
+                cell = wrapper.wrap(cell)
+                LOGGER.debug(f'WRAPPEDcell={cell}')
+            else:
+                cell = cell.split('\n')
+    - format: {type: text, color: 228}
+      cell: |
+          This code does an if statement, etc, etc, etc, etc, etc, et, c
+          Blah, blah, lbah
+
+    - format: {type: code}
+      cell: |  # single block of content
+        if format_.type == 'code':
+            cell = cell.split('\n')
+            cell = [f'{str(num).zfill(2)}│ {data}' for num, data in enumerate(cell)]
+            del cell[-1]
+
+        if format_.type == 'figlet':
+            f = Figlet(width=width, justify=format_.justify, font=format_.figfont)
+            cell = f.renderText(cell)
+            cell = cell.split('\n')
+
+    - format: {type: text, color: 228}
+      cell: |
+          This code does an if statement, etc, etc, etc, etc, etc, et, c
+          ● `async`
+          ● event loops
+          ● etc
+          ● etc
+
+    - format: {type: code}
+      cell: |  # single block of content
+        for line in cell:
+            assert isinstance(line, str)
+            if format_.type != 'figlet':
+                my_line = MyString(line)
+                yield my_line.__dict__[format_.justify](my_line, width - 1)
+            else:
+                yield line
+
+    - format: {type: text, color: 228}
+      cell: |
+          This code does an if statement, etc, etc, etc, etc, etc, et, c
+          ● `async`
+          ● event loops
+          ● etc
+          ● etc
+
+
 
 slide3:
   settings: {pagenum: true, titlebar: true, incremental: true}
@@ -302,6 +350,7 @@ slide4:
 
 slidexx3:
   content:
-    format:  {justify: right, color: 218, wordwrap: true, margin: 2-2-2-2 }
-    body: sdfsdf
+    format:  {justify: center, color: 218, wordwrap: false, margin: 1-1-1-1, type: figlet, figfont: stop}
+    body: |
+      brad
 

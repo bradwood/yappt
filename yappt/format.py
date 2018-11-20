@@ -9,6 +9,7 @@ DEFAULT_FORMAT = {
     'wordwrap': False,
     'margin': '1-1-1-1',
     'type': 'text',
+    'figfont': 'standard',
 }
 
 class Format(ValIsDictCheckSubKeyTypesMixIn):
