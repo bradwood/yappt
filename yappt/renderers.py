@@ -142,7 +142,7 @@ def render_content(content, *, format_, height, width):
 
     if format_.type == 'code':
         cell = cell.split('\n')
-        cell = [f'{str(num).zfill(2)}│ {data}' for num, data in enumerate(cell)]
+        cell = [f' {str(num).zfill(2)}│ {data}' for num, data in enumerate(cell)]
         del cell[-1]
 
     if format_.type == 'figlet':

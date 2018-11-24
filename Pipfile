@@ -9,12 +9,14 @@ yappt = {editable = true, path = "."}
 ruamel-yaml = "*"
 pyfiglet = "*"
 reparser = "*"
+mistletoe = "*"
 
 [dev-packages]
 pylint = "*"
 pydocstyle = "*"
 mypy = "*"
 "autopep8" = "*"
+ipython = "*"
 
 [requires]
 python_version = "3.7"
