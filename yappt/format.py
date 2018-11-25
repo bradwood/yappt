@@ -20,7 +20,7 @@ class Format(ValIsDictCheckSubKeyTypesMixIn):
         #  list-constrained items
         valid_opts = {
             'justify': ['left', 'centre', 'center', 'right'],
-            'type': ['text', 'code', 'figlet'],
+            'type': ['text', 'code', 'figlet', 'markdown'],
         }
         # set defaults
         self.__dict__.update(DEFAULT_FORMAT)

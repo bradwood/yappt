@@ -46,7 +46,7 @@ class CursesRenderer(BaseRenderer):
         #for ordered list, maintain a stack of the current level's item counter.
         self.ordered_list_current_counter = []
         self.list_stack = []
-        self.suppress_double_newline_paragraph = [True]
+        self.suppress_double_newline_paragraph = [False]
 
     @staticmethod
     def escape_html(raw):
@@ -114,7 +114,7 @@ class CursesRenderer(BaseRenderer):
                 # TODO: fix bug with list starting with non-zero at some point.
                 elif self.list_stack[-1] == 'ol':
                     num = self.ordered_list_current_counter[self.list_depth-1]
-                    indent = '--' * self.list_depth
+                    indent = ''.join(['  ' * self.list_depth])
                     prefix = ''.join([indent, str(num), '. '])
                     self.win.addstr(self.cur_y, self.cur_x, prefix, curses.A_NORMAL)
                     self.cur_y, self.cur_x = self.win.getyx()
@@ -127,19 +127,46 @@ class CursesRenderer(BaseRenderer):
 
     def render_line_break(self, token):
         # TODO:do we need to care about token.soft here?
-        self._newline()
+        if self.suppress_double_newline_paragraph[-1]:
+            pass #self._newline(1)
+        else:
+            self._newline(1)
+
+        # if not token.soft:
+        #     self._newline()
         return ''
 
     def render_paragraph(self, token):
+        # if self.suppress_double_newline_paragraph[-1]:
+        #     pass # self._newline(1)
+        # else:
+        #     self._newline(1)
+        _ = [self.render(child) for child in token.children]
+
         if self.suppress_double_newline_paragraph[-1]:
             self._newline(1)
         else:
             self._newline(2)
-        return self.render_inner(token)
+
+
+        return ''
 
     def render_heading(self, token): # # TODO: add color scheme support
-        self._newline(2, indent=token.level-1)
-        return self.render_inner(token)
+        if self.suppress_double_newline_paragraph[-1]:
+            self._newline(0)
+        else:
+            self._newline(1)
+
+        self._newline(-1, indent=token.level-1)
+
+        _ = [self.render(child) for child in token.children]
+
+        if self.suppress_double_newline_paragraph[-1]:
+            self._newline(1)
+        else:
+            self._newline(2)
+
+        return '' #self.render_inner(token)
 
     def render_link(self, token):
         token.children[0].content = f'{token.children[0].content}:({token.target})'
@@ -148,9 +175,12 @@ class CursesRenderer(BaseRenderer):
     def render_block_code(self, token):  # TODO: add pygments - use token.language
         LOGGER.debug(token.children[0].content)
         code = token.children[0].content.split('\n')
-        self._newline(2)
+        # if self.suppress_double_newline_paragraph[-1]:
+        #     self._newline(0)
+        # else:
+        #     self._newline(1)
         for linenum, line in enumerate(code):
-            line_prefix = f' {str(linenum).zfill(2)}│ '
+            line_prefix = f' {str(linenum).zfill(2)} │ '
             LOGGER.debug(f'y={self.cur_y}')
             LOGGER.debug(f'x={self.cur_x}')
             LOGGER.debug(f'prefix={line_prefix}')
@@ -166,15 +196,29 @@ class CursesRenderer(BaseRenderer):
         return ''
 
     def render_quote(self, token):
+#        self._newline()
+        # if self.suppress_double_newline_paragraph[-1]:
+        #     pass # self._newline(1)
+        # else:
+        #     self._newline(1)
+
+        self.suppress_double_newline_paragraph.append(True)
         self.quote_depth += 1
+
         _ = [self.render(child) for child in token.children]
+
         self.quote_depth -= 1
+        self.suppress_double_newline_paragraph.pop()
+
+        if self.suppress_double_newline_paragraph[-1]:
+            pass  # self._newline(1)
+        else:
+            self._newline(1)
+
         return ''
 
     def render_list(self, token):
         # set up the stack properly
-        if self.list_depth == 0:
-            self._newline()
         self.list_depth += 1
         self.suppress_double_newline_paragraph.append(True)
         if token.start is not None:
@@ -191,6 +235,8 @@ class CursesRenderer(BaseRenderer):
         self.suppress_double_newline_paragraph.pop()
         self.list_depth -= 1
 
+        if self.list_depth == 0:
+            self._newline()
         return ''
 
     def render_list_item(self, token):

@@ -4,55 +4,11 @@ import re
 import textwrap
 
 from pyfiglet import Figlet, FontNotFound
-from reparser import MatchGroup, Parser, Token
 
 from .exceptions import FormatError
 
 LOGGER = logging.getLogger(__name__)
 
-# Parser code stolen from https://github.com/xmikos/reparser with credit.
-# LICENCE: https://github.com/xmikos/reparser/blob/master/LICENSE
-
-boundary_chars = r'\s`!()\[\]{{}};:\'".,<>?«»“”‘’*_~='
-b_left = r'(?:(?<=[' + boundary_chars + r'])|(?<=^))'  # Lookbehind
-b_right = r'(?:(?=[' + boundary_chars + r'])|(?=$))'   # Lookahead
-
-markdown_start = b_left + r'(?<!\\){tag}(?!\s)(?!{tag})'
-markdown_end = r'(?<!{tag})(?<!\s)(?<!\\){tag}' + b_right
-markdown_link = r'(?<!\\)\[(?P<link>.+?)\]\((?P<url>.+?)\)'
-newline = r'\n|\r\n'
-
-url_proto_regex = re.compile(r'(?i)^[a-z][\w-]+:/{1,3}')
-
-
-def markdown(tag):
-    """Return sequence of start and end regex patterns for simple Markdown tag."""
-    return (markdown_start.format(tag=tag), markdown_end.format(tag=tag))
-
-
-def url_complete(url):
-    """Prepend a URL with http:// if needed."""
-    return url if url_proto_regex.search(url) else 'http://' + url
-
-
-tokens = [
-    Token('bi1',  *markdown(r'\*\*\*'), is_bold=True, is_italic=True),
-    Token('bi2',  *markdown(r'___'),    is_bold=True, is_italic=True),
-    Token('b1',   *markdown(r'\*\*'),   is_bold=True),
-    Token('b2',   *markdown(r'__'),     is_bold=True),
-    Token('i1',   *markdown(r'\*'),     is_italic=True),
-    Token('i2',   *markdown(r'_'),      is_italic=True),
-    Token('pre3', *markdown(r'```'),    skip=True),
-    Token('pre2', *markdown(r'``'),     skip=True),
-    Token('pre1', *markdown(r'`'),      skip=True),
-    Token('s',    *markdown(r'~~'),     is_strikethrough=True),
-    Token('u',    *markdown(r'=='),     is_underline=True),
-    Token('link', markdown_link, text=MatchGroup('link'),
-          link_target=MatchGroup('url', func=url_complete)),
-    Token('br', newline, text='\n', segment_type="LINE_BREAK")
-]
-
-parser = Parser(tokens)
 
 # define a  string sub-class to map our justification methods.
 class MyString(str):
@@ -159,14 +115,8 @@ def render_content(content, *, format_, height, width):
         assert isinstance(line, str)
         if format_.type == 'figlet':
             # no parsing or line justifying for figlets so just yield None for this case.
-            yield line, None
+            yield line
         else:
             my_line = MyString(line)
             # yield the unparsed line, then the parsed line
-            yield my_line.__dict__[format_.justify](my_line, width - 1), \
-                parser.parse(my_line.__dict__[format_.justify](my_line, width - 1))
-
-
-def render_line(y, x, line_segments, color_pair):
-    """Write out the markdown line applying color/formatting as needed."""
-    pass
+            yield my_line.__dict__[format_.justify](my_line, width - 1)

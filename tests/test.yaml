@@ -93,8 +93,7 @@ Sample Code:
 
     - format: {type: markdown, color: 228}
       cell: |
-          # Heeading
-
+        # Heading
           * **one**
           * _two_
           * ~~three~~
@@ -123,35 +122,16 @@ slide3:
   settings: {pagenum: true, titlebar: true, incremental: true}
   layout: 1-2-3
   content:  # format, while optional, must occure under the content body
-    format: {justify: center, color: 124, margin: 1-1-0-1, wordwrap: true, type: text }
+    format: {justify: center, color: 124, margin: 0-0-0-0, wordwrap: true, type: markdown }
     body:
-     - format:  {justify: left, color: 100, wordwrap: true }
-       cell: >
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat mi.
-        Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam elementum
-        tempor mi, vitae ultrices lorem aliquam et. Cras rutrum arcu eu tellus ornare
-        semper. Phasellus at nibh imperdiet, auctor est nec, tincidunt arcu. Fusce eget
-        urna nec nunc commodo consectetur nec nec nisi. Aenean fermentum ante magna, ac
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat mi.
-        Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam elementum
-        tempor mi, vitae ultrices lorem aliquam et. Cras rutrum arcu eu tellus ornare
-        semper. Phasellus at nibh imperdiet, auctor est nec, tincidunt arcu. Fusce eget
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat mi.
-        Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam elementum
-        tempor mi, vitae ultrices lorem aliquam et. Cras rutrum arcu eu tellus ornare
-        semper. Phasellus at nibh imperdiet, auctor est nec, tincidunt arcu. Fusce eget
-        tempor mi, vitae ultrices lorem aliquam et. Cras rutrum arcu eu tellus ornare
-        semper. Phasellus at nibh imperdiet, auctor est nec, tincidunt arcu. Fusce eget
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat mi.
-        Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam elementum
-        tempor mi, vitae ultrices lorem aliquam et. Cras rutrum arcu eu tellus ornare
-        semper. Phasellus at nibh imperdiet, auctor est nec, tincidunt arcu. Fusce eget
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat mi.
-        Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam elementum
-        tempor mi, vitae ultrices lorem aliquam et. Cras rutrum arcu eu tellus ornare
-        semper. Phasellus at nibh imperdiet, auctor est nec, tincidunt arcu. Fusce eget
-        urna nec nunc commodo consectetur nec nec nisi. Aenean fermentum ante magna, ac
-        dictum odio dictum END.
+     - format:  {justify: left, color: 100, wordwrap: false }
+       cell: |
+          # Heading
+          * **one**
+          * _two_
+          * ~~three~~
+          ## Heading 2
+          This **some** really `interesting` stuff.
      - format:  {justify: left, color: 101, wordwrap: true }
        cell: >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat mi.

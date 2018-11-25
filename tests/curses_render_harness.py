@@ -2,7 +2,8 @@ import curses
 from mistletoe import Document
 from yappt.curses_renderer import CursesRenderer
 
-md = """one
+md = """
+one
 **text to be strong** and not strong
 # Heading1😎
 

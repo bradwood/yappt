@@ -4,6 +4,9 @@ import collections
 import curses
 import logging
 
+from mistletoe import Document
+
+from .curses_renderer import CursesRenderer
 from .renderers import render_content, render_header_footer
 from .widget import Widget
 
@@ -104,15 +107,19 @@ class Screen:
                 assert len(sub_windows) == len(widget.body.cells)
                 for sub_win, (body, form) in zip(sub_windows, widget.body):
                     sub_win_height, sub_win_width = sub_win.getmaxyx()
-                    if body:
+                    LOGGER.debug(f'FORM-----------: {form}')
+                    if form.type == 'markdown':
+                        with CursesRenderer(curses_win=sub_win) as r:
+                            r.render(Document(body))
+                        sub_win.noutrefresh()
+                    elif body:
                         line_num = 0
-                        for line, parsed_line in render_content(body,
-                                                                format_=form,
-                                                                height=sub_win_height,
-                                                                width=sub_win_width,
-                                                                ):
+                        for line in render_content(body,
+                                                   format_=form,
+                                                   height=sub_win_height,
+                                                   width=sub_win_width,
+                                                   ):
                             LOGGER.debug(f'{line_num} {line}')
-
 
                             sub_win.addstr(line_num, # y
                                            0, # x
