@@ -3,31 +3,15 @@ import curses
 import logging
 import html
 from urllib.parse import quote
-
-# from functools import wraps
-# from collections import namedtuple
+from contextlib import suppress
 
 from mistletoe.base_renderer import BaseRenderer
-
-# from mistletoe import Document
-
-# from mistletoe.ast_renderer import ASTRenderer
-
-# with open('sample.md', 'r') as fin:
-#     with ASTRenderer() as renderer:
-#         rendered = renderer.render(Document(fin))
-
-# print(rendered)
-
 
 logformat = "[%(asctime)s] %(levelname)s:%(name)s:%(message)s"
 logging.basicConfig(level=logging.DEBUG, filename='yappt.log',
                     format=logformat)  # datefmt="%Y-%m-%d %H:%M:%S"
 
 LOGGER = logging.getLogger(__name__)
-
-# HeaderFormat = namedtuple('HeaderFormat', ['indent', 'attr'])
-
 
 class CursesRenderer(BaseRenderer):
     """Extends BaseRenderer to enable rendering to a curses-enabled terminal.
@@ -50,11 +34,19 @@ class CursesRenderer(BaseRenderer):
             'Link':           curses.A_UNDERLINE,
             'AutoLink':       curses.A_UNDERLINE,
             'Quote':          curses.A_NORMAL,
-            'Heading':        curses.color_pair(208),
+            'Heading':        curses.color_pair(208), # TODO add color range.
             'SetextHeading':  curses.color_pair(208),
-            'BlockCode':      curses.color_pair(255), # TODO figure out the difference here.
+            'BlockCode':      curses.color_pair(255),
             'CodeFence':      curses.color_pair(255),
+            'Quote':          curses.A_NORMAL,  # TODO add color range.
         }
+        self.quote_depth = 0 # count the depth of nested quotes to print bar prefix
+        self.new_line = False # flag to know if we just went to a new line.
+        self.list_depth = 0  # count the depth of nested lists to print prefix
+        #for ordered list, maintain a stack of the current level's item counter.
+        self.ordered_list_current_counter = []
+        self.list_stack = []
+        self.suppress_double_newline_paragraph = [True]
 
     @staticmethod
     def escape_html(raw):
@@ -71,6 +63,9 @@ class CursesRenderer(BaseRenderer):
 
         # handle basic text-emphasis token types
         LOGGER.debug(f'rendering {token.__class__.__name__}')
+        with suppress(AttributeError):
+            LOGGER.debug(f'token content: {token.content}')
+
         if token.__class__.__name__ in self.curses_attr_map:
             # turn on the appropriate curses attr
             self.curses_attr = self.curses_attr | self.curses_attr_map[token.__class__.__name__]
@@ -86,34 +81,63 @@ class CursesRenderer(BaseRenderer):
 
     def render_inner(self, token):
         """Recursively render children."""
-
         rendered = [self.render(child) for child in token.children]
-        return ''.join(rendered)
+        #LOGGER.debug(f'rendered = {rendered}')
+        if rendered[0]:
+            return ''.join(rendered)
+        else:
+            return ''
 
     def _newline(self, lines=1, cr=True, indent=0):
         """Move the cursor down one line if possible."""
-        if self.cur_y + lines < self.height:
-            self.cur_y += lines
-        else:
-            self.cur_y = self.height - 1
+        self.cur_y += lines
         if cr:  # carriage return
             self.cur_x = 0 + indent
+        self.new_line = True
 
     def render_raw_text(self, token):
-        self.win.addstr(self.cur_y, self.cur_x, token.content, self.curses_attr)
-        self.cur_y, self.cur_x = self.win.getyx()
-        return '' # token.content
+        with suppress(curses.error):
+            if self.new_line and self.quote_depth > 0:
+                #this text is at the beginning of a quoted line, so write the prefix.
+                self.win.addstr(self.cur_y, self.cur_x, ' ▎'*self.quote_depth, self.curses_attr)
+                self.cur_y, self.cur_x = self.win.getyx()
+
+            if self.new_line and self.list_depth > 0 and self.list_stack:
+                # we are in a list so prefix it with bullets/numbers.
+                if self.list_stack[-1] == 'ul':  # unordered list
+                    bullets = ['●', '○', '■', '□', '-', '-', '-', '-', '-']
+                    bullet = bullets[self.list_depth-1]
+                    indent = '  '* self.list_depth
+                    prefix = ''.join([indent, bullet, ' '])
+                    self.win.addstr(self.cur_y, self.cur_x, prefix, curses.A_NORMAL)
+                    self.cur_y, self.cur_x = self.win.getyx()
+                # TODO: fix bug with list starting with non-zero at some point.
+                elif self.list_stack[-1] == 'ol':
+                    num = self.ordered_list_current_counter[self.list_depth-1]
+                    indent = '--' * self.list_depth
+                    prefix = ''.join([indent, str(num), '. '])
+                    self.win.addstr(self.cur_y, self.cur_x, prefix, curses.A_NORMAL)
+                    self.cur_y, self.cur_x = self.win.getyx()
+                    self.ordered_list_current_counter[self.list_depth-1] += 1
+
+            self.win.addstr(self.cur_y, self.cur_x, token.content, self.curses_attr)
+            self.new_line = False
+            self.cur_y, self.cur_x = self.win.getyx()
+            return '' # token.content
 
     def render_line_break(self, token):
-        if token.soft or not token.soft: # TODO: fix /clean this.
-            self._newline()
+        # TODO:do we need to care about token.soft here?
+        self._newline()
         return ''
 
     def render_paragraph(self, token):
-        self._newline(2)
+        if self.suppress_double_newline_paragraph[-1]:
+            self._newline(1)
+        else:
+            self._newline(2)
         return self.render_inner(token)
 
-    def render_heading(self, token):
+    def render_heading(self, token): # # TODO: add color scheme support
         self._newline(2, indent=token.level-1)
         return self.render_inner(token)
 
@@ -121,16 +145,8 @@ class CursesRenderer(BaseRenderer):
         token.children[0].content = f'{token.children[0].content}:({token.target})'
         return self.render_inner(token)
 
-    def render_block_code(self, token):
-        #template = '<pre><code{attr}>{inner}</code></pre>'
+    def render_block_code(self, token):  # TODO: add pygments - use token.language
         LOGGER.debug(token.children[0].content)
-        # if token.language:
-        #     attr = ' class="{}"'.format('language-{}'.format(self.escape_html(token.language)))
-        # else:
-        #     attr = ''
-        # inner = html.escape(token.children[0].content)
-
-        # token.children[0].content
         code = token.children[0].content.split('\n')
         self._newline(2)
         for linenum, line in enumerate(code):
@@ -140,19 +156,47 @@ class CursesRenderer(BaseRenderer):
             LOGGER.debug(f'prefix={line_prefix}')
             LOGGER.debug(f'attr={self.curses_attr}')
             # write out the line number prefix
-            self.win.addstr(self.cur_y, self.cur_x, line_prefix, curses.A_NORMAL)
-            # write out the code itself
-            self.cur_y, self.cur_x = self.win.getyx()
-            self.win.addstr(self.cur_y, self.cur_x, line, self.curses_attr)
-            self._newline()
-
-        # cell = cell.split('\n')
-        # cell = [f'{str(num).zfill(2)}│ {data}' for num, data in enumerate(cell)]
-
-        #self._newline()
+            with suppress(curses.error):
+                self.win.addstr(self.cur_y, self.cur_x, line_prefix, curses.A_NORMAL)
+                # write out the code itself
+                self.cur_y, self.cur_x = self.win.getyx()
+                self.win.addstr(self.cur_y, self.cur_x, line, self.curses_attr)
+                self._newline()
         self.cur_y, self.cur_x = self.win.getyx()
+        return ''
 
-        return '' # template.format(attr=attr, inner=inner)
+    def render_quote(self, token):
+        self.quote_depth += 1
+        _ = [self.render(child) for child in token.children]
+        self.quote_depth -= 1
+        return ''
+
+    def render_list(self, token):
+        # set up the stack properly
+        if self.list_depth == 0:
+            self._newline()
+        self.list_depth += 1
+        self.suppress_double_newline_paragraph.append(True)
+        if token.start is not None:
+            self.list_stack.append('ol')
+            self.ordered_list_current_counter.append(token.start)
+        else:
+            self.list_stack.append('ul')
+        # render
+        _ = [self.render(child) for child in token.children]
+        # pop the stack
+        if token.start is not None:
+            self.ordered_list_current_counter.pop()
+        self.list_stack.pop()
+        self.suppress_double_newline_paragraph.pop()
+        self.list_depth -= 1
+
+        return ''
+
+    def render_list_item(self, token):
+
+        _ = [self.render(child) for child in token.children]
+        return ''
 
 
     # def render_image(self, token):
@@ -167,47 +211,11 @@ class CursesRenderer(BaseRenderer):
     #         title = ''
     #     return template.format(token.src, inner, title)
 
-    # def render_escape_sequence(self, token):
-    #     return self.render_inner(token)
-
     # @staticmethod
     # def render_html_span(token):
     #     return token.content
 
-    # def render_quote(self, token):
-    #     elements = ['<blockquote>']
-    #     self._suppress_ptag_stack.append(False)
-    #     elements.extend([self.render(child) for child in token.children])
-    #     self._suppress_ptag_stack.pop()
-    #     elements.append('</blockquote>')
-    #     return '\n'.join(elements)
 
-
-
-    # def render_list(self, token):
-    #     template = '<{tag}{attr}>\n{inner}\n</{tag}>'
-    #     if token.start is not None:
-    #         tag = 'ol'
-    #         attr = ' start="{}"'.format(token.start) if token.start != 1 else ''
-    #     else:
-    #         tag = 'ul'
-    #         attr = ''
-    #     self._suppress_ptag_stack.append(not token.loose)
-    #     inner = '\n'.join([self.render(child) for child in token.children])
-    #     self._suppress_ptag_stack.pop()
-    #     return template.format(tag=tag, attr=attr, inner=inner)
-
-    # def render_list_item(self, token):
-    #     if len(token.children) == 0:
-    #         return '<li></li>'
-    #     inner = '\n'.join([self.render(child) for child in token.children])
-    #     inner_template = '\n{}\n'
-    #     if self._suppress_ptag_stack[-1]:
-    #         if token.children[0].__class__.__name__ == 'Paragraph':
-    #             inner_template = inner_template[1:]
-    #         if token.children[-1].__class__.__name__ == 'Paragraph':
-    #             inner_template = inner_template[:-1]
-    #     return '<li>{}</li>'.format(inner_template.format(inner))
 
     # def render_table(self, token):
     #     # This is actually gross and I wonder if there's a better way to do it.

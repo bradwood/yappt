@@ -91,13 +91,13 @@ Sample Code:
             cell = f.renderText(cell)
             cell = cell.split('\n')
 
-    - format: {type: text, color: 228}
+    - format: {type: markdown, color: 228}
       cell: |
-          This code does an if statement, etc, etc, etc, etc, etc, et, c
-          ● `async`
-          ● event loops
-          ● etc
-          ● etc
+          # Heeading
+
+          * **one**
+          * _two_
+          * ~~three~~
 
     - format: {type: code}
       cell: |  # single block of content

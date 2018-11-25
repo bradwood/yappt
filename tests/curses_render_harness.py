@@ -2,56 +2,57 @@ import curses
 from mistletoe import Document
 from yappt.curses_renderer import CursesRenderer
 
-md = """
+md = """one
 **text to be strong** and not strong
-# Heading1
-Here is some content is some content is some content is some content is some content is some content some content some content some content some content some content some content some content some content some content is some content is some content is some content under this header.
+# Heading1😎
+
+* ~~Fruit~~ items
+  * **Apple** curd
+  * Orange **red**
+    * Banana
+    * Banana
+      * Banana
+
+1. *Dairy*
+    1. Milk _cream_ and ~~blah~~
+    2. Cheese
+        1. Cheese
+2. Blah
+
+> this
+> > deeper layer
+> > > even deeper layer
 
 ## Heading2 _underlined_ thing
 Here is some content under this header.
 
 ### Heading3 **bold** thing
-Here is some content `inline code` this header.
-Here is some ~~strike_through~~ stuff.
+Here is some content `inline code` this header <http://google.com/> autolink, as does <brad@bradleywood.com>.
+Here is some ~~strike_through~~ stuff and this is regular link: [here](http://here.com)
 
-This includes a <http://google.com/> autolink, as does <brad@bradleywood.com>.
-
-and this is regular link: [here](http://here.com)
-
-SextHeading1
-===========
-Blah blah blah
-
-SextHeading2
------------
-_**brad**_
-
-
-Here is some code in a code block
 ```python
 for blah in blah:
     print(blah)
+    print(blah)
+    print(blah)
+    print(blah)
+    print(blah)
+    print(blah)
+    print(blah)
+    print(blah)
+    print(blah)
 ```
-Here is indented code:
+
+gdf
 
     for blah in blah:
         print(blah)
-        yadda*
-        print(blah)
-        yadda*
-        print(blah)
-        yadda*
-        print(blah)
-        yadda*
-        behgh
-        dsfsd
-
 """
 
 
 def main(stdscr):
     h, w = stdscr.getmaxyx()
-    w = curses.newwin(h-5, w-5, 1, 1)
+    w = curses.newwin(h, w, 0, 0)
     curses.start_color()
     curses.use_default_colors()
     for i in range(0, curses.COLORS):
