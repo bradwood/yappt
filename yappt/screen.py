@@ -112,7 +112,8 @@ class Screen:
                         with CursesRenderer(curses_win=sub_win) as r:
                             r.render(Document(body))
                         sub_win.noutrefresh()
-                    elif body:
+                        continue
+                    if body:
                         line_num = 0
                         for line in render_content(body,
                                                    format_=form,

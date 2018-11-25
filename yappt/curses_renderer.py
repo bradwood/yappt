@@ -175,6 +175,7 @@ class CursesRenderer(BaseRenderer):
     def render_block_code(self, token):  # TODO: add pygments - use token.language
         LOGGER.debug(token.children[0].content)
         code = token.children[0].content.split('\n')
+        del code[-1] # remove the last newline
         # if self.suppress_double_newline_paragraph[-1]:
         #     self._newline(0)
         # else:
@@ -188,11 +189,17 @@ class CursesRenderer(BaseRenderer):
             # write out the line number prefix
             with suppress(curses.error):
                 self.win.addstr(self.cur_y, self.cur_x, line_prefix, curses.A_NORMAL)
-                # write out the code itself
+                # # write out the code itself
                 self.cur_y, self.cur_x = self.win.getyx()
                 self.win.addstr(self.cur_y, self.cur_x, line, self.curses_attr)
-                self._newline()
-        self.cur_y, self.cur_x = self.win.getyx()
+                # self.cur_y, self.cur_x = self.win.getyx()
+                self._newline(1)
+                #self.cur_y, self.cur_x = self.win.getyx()
+
+        self._newline(1)
+        self.new_line = True
+        #self.cur_y, self.cur_x = self.win.getyx()
+
         return ''
 
     def render_quote(self, token):

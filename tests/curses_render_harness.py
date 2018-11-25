@@ -28,8 +28,10 @@ one
 Here is some content under this header.
 
 ### Heading3 **bold** thing
-Here is some content `inline code` this header <http://google.com/> autolink, as does <brad@bradleywood.com>.
-Here is some ~~strike_through~~ stuff and this is regular link: [here](http://here.com)
+Here is some content `inline code` this header <http://google.com/> autolink, as
+does <brad@bradleywood.com>.
+Here is some ~~strike_through~~ stuff and this is regular link:
+[here](http://here.com)
 
 ```python
 for blah in blah:

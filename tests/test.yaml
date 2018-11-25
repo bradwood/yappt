@@ -122,9 +122,9 @@ slide3:
   settings: {pagenum: true, titlebar: true, incremental: true}
   layout: 1-2-3
   content:  # format, while optional, must occure under the content body
-    format: {justify: center, color: 124, margin: 0-0-0-0, wordwrap: true, type: markdown }
+    format: {justify: center, color: 124, margin: 0-0-0-0, wordwrap: true, type: text }
     body:
-     - format:  {justify: left, color: 100, wordwrap: false }
+     - format:  {justify: left, color: 100, wordwrap: false, type: markdown }
        cell: |
           # Heading
           * **one**
@@ -158,7 +158,7 @@ slide3:
         semper. Phasellus at nibh imperdiet, auctor est nec, tincidunt arcu. Fusce eget
         urna nec nunc commodo consectetur nec nec nisi. Aenean fermentum ante magna, ac
         dictum odio dictum END.
-     - format:  {justify: left, color: 200, wordwrap: true }
+     - format:  {justify: left, color: 201, wordwrap: true }
        cell: >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat mi.
         Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam elementum
@@ -171,7 +171,7 @@ slide3:
         semper. Phasellus at nibh imperdiet, auctor est nec, tincidunt arcu. Fusce eget
         urna nec nunc commodo consectetur nec nec nisi. Aenean fermentum ante magna, ac
         dictum odio dictum END.
-     - format:  {justify: centre, color: 200, wordwrap: true }
+     - format:  {justify: centre, color: 222, wordwrap: true }
        cell: >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec erat mi.
         Proin rhoncus nisl turpis, quis volutpat arcu facilisis a. Etiam elementum
@@ -328,6 +328,69 @@ slide4:
         urna nec nunc commodo consectetur nec nec nisi. Aenean fermentum ante magna, ac
         dictum odio dictum END.
 
+markdown testing:
+
+  layout: 2
+  content:
+    format: {margin: 1-1-1-1, type: markdown}
+    body:
+    - |
+      one
+      **text to be strong** and not strong
+      # Heading1😎
+
+      * ~~Fruit~~ items
+        * **Apple** curd
+        * Orange **red**
+          * Banana
+          * Banana
+            * Banana
+
+      1. *Dairy*
+          1. Milk _cream_ and ~~blah~~
+          2. Cheese
+              1. Cheese
+      2. Blah
+
+      > this
+      > > deeper layer
+      > > > even deeper layer
+
+      ## Heading2 _underlined_ thing
+      Here is some content under this header.
+
+      ### Heading3 **bold** thing
+      Here is some content `inline code` this header <http://google.com/> autolink, as
+      does <brad@bradleywood.com>.
+
+      Here is some ~~strike_through~~ stuff and this is regular link:
+      [here](http://here.com)
+
+    - |
+      This is a code block (colorized code TBC)
+      ```python
+      for blah in blah:
+          print(blah)
+          print(blah)
+          print(blah)
+          print(blah)
+          print(blah)
+          print(blah)
+          print(blah)
+          print(blah)
+          print(blah)
+      ```
+      The code has ended.
+      really ended.
+      * one
+      * two
+      * three
+      ```
+      for blah in blah:
+          print(blah)
+      ```
+
+
 slidexx3:
   content:
     format:  {justify: center, color: 218, wordwrap: false, margin: 1-1-1-1, type: figlet, figfont: cyberlarge}
@@ -335,5 +398,4 @@ slidexx3:
 
 
       thanks
-
 
