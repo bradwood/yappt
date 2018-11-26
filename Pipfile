@@ -4,12 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-click = "*"
 yappt = {editable = true, path = "."}
-ruamel-yaml = "*"
-pyfiglet = "*"
-reparser = "*"
-mistletoe = "*"
 
 [dev-packages]
 pylint = "*"

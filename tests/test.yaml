@@ -12,10 +12,10 @@ slide1:
     format: {justify: right, color: 209, margin: 10-10-1-1, wordwrap: false }
     body:
     - format:  {justify: center, color: 209, type: figlet, figfont: roman}
-      cell: Python 101
-    - format: {justify: centre, color: 209, margin: 10-10-1-1, wordwrap: false }
+      cell: YAPPT
+    - format: {justify: centre, color: 222, margin: 10-10-1-1, wordwrap: false }
       cell: |  # single block of content
-        Interesting things to learn about Python in 20 easy steps.
+        Terminal based slide shows for geeks.
 
 Table of Contents:
   settings: {pagenum: true, titlebar: true, date: false, incremental: true, v_margin: 1, h_margin: 0}
@@ -389,8 +389,6 @@ markdown testing:
       for blah in blah:
           print(blah)
       ```
-
-
 slidexx3:
   content:
     format:  {justify: center, color: 218, wordwrap: false, margin: 1-1-1-1, type: figlet, figfont: cyberlarge}

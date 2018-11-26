@@ -39,6 +39,7 @@ class CursesRenderer(BaseRenderer):
             'BlockCode':      curses.color_pair(255),
             'CodeFence':      curses.color_pair(255),
             'Quote':          curses.A_NORMAL,  # TODO add color range.
+            'ThematicBreak':  curses.A_NORMAL,
         }
         self.quote_depth = 0 # count the depth of nested quotes to print bar prefix
         self.new_line = False # flag to know if we just went to a new line.
@@ -247,9 +248,12 @@ class CursesRenderer(BaseRenderer):
         return ''
 
     def render_list_item(self, token):
-
         _ = [self.render(child) for child in token.children]
         return ''
+
+    def render_thematic_break(token):
+        return '<hr />'
+
 
 
     # def render_image(self, token):
@@ -306,9 +310,6 @@ class CursesRenderer(BaseRenderer):
     #     inner = self.render_inner(token)
     #     return template.format(tag=tag, attr=attr, inner=inner)
 
-    # @staticmethod
-    # def render_thematic_break(token):
-    #     return '<hr />'
 
     # @staticmethod
     # def render_html_block(token):
