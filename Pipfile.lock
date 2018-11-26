@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "2e4a081a3427ee57cbc59903196c563fd5aeb6f031f73acb6a67e83ce02e3f9a"
+            "sha256": "bda933fe5eaf8e56b34d51c8fa5ddce62dc250688ebd574037182ff602f6f9ec"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -21,28 +21,19 @@
                 "sha256:2335065e6395b9e67ca716de5f7526736bfa6ceead690adf616d925bdc622b13",
                 "sha256:5b94b49521f6456670fdb30cd82a4eca9412788a93fa6dd6df72c94d5a8ff2d7"
             ],
-            "index": "pypi",
             "version": "==7.0"
         },
         "mistletoe": {
             "hashes": [
                 "sha256:5e6cc5879dc835f3ae633e4c649a045fd6d4620d0b43044cfeaae35b1b1c707c"
             ],
-            "index": "pypi",
             "version": "==0.7.1"
         },
         "pyfiglet": {
             "hashes": [
                 "sha256:97d59651b40da6ddf7e961157c480a7a04b48214d8c7231adc8c15e43aa5d722"
             ],
-            "index": "pypi",
             "version": "==0.7.6"
-        },
-        "reparser": {
-            "hashes": [
-                "sha256:e69caf58a29d6e04723f6a7a456d304b7acfcf413957dafcd90ee49eccc2d15a"
-            ],
-            "version": "==1.4.3"
         },
         "ruamel-yaml": {
             "hashes": [
@@ -50,34 +41,6 @@
                 "sha256:1ff2289958e09fac2aa573e7a9fb9c953ddf89f67c3a42693394920f72001348",
                 "sha256:3b8af255839c39d3dfd0dcb82db349f38db28a2f7adbe05387bea87de15ac146",
                 "sha256:418ee849362ad59c19064af3ce09666d0898969eadb25964b693827fb68cfeca",
-                "sha256:5421c3fb144d6e1de0dc00d8a1f919f558c3156c48aa7aa2acbd7754530dfeb7",
-                "sha256:59a17a6225d6d60150647d2fd707fcb1ee54ea31dd0048ea120c7bf2c9093451",
-                "sha256:6acdf9d7bea6ff8541e96e4694b9fd1e0728be88ef512afc28da0804590533f7",
-                "sha256:70ed366ad65780040f5bf5e34c75f450e3f0ca9a8b2534cfc0293c387ec1c32f",
-                "sha256:7e9dc8d095d952c352d9f63cab5283430c910b77793f323ce8d64921f65aaa53",
-                "sha256:8344a08555f8494ae16a2e4f445e5bfce80f82010d9e5091c870aadee5c4b14a",
-                "sha256:90b1f9ed3893b0713e0bc47cfa93be72ddb6d5a969c31979d36c2854dc8b87dd",
-                "sha256:93f262943089657675b336f804b721e6b76f67cc61f6bfc91b3f35f8e71a8a64",
-                "sha256:9996c6371bfe3051340a469037323f533bbdf2dea9b6914da27e62696c81712b",
-                "sha256:9d9a382be1c150d23cd1291091454ea801522629bd22531f0b2c41ab21a81deb",
-                "sha256:adb57424caeb48f8cf1c937e4c571e5720e38601a77dd87d4c1178d406a72821",
-                "sha256:b5147c0919c6ce29c278afe21bf64c3f099afc271364a038c5e59fcf7bb672fb",
-                "sha256:b71cfb6c90f7b6db26842923e5c178c3ad232577f6097ebca3651be366c84b36",
-                "sha256:d9a82d37a4b006b12e09550ff57f7edb5ec987f0d9128fc44f590d56683aa97d",
-                "sha256:dc76688fb7994bf9c2370e28238bd56f9fe7e1d02675f3b1e06fc35967375869",
-                "sha256:fa5ae31d1aea11b528f5987e43194abdfcb44a5a259172221097eb6f74bd0965",
-                "sha256:ff6046de0ed29c3f3e6ba2ce164a85781af16dd49049af1b0402b8a6d15a25ca"
-            ],
-            "index": "pypi",
-            "version": "==0.15.80"
-        },
-        "ruamel.yaml": {
-            "hashes": [
-                "sha256:10079d03b5c93d54be90e4fe23d4b1f32502d7da98077e2a746c216bedba3d75",
-                "sha256:1ff2289958e09fac2aa573e7a9fb9c953ddf89f67c3a42693394920f72001348",
-                "sha256:3b8af255839c39d3dfd0dcb82db349f38db28a2f7adbe05387bea87de15ac146",
-                "sha256:418ee849362ad59c19064af3ce09666d0898969eadb25964b693827fb68cfeca",
-                "sha256:4f203351575dba0829c7b1e5d376d08cf5f58e4a2b844e8ce552b3e41cd414e6",
                 "sha256:5421c3fb144d6e1de0dc00d8a1f919f558c3156c48aa7aa2acbd7754530dfeb7",
                 "sha256:59a17a6225d6d60150647d2fd707fcb1ee54ea31dd0048ea120c7bf2c9093451",
                 "sha256:6acdf9d7bea6ff8541e96e4694b9fd1e0728be88ef512afc28da0804590533f7",

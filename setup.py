@@ -7,7 +7,7 @@ setup(
     py_modules=['yappt'],
     install_requires=[
         'click',
-        'ruamel-yaml',
+        'ruamel.yaml',
         'pyfiglet',
         'mistletoe',
     ],
