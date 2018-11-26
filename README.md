@@ -1,19 +1,22 @@
 <h1>YAPPT <img src='yappt.png' align='right' width='150'></h1>
+
 *Yet Another Powerpoint Tool*
 
 *YAPPT Ain't Powerpoint*
 
-Terminal-based slide shows for geeks
+**Terminal-based slide shows for geeks**
 
 YAPPT is quite literally, *yet* another one of those tools that, for some reason, geeks and coders think is a good way of presenting stuff to fellow geeks.
 
 ## Why? Surely this has been done to death...
+
 Well, yes... It has... But not like this! And, in keeping with true coder values, if there isn't one around that does what you want, then build your own. Here it is in action:
 
 
 [![asciicast](https://asciinema.org/a/pmUj5xUlEpIdmkg5hQiYtc3WP.svg)](https://asciinema.org/a/pmUj5xUlEpIdmkg5hQiYtc3WP)
 
 ## What's so special about this one, then?
+
 Here's a list of features:
 
 * supports slide layouts reasonably well, with the ability to split the screen up into cells and drop bits of content into these cells in a sane way, which aligns stuff well -- this was the feature I wanted but couldn't find in other tools.
@@ -38,6 +41,7 @@ Here's a list of features:
 * curses/ncurses
 
 ## Input
+
 Input is YAML. See [INPUT.md](INPUT.md) for details.
 
 ## Issues and outstanding tasks
@@ -68,6 +72,6 @@ I've tested it only on MacOS running under iTerm2. YMMV if you try it under anot
 ## Credits
 
 * cli library: [click](https://click.palletsprojects.com/en/7.x/)
-* YAML library: [ruamel-yaml](https://yaml.readthedocs.io/en/latest/) 
+* YAML library: [ruamel-yaml](https://yaml.readthedocs.io/en/latest/)
 * figlet library: [pyfiglet](https://github.com/pwaller/pyfiglet)
 * markdown library: [mistletoe](https://github.com/miyuchina/mistletoe)

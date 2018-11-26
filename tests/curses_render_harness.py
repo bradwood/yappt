@@ -1,4 +1,3 @@
-import curses
 from mistletoe import Document
 from yappt.curses_renderer import CursesRenderer
 
