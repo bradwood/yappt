@@ -1,5 +1,5 @@
 """Setuptools Installer."""
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='yappt',
@@ -11,6 +11,7 @@ setup(
         'pyfiglet',
         'mistletoe',
     ],
+    packages=find_packages(),
     entry_points='''
         [console_scripts]
         yappt=yappt.main:main
