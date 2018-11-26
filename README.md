@@ -1,16 +1,9 @@
-<h1>YAPPT <img src='yappt.png' align='right' width='150'></h1>
+<img src='yappt.png' align='center' width='100%'>
 
-*Yet Another Powerpoint Tool*
 
-*YAPPT Ain't Powerpoint*
+YAPPT is quite literally, *Yet Another Powerpoint Tool*. It's another one of those tools that, for some reason, geeks and coders think is a good way of presenting stuff to fellow geeks. 
 
-**Terminal-based slide shows for geeks**
-
-YAPPT is quite literally, *yet* another one of those tools that, for some reason, geeks and coders think is a good way of presenting stuff to fellow geeks.
-
-## Why? Surely this has been done to death...
-
-Well, yes... It has... But not like this! And, in keeping with true coder values, if there isn't one around that does what you want, then build your own. Here it is in action:
+But, *YAPPT Ain't Powerpoint*, nor is it like any other terminal-based presentation tools I've found.
 
 
 [![asciicast](https://asciinema.org/a/pmUj5xUlEpIdmkg5hQiYtc3WP.svg)](https://asciinema.org/a/pmUj5xUlEpIdmkg5hQiYtc3WP)
@@ -41,17 +34,16 @@ Here's a list of features:
 * curses/ncurses
 
 ## Input
-
 Input is YAML. See [INPUT.md](INPUT.md) for details.
 
 ## Issues and outstanding tasks
 
-There are a few...
+There are a few... chiefly because I hacked this thing together for my own use, rather than aspiring to build anything like hardened production-ready software. 
 
 ### Test coverage
-Right now, it's pretty much non-existant. I knocked this up for my own use and it works for me. I may add some tests when time/inclination permits, but for now, it is what it is.
+Right now, it's pretty much non-existant. It works for me and, if it works for you too then I'll be pleased. I may add some tests when time/inclination permits, but for now, it is what it is.
 
-I've tested it only on MacOS running under iTerm2. YMMV if you try it under another terminal client or setup. Let me know if this is an issue.
+I've manually tested it only on MacOS running under iTerm2. YMMV if you try it under another terminal client or setup. Raise an issue if you wish to, but please do-so on [GitLab](https://gitlab.com/bradwood/yappt) and nowhere else. 
 
 ### Todo
 
@@ -63,7 +55,7 @@ I've tested it only on MacOS running under iTerm2. YMMV if you try it under anot
 
 ## Contributions...
 
-...are welcome. Fork, tweak, PR... etc
+...are welcome. Fork, tweak, merge request, etc... But please do this on [GitLab](https://gitlab.com/bradwood/yappt) and nowhere else -- thanks!
 
 ## Licence
 
@@ -72,6 +64,6 @@ I've tested it only on MacOS running under iTerm2. YMMV if you try it under anot
 ## Credits
 
 * cli library: [click](https://click.palletsprojects.com/en/7.x/)
-* YAML library: [ruamel-yaml](https://yaml.readthedocs.io/en/latest/)
+* YAML library: [ruamel-yaml](https://yaml.readthedocs.io/en/latest/) 
 * figlet library: [pyfiglet](https://github.com/pwaller/pyfiglet)
 * markdown library: [mistletoe](https://github.com/miyuchina/mistletoe)
