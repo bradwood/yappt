@@ -17,7 +17,12 @@ logging.basicConfig(level=logging.DEBUG, filename='yappt.log',
 LOGGER = logging.getLogger(__name__)
 
 def print_help_msg(command):
+    print('hallo')
     with click.Context(command) as ctx:
+        try:
+            curses.endwin()
+        except:
+            pass
         click.echo(command.get_help(ctx))
 
 @click.command()
