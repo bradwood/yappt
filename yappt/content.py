@@ -1,6 +1,5 @@
 """Class for managing the content part of a slide."""
 import logging
-import curses
 
 from .format import Format, DEFAULT_FORMAT
 from .validator_mixins import ValIsDictHasSubKeysMixIn, ValIsDictSubKeysFromMixIn
@@ -70,11 +69,6 @@ class Body:
         for cel, form in zip(self.cells, self.formats):
             yield (cel, form)
         #return iter()
-
-
-    # def gen_color_pair(self, index):
-    #     """Generates a curses-compatible color-pair to be passed into addstr()."""
-    #     return curses.color_pair(self.formats[index].color)
 
 
 def create_cell_format(body_payload, parent_format):

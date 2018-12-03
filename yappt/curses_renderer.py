@@ -19,7 +19,6 @@ class CursesRenderer(BaseRenderer):
     Tries to mess with curses as little as possible, apart from simply writing to the screen.
 
     """
-
     def __init__(self, *extras, curses_win=curses.initscr()):
         super().__init__(*extras)
         self.win = curses_win
@@ -33,7 +32,6 @@ class CursesRenderer(BaseRenderer):
             'Strikethrough':  curses.A_REVERSE,
             'Link':           curses.A_UNDERLINE,
             'AutoLink':       curses.A_UNDERLINE,
-            'Quote':          curses.A_NORMAL,
             'Heading':        curses.color_pair(208), # TODO add color range.
             'SetextHeading':  curses.color_pair(208),
             'BlockCode':      curses.color_pair(255),

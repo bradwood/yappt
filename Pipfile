@@ -12,6 +12,9 @@ pydocstyle = "*"
 mypy = "*"
 "autopep8" = "*"
 ipython = "*"
+isort = "*"
+"flake8" = "*"
+python-language-server = {extras = ["all"], version = "*"}
 
 [requires]
 python_version = "3.7"
