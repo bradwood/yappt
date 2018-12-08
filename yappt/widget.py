@@ -19,9 +19,8 @@ class Widget():
                  metadata: Optional[MetaData],
                  active_cells: Optional[Tuple],
                  format_: Optional[Format],
-                 #wait_for_key_press: bool
+                 # wait_for_key_press: bool
                  ):
-
         self.slide_num = slide_num
         self.slide_name = slide_name
         self.pres_date = None
@@ -29,7 +28,7 @@ class Widget():
         self.body = None
         self.settings = settings
         self.active_cells = active_cells
-        #self.format_ = format_
+        # self.format_ = format_
         self.header = None
         self.footer = None
         self.foreground_widgets: list = [] # a stack of child widgets for this window

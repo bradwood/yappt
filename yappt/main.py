@@ -1,12 +1,13 @@
 """Main code."""
+import curses
+import logging
 from collections import deque
 from pprint import pprint
-import logging
-import curses
 
+# The amazing click libary
 import click
 
-from .presentation import process_yaml, generate_all_widgets, draw_widget
+from .presentation import draw_widget, generate_all_widgets, process_yaml
 from .screen import Screen
 from .utils import count_widgets_in_stack, print_color_swatch, print_figfonts
 
@@ -14,6 +15,7 @@ logformat = "[%(asctime)s] %(levelname)s:%(name)s:%(message)s"
 logging.basicConfig(level=logging.DEBUG, filename='yappt.log',
                     format=logformat)  # datefmt="%Y-%m-%d %H:%M:%S"
 LOGGER = logging.getLogger(__name__)
+
 
 def print_help_msg(command):
     with click.Context(command) as ctx:
@@ -44,6 +46,7 @@ def print_help_msg(command):
 # pylint: disable=too-many-branches
 def main(filename, debug, colors, figfonts):
     """Yet Another PowerPoint Tool / YAPPT Ain't PowerPoint."""
+
     if colors:
         print_color_swatch()
         quit(0)
@@ -81,6 +84,7 @@ def main(filename, debug, colors, figfonts):
 
     with Screen(v_margin=settings.v_margin,
                 h_margin=settings.h_margin) as screen:
+
         while True:
             # get the current index but counting the total on the stack
             cur_widget_idx = count_widgets_in_stack(background_widgets) - 1
@@ -107,12 +111,14 @@ def main(filename, debug, colors, figfonts):
                 LOGGER.debug("Fwd pressed. Moving forward 1 slide/widget...")
                 # append the next widget onto the appropriate stack
                 # but only if we're not at the end of the deck.
+
                 if cur_widget_idx + 1 <= len(widgets) - 1:
                     if widgets[cur_widget_idx + 1].type_ == 'background':
                         background_widgets.append(widgets[cur_widget_idx + 1])
                     else:
                         background_widgets[-1].foreground_widgets\
                             .append(widgets[cur_widget_idx + 1])
+
                 continue
 
             if key in [curses.KEY_UP,
@@ -126,12 +132,14 @@ def main(filename, debug, colors, figfonts):
 
                 # move backward... a little more complicated...
                 # handle the edge case first.
+
                 if cur_widget_idx < 2:
                     continue  # we're at the beginning of the deck
 
                 # if the length of the latest background widget's children
                 # stack is one, then the we need to go back to previous
                 # background widget and redraw from there
+
                 if len(background_widgets[-1].foreground_widgets) == 1:
                     # empty this background's widget's list of rendered
                     # foregrounds first, as this is by reference.
@@ -140,6 +148,7 @@ def main(filename, debug, colors, figfonts):
                     background_widgets.pop()
                     screen.clear()
                     screen.render(background_widgets[-1])
+
                     for w in background_widgets[-1].foreground_widgets:
                         screen.render(w)
                 else:
@@ -148,9 +157,11 @@ def main(filename, debug, colors, figfonts):
                     background_widgets[-1].foreground_widgets.pop()
                     screen.clear()
                     screen.render(background_widgets[-1])
+
                     for w in background_widgets[-1].foreground_widgets:
                         screen.render(w)
                 screen.print()
+
                 continue
 
             if key == ord('q') or key == ord('Q'):
@@ -185,6 +196,7 @@ def main(filename, debug, colors, figfonts):
                         break
 
                 screen.print()
+
                 continue
 
             if key == curses.KEY_RESIZE:
@@ -193,6 +205,7 @@ def main(filename, debug, colors, figfonts):
                 LOGGER.debug("Terminal size changed. Refreshing screen...")
                 screen.calibrate()
                 screen.render(background_widgets[-1])
+
                 for w in background_widgets[-1].foreground_widgets:
                     screen.render(w)
                 screen.print()
