@@ -2,9 +2,7 @@
 import curses
 import logging
 from collections import deque
-from pprint import pprint
 
-# The amazing click libary
 import click
 
 from .presentation import draw_widget, generate_all_widgets, process_yaml
@@ -17,48 +15,28 @@ logging.basicConfig(level=logging.DEBUG, filename='yappt.log',
 LOGGER = logging.getLogger(__name__)
 
 
-def print_help_msg(command):
-    with click.Context(command) as ctx:
-        # TODO fix this hack
-        # this is a dirty HACK!  find where this curses is being turned on
-        # when help is being invoked
-        try:
-            curses.endwin()
-        except:
-            pass
-        click.echo(command.get_help(ctx))
-
-
-@click.command()
-@click.option('--colors', '-c', 'colors',
-              default=False, flag_value=True,
-              help='Print color palette and exit.')
-@click.option('--debug', '-d', 'debug',
-              default=False, flag_value=True,
-              help='Print debug output.')
-@click.option('--show', '-s', 'filename',
-              type=click.File('r'),
-              help='Display a presentation.')
-@click.option('--figfonts', '-f', 'figfonts',
-              default=False, flag_value=True,
-              help='Print out figlet fonts.')
-# pylint: disable=too-many-statements
-# pylint: disable=too-many-branches
-def main(filename, debug, colors, figfonts):
+@click.group()
+def main():
     """Yet Another PowerPoint Tool / YAPPT Ain't PowerPoint."""
 
-    if colors:
-        print_color_swatch()
-        quit(0)
+@main.command()
+def figlet():
+    """Print figlet font examples."""
+    print_figfonts()
+    quit(0)
 
-    if figfonts:
-        print_figfonts()
-        quit(0)
 
-    if not filename:
-        print_help_msg(main)
-        quit(0)
+@main.command()
+def colors():
+    """Print color swatch."""
+    print_color_swatch()
+    quit(0)
 
+
+@main.command()
+@click.argument('filename', type=click.File('r'))
+def show(filename):
+    """Present the slide show."""
     # --- load ----
     metadata, settings, slides = process_yaml(filename)
 
@@ -210,17 +188,3 @@ def main(filename, debug, colors, figfonts):
                     screen.render(w)
                 screen.print()
 
-    # --- debug ----
-
-    if debug:
-        # print(pres)
-        print('====DEBUG====')
-        print('----METADATA----')
-        pprint(metadata)
-        print('----SETTINGS----')
-        pprint(settings)
-        print('----SLIDES----')
-        pprint(slides)
-        print('----WIDGETS----')
-        pprint(widgets)
-        print('----widget----')

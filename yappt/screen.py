@@ -18,11 +18,13 @@ LOGGER = logging.getLogger(__name__)
 
 
 def create_windows_from_cells(widget, parent_win, v_margin, h_margin):
-    """Return a list of sub-windows with the appropriate dimensions and locations."""
+    """Return a list of sub-windows with the appropriate dimensions and
+    locations."""
     active_cells = widget.active_cells
     sub_windows = []
     num_rows = len(active_cells)
-    # v_ and h_ margin already applied at this point, so it's not the whole sreen
+    # v_ and h_ margin already applied at this point, so it's not the whole
+    # sreen
     parent_height, parent_width = parent_win.getmaxyx()
     row_height = parent_height // num_rows
     index = 0
@@ -45,9 +47,9 @@ def create_windows_from_cells(widget, parent_win, v_margin, h_margin):
                 x = h_margin + cell_width * cell_counter + \
                     widget.body.formats[index].l_margin
                 LOGGER.debug(f'subwin: h={h}, w={w}, y={y}, x={x}')
-                # if it's the last row then use up all remaining space on the screen.
-                # this uses up any fractional remainers that might have added to extra
-                # lines in previous rows.
+                # if it's the last row then use up all remaining space on the
+                # screen.  this uses up any fractional remainers that might
+                # have added to extra lines in previous rows.
 
                 if row_counter == len(active_cells) - 1:
                     h = (parent_height - row_height * (len(active_cells)-1)) - \
@@ -66,14 +68,13 @@ class Screen:
     """Context manager for writing to the screen."""
 
     def __init__(self, *, v_margin: int, h_margin: int):
-        self.stdscr = curses.initscr()
 
         self.v_margin = v_margin
         self.h_margin = h_margin
-        # this defines self.window amongst other things.
-        self.calibrate()
 
     def __enter__(self):
+        # pylint: disable=attribute-defined-outside-init
+        self.stdscr = curses.initscr()
         curses.noecho()
         curses.cbreak()
         self.stdscr.keypad(True)
@@ -88,6 +89,8 @@ class Screen:
         except:
             pass
 
+        # this defines self.window amongst other things.
+        self.calibrate()
         return self
 
     def __exit__(self, typ, val, tb):
@@ -109,7 +112,6 @@ class Screen:
                 render_header_footer(self.stdscr, 0, widget.header)  # header
                 render_header_footer(
                     self.stdscr, self.scr_height - 1, widget.footer)  # footer
-                #print("rendered background")
 
             if widget.type_ == 'foreground':
                 assert isinstance(widget.body, collections.abc.Iterable)
@@ -129,12 +131,10 @@ class Screen:
                         with CursesRenderer(curses_win=sub_win) as r:
                             r.render(Document(body))
                         sub_win.noutrefresh()
-
                         continue
 
                     if body:
                         line_num = 0
-
                         for line in render_content(body,
                                                    format_=form,
                                                    height=sub_win_height,

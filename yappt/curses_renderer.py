@@ -249,7 +249,7 @@ class CursesRenderer(BaseRenderer):
         _ = [self.render(child) for child in token.children]
         return ''
 
-    def render_thematic_break(token):
+    def render_thematic_break(self, token):
         return '<hr />'
 
 
