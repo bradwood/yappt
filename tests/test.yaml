@@ -116,8 +116,6 @@ Sample Code:
           ● etc
           ● http://www.google.com/
 
-
-
 slide3:
   settings: {pagenum: true, titlebar: true, incremental: true}
   layout: 1-2-3

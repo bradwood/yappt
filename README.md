@@ -25,7 +25,7 @@ Here's a list of features:
 
 ## Requirements (and config that works for me):
 
-* Python 3.7 (yes, I've not tested it on anything older, but it works with this. It'll probably work with most other Python3s)
+* Python 3.6 (yes, I've not tested it on anything older, but it works with this. It'll probably work with most other Python3 versions)
 * `TERM=xterm-256color`
 * curses/ncurses
 
