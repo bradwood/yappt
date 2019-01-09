@@ -10,10 +10,6 @@ from .curses_renderer import CursesRenderer
 from .renderers import render_content, render_header_footer
 from .widget import Widget
 
-logformat = "[%(asctime)s] %(levelname)s:%(name)s:%(message)s"
-logging.basicConfig(level=logging.DEBUG, filename='yappt.log',
-                    format=logformat)  # datefmt="%Y-%m-%d %H:%M:%S"
-
 LOGGER = logging.getLogger(__name__)
 
 

@@ -7,10 +7,6 @@ from contextlib import suppress
 
 from mistletoe.base_renderer import BaseRenderer
 
-logformat = "[%(asctime)s] %(levelname)s:%(name)s:%(message)s"
-logging.basicConfig(level=logging.DEBUG, filename='yappt.log',
-                    format=logformat)  # datefmt="%Y-%m-%d %H:%M:%S"
-
 LOGGER = logging.getLogger(__name__)
 
 class CursesRenderer(BaseRenderer):

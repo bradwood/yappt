@@ -3,10 +3,6 @@ import curses
 import logging
 from pyfiglet import Figlet
 
-logformat = "[%(asctime)s] %(levelname)s:%(name)s:%(message)s"
-logging.basicConfig(level=logging.DEBUG, filename='yappt.log',
-                    format=logformat)  # datefmt="%Y-%m-%d %H:%M:%S"
-
 LOGGER = logging.getLogger(__name__)
 
 

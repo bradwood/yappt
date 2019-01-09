@@ -12,6 +12,7 @@ from .utils import count_widgets_in_stack, print_color_swatch, print_figfonts
 logformat = "[%(asctime)s] %(levelname)s:%(name)s:%(message)s"
 logging.basicConfig(level=logging.DEBUG, filename='yappt.log',
                     format=logformat)  # datefmt="%Y-%m-%d %H:%M:%S"
+
 LOGGER = logging.getLogger(__name__)
 
 
