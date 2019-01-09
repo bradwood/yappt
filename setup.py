@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='yappt',
-    version='0.0.1',
+    version='1.0.0',
     py_modules=['yappt'],
     install_requires=[
         'click',
