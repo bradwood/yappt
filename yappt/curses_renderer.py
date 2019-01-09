@@ -19,7 +19,8 @@ class CursesRenderer(BaseRenderer):
     Tries to mess with curses as little as possible, apart from simply writing to the screen.
 
     """
-    def __init__(self, *extras, curses_win=curses.initscr()):
+    # def __init__(self, *extras, curses_win=curses.initscr()):
+    def __init__(self, *extras, curses_win=None):
         super().__init__(*extras)
         self.win = curses_win
         self.height, self.width = self.win.getmaxyx()
