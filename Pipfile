@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-yappt = {editable = true, path = "."}
+yappt = {editable = true,path = "."}
 
 [dev-packages]
 pylint = "*"
@@ -14,7 +14,7 @@ mypy = "*"
 ipython = "*"
 isort = "*"
 "flake8" = "*"
-python-language-server = {extras = ["all"], version = "*"}
+python-language-server = {extras = ["all"],version = "*"}
 jedi = "*"
 neovim = "*"
 
