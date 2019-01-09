@@ -12,7 +12,6 @@ from .widget import Widget
 
 LOGGER = logging.getLogger(__name__)
 
-
 def create_windows_from_cells(widget, parent_win, v_margin, h_margin):
     """Return a list of sub-windows with the appropriate dimensions and
     locations."""
