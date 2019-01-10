@@ -41,13 +41,14 @@ Input is YAML. See [INPUT.md](INPUT.md) for details.
 There are a few... chiefly because I hacked this thing together for my own use, rather than aspiring to build anything like hardened production-ready software.
 
 ### Test coverage
-Right now, it's pretty much non-existant. It works for me and, if it works for you too then I'll be pleased. I may add some tests when time/inclination permits, but for now, it is what it is.
+Right now, it's pretty much non-existent. It works for me and, if it works for you too then I'll be pleased. I may add some tests when time/inclination permits, but for now, it is what it is.
 
 I've manually tested it only on MacOS running under iTerm2. YMMV if you try it under another terminal client or setup. Raise an issue if you wish to, but please do-so on [GitLab](https://gitlab.com/bradwood/yappt) and nowhere else.
 
 ### Todo
 
 * syntax highlighting code blocks
+* add better version management.
 * template support (i.e., set the template for all slides and then inherit)
 * including multiple YAML files
 * er... tests...
