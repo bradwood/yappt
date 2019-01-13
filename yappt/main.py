@@ -22,11 +22,13 @@ def main(verbose):
         logging.basicConfig(level=logging.DEBUG, filename='yappt.log',
                             format=logformat)  # datefmt="%Y-%m-%d %H:%M:%S"
 
+
 @main.command()
 def figlet():
     """Print figlet font examples."""
     print_figfonts()
     quit(0)
+
 
 @main.command()
 def colors():
