@@ -9,14 +9,15 @@ from .presentation import draw_widget, generate_all_widgets, process_yaml
 from .screen import Screen
 from .utils import count_widgets_in_stack, print_color_swatch, print_figfonts
 
-
 LOGGER = logging.getLogger(__name__)
+
 
 @click.group()
 @click.option('--verbose', '-v', is_flag=True,
               help='Logs debug info to yappt.log.')
 def main(verbose):
     """Yet Another PowerPoint Tool / YAPPT Ain't PowerPoint."""
+
     if verbose:
         logformat = "[%(asctime)s] %(levelname)s:%(name)s:%(message)s"
         logging.basicConfig(level=logging.DEBUG, filename='yappt.log',
@@ -191,4 +192,3 @@ def show(filename):
                 for w in background_widgets[-1].foreground_widgets:
                     screen.render(w)
                 screen.print()
-
